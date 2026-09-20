@@ -21,3 +21,8 @@ and record `metadata.domain`, `metadata.group_id`, and a frozen
 
 See [Datasets](../docs/10-datasets.md) for sources, licenses, and the v0
 mix. Do not commit customer data or TypeSafe API dumps.
+
+On Google Colab, keep this same `dataset/jsonl/` layout under a Drive
+folder (default recipe: `/content/drive/MyDrive/jev-runs/data`).
+Converted JSONL still stays out of git. See
+[Hosted GPUs](../docs/11-colab.md).

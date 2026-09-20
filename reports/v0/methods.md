@@ -22,7 +22,11 @@ Retrieved hardware and models: 20 September 2026.
    - hashing toy encoder (CPU trainer proof, not a language model)
    - frozen `Qwen/Qwen2.5-0.5B` (`AutoModel`, no LM head)
 
-Hashing is not a substitute for the Qwen comparison. The research comparison on the frozen synthetic test is zero-shot Qwen logprob vs the frozen-Qwen option head.
+5. **Majority prior** — class counts from the train split. Practical non-AI floor.
+6. **TF-IDF + logistic regression** — embedding/linear encoder-classifier baseline on state text.
+7. **JSON-LM** — same causal scorer, but continuations are JSON objects (`{"choice": ...}`). Tiny LM on CPU; swap the inner HF model for a hosted comparison.
+
+Hashing is not a substitute for the Qwen comparison. The research comparison on the frozen synthetic test is zero-shot Qwen logprob vs the frozen-Qwen option head. Majority / TF-IDF / JSON-LM sit on the same frozen split so later heads have numbers to beat.
 
 ## Calibration
 
@@ -38,4 +42,4 @@ Four splits: train / validation / calibration / test. Group-aware where the data
 
 ## Hardware pin
 
-See [hardware.md](hardware.md) and `configs/hardware.yaml`. Both zero-shot and frozen-head roles use Qwen2.5-0.5B because Qwen2.5-3B fp16 does not fit on a 4 GiB GTX 1650.
+See [hardware.md](hardware.md) and `configs/hardware.yaml`. Both zero-shot and frozen-head roles use Qwen2.5-0.5B because Qwen2.5-3B fp16 does not fit on a 4 GiB GTX 1650. Later BANKING77 / Wikispeedia / 3B frozen-head runs can use a Colab T4 as a separate pin ([Hosted GPUs](../../docs/11-colab.md)); those numbers are not this v0 table.

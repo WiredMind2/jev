@@ -14,6 +14,11 @@ Useful contributions:
   split, frozen criteria text, no raw corpus in git).
 - Implementation PRs that follow `docs/06-implementation.md` without
   claiming to be Jev.
+- Colab / hosted-GPU runs that follow `docs/11-colab.md` and
+  `notebooks/jev_colab_hosted_gpu.ipynb`: invoke the CLI, persist
+  checkpoints off the VM, and ship a new hardware note rather than
+  rewriting the v0 1650 pin. Optional `HF_TOKEN` belongs in Colab
+  Secrets, never in cells.
 
 Please tag claims as Fact, Measurement, Inference, or Open project, the
 same way the existing docs do.

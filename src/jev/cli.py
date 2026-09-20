@@ -14,7 +14,7 @@ from jev.canonical import canonical_dumps
 from jev.data.convert import freeze_and_write
 from jev.data.manifest import criteria_path
 from jev.data.synthetic import make_synthetic_choice, split_synthetic
-from jev.evaluation import evaluate_scorer, report_as_dict
+from jev.evaluation import evaluate_scorer, report_as_dict, stratified_sample
 from jev.hardware import load_hardware_pin
 from jev.pipeline import respond
 from jev.schema import parse_request
@@ -177,18 +177,27 @@ def calibrate_cmd(
 @app.command("evaluate")
 def evaluate_cmd(
     jsonl: Path = typer.Argument(..., exists=True),
-    backend: str = typer.Option("option-head", help="fake|tiny-logprob|hf-logprob|option-head"),
+    backend: str = typer.Option(
+        "option-head", help="fake|tiny-logprob|hf-logprob|option-head|majority|tfidf-linear|json-llm"
+    ),
     checkpoint: Path | None = typer.Option(None),
+    train_jsonl: Path | None = typer.Option(None, help="Train JSONL for majority/tfidf-linear"),
     temperature: float = typer.Option(1.0),
+    limit: int = typer.Option(0, help="Stratified sample size; 0 keeps all rows"),
+    seed: int = typer.Option(0),
+    shuffle: bool = typer.Option(True, help="Also score shuffled-context control"),
     out: Path | None = typer.Option(None, help="Write metrics JSON"),
 ) -> None:
     examples = load_jsonl_examples(jsonl)
-    scorer = build_scorer(backend, checkpoint=checkpoint)
-    report = evaluate_scorer(scorer, examples, temperature=temperature)
+    if limit:
+        examples = stratified_sample(examples, limit, seed=seed)
+    scorer = build_scorer(backend, checkpoint=checkpoint, train_jsonl=train_jsonl)
+    report = evaluate_scorer(scorer, examples, temperature=temperature, shuffled=shuffle)
     payload = {
         "backend": backend,
         "temperature": temperature,
         "model_id": scorer.model_id,
+        "limit": limit or None,
         **report_as_dict(report),
     }
     text = canonical_dumps(payload)

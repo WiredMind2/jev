@@ -79,6 +79,47 @@ def coverage_at_error(
     return best
 
 
+def gold_key(example: object) -> str:
+    from jev.schema import ChoiceTrainingExample, NoulTrainingExample, ScoreTrainingExample
+
+    if isinstance(example, ChoiceTrainingExample):
+        return str(example.gold)
+    if isinstance(example, ScoreTrainingExample):
+        return str(int(example.gold))
+    if isinstance(example, NoulTrainingExample):
+        return "true" if example.gold else "false"
+    raise TypeError(f"unsupported example type {type(example)!r}")
+
+
+def stratified_sample(examples: Sequence, n: int, *, seed: int = 0) -> list:
+    """Deterministic per-label sample for jev-eval-style slices. n<=0 keeps all."""
+    if n <= 0 or n >= len(examples):
+        return list(examples)
+    import hashlib
+    from collections import defaultdict
+
+    buckets: dict[str, list] = defaultdict(list)
+    for ex in examples:
+        buckets[gold_key(ex)].append(ex)
+    labels = sorted(buckets)
+    per = max(1, n // max(1, len(labels)))
+    picked: list = []
+    leftover: list = []
+    for lab in labels:
+        ordered = sorted(
+            buckets[lab],
+            key=lambda ex: hashlib.sha256(f"{seed}:{getattr(ex, 'id', gold_key(ex))}".encode()).hexdigest(),
+        )
+        take = ordered[:per]
+        picked.extend(take)
+        leftover.extend(ordered[per:])
+    leftover.sort(key=lambda ex: hashlib.sha256(f"{seed}:rest:{getattr(ex, 'id', gold_key(ex))}".encode()).hexdigest())
+    if len(picked) < n:
+        picked.extend(leftover[: n - len(picked)])
+    picked.sort(key=lambda ex: hashlib.sha256(f"{seed}:order:{getattr(ex, 'id', gold_key(ex))}".encode()).hexdigest())
+    return picked[:n]
+
+
 def evaluate_scorer(
     scorer: Scorer,
     examples: Sequence,

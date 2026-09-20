@@ -5,7 +5,9 @@ to be trained and measured on **public labeled tasks that match the three
 primitives**, plus one variable-menu task so the head is not just a fixed
 classifier.
 
-Do not vendor raw datasets in git. Download them locally, convert to
+Do not vendor raw datasets in git. Download them locally or onto a
+Colab Drive folder with the same `dataset/jsonl/` layout
+([Hosted GPUs](11-colab.md)), convert to
 [`../schemas/training-example.schema.json`](../schemas/training-example.schema.json),
 and keep converted JSONL under `data/` (gitignored except README). Cite
 the source. Honor each dataset's license; those terms are stricter than
@@ -77,7 +79,7 @@ BANKING77 is a later bar, not week-one.
   test 3,080. Single domain, fine-grained.
 - **Map:** `state` = utterance. `criteria` = all 77 intent names with
   one-line descriptions you write once and freeze. `gold` = intent key.
-  `group_id` is optional (utterances are short and mostly independent).
+  `group_id` is optional (utterance id). **Never the intent label.**
 - **License:** CC BY 4.0 (Casanueva et al., EMNLP 2020).
 - **Get:** `PolyAI/banking77` or `mteb/banking77` on Hugging Face.
 - **Pitfall:** 77-way softmax over *names* without descriptions becomes a
@@ -267,7 +269,7 @@ BANKING77 → Choice:
     }
   },
   "gold": "card_payment_wrong_exchange_rate",
-  "metadata": {"domain": "banking77", "group_id": "intent:card_payment_wrong_exchange_rate"}
+  "metadata": {"domain": "banking77", "group_id": "banking77_train_0042"}
 }
 ```
 

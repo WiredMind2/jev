@@ -64,3 +64,4 @@ def test_cli_validate_and_score_example() -> None:
     result = runner.invoke(app, ["hardware"])
     assert result.exit_code == 0
     assert "Qwen/Qwen2.5-0.5B" in result.stdout
+    assert "GTX 1650" in result.stdout or "GeForce GTX 1650" in result.stdout

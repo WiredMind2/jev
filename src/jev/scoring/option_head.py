@@ -156,7 +156,8 @@ class OptionHeadScorer:
     ) -> None:
         self.encoder = encoder
         self.head = head
-        self.device = device or torch.device("cpu")
+        inferred = getattr(encoder, "device", None)
+        self.device = device or inferred or torch.device("cpu")
         if hasattr(self.encoder, "to"):
             self.encoder.to(self.device)
         self.head.to(self.device)
@@ -384,10 +385,13 @@ def save_checkpoint(
 def load_checkpoint(
     path: Path, device: torch.device | None = None
 ) -> tuple[nn.Module, OptionAttentionHead, dict[str, Any]]:
-    device = device or torch.device("cpu")
-    payload = torch.load(path, map_location=device, weights_only=False)
+    payload = torch.load(path, map_location="cpu", weights_only=False)
     extra = dict(payload.get("extra") or {})
     encoder_kind = payload.get("encoder_kind") or extra.get("encoder_kind") or "hashing"
+    if device is None:
+        device = torch.device(
+            "cuda" if encoder_kind == "hf" and torch.cuda.is_available() else "cpu"
+        )
     d_model = int(payload["d_model"])
     if encoder_kind == "hf":
         from jev.scoring.hf_encoder import FrozenHFEncoder

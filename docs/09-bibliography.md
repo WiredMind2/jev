@@ -69,6 +69,13 @@ Full mapping to Choice / Score / Noul is in [Datasets](10-datasets.md).
 - jev-benchmarks — https://github.com/AbdelStark/jev-benchmarks
 - jev-decision-benchmarks — https://github.com/baibizhe/jev-decision-benchmarks
 
+## Compute notes
+
+- Google Colab FAQ. Resource limits, free-notebook cap of at most 12
+  hours, GPU type not guaranteed. Retrieved 20 September 2026.
+  https://research.google.com/colaboratory/faq.html
+  How this repo uses it: [Hosted GPUs](11-colab.md).
+
 ## Related prior art (not TypeSafe)
 
 These are listed because they occupy the same *problem*, not because

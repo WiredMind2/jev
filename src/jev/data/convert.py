@@ -24,10 +24,33 @@ def load_records_jsonl(path: Path) -> list[dict[str, Any]]:
 
 
 LAST_HF_ERROR: str | None = None
+LAST_HF_SOURCE: str | None = None
+LAST_DOWNLOAD_ERROR: str | None = None
+
+
+def download_file(url: str, dest: Path, timeout: int = 120) -> bool:
+    """Fetch a URL to dest. Returns False on any failure; never raises."""
+    global LAST_DOWNLOAD_ERROR
+    LAST_DOWNLOAD_ERROR = None
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        import urllib.request
+
+        req = urllib.request.Request(url, headers={"User-Agent": "jev-research-v0"})
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            dest.write_bytes(resp.read())
+        if dest.exists() and dest.stat().st_size > 0:
+            return True
+        LAST_DOWNLOAD_ERROR = f"{url}: empty download"
+        return False
+    except Exception as exc:
+        LAST_DOWNLOAD_ERROR = f"{url}: {type(exc).__name__}: {exc}"
+        return False
+
 
 
 def try_load_hf(path_or_name: str, **kwargs: Any) -> Any | None:
-    global LAST_HF_ERROR
+    global LAST_HF_ERROR, LAST_HF_SOURCE
     LAST_HF_ERROR = None
     try:
         from datasets import load_dataset
@@ -35,13 +58,17 @@ def try_load_hf(path_or_name: str, **kwargs: Any) -> Any | None:
         LAST_HF_ERROR = f"{type(exc).__name__}: {exc}"
         return None
     try:
-        return load_dataset(path_or_name, **kwargs)
+        ds = load_dataset(path_or_name, **kwargs)
+        LAST_HF_SOURCE = path_or_name
+        return ds
     except Exception as exc:
         LAST_HF_ERROR = f"{path_or_name}: {type(exc).__name__}: {exc}"
         return None
 
 
 def try_load_hf_first(candidates: list[tuple[str, dict[str, Any]]]) -> Any | None:
+    global LAST_HF_SOURCE
+    LAST_HF_SOURCE = None
     for name, kwargs in candidates:
         ds = try_load_hf(name, **kwargs)
         if ds is not None:

@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from jev.data.convert import freeze_and_write
+from jev.data.convert import download_file, freeze_and_write
 from jev.data.manifest import criteria_path, load_criteria, repo_root
 from jev.data.splits import assign_groups
 from jev.schema import FORMAT_VERSION, ChoiceQuestion, ChoiceTrainingExample, ExampleMetadata
@@ -50,6 +50,70 @@ def parse_fixture(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+SNAP_URL = "https://snap.stanford.edu/data/wikispeedia/wikispeedia_paths-and-graph.tar.gz"
+
+
+def _tsv_rows(path: Path) -> list[list[str]]:
+    rows: list[list[str]] = []
+    with path.open(encoding="utf-8", errors="replace") as handle:
+        for line in handle:
+            if not line.strip() or line.startswith("#"):
+                continue
+            rows.append(line.rstrip("\n").split("\t"))
+    return rows
+
+
+def payload_from_snap_dir(root: Path) -> dict[str, Any]:
+    """Parse SNAP paths-and-graph dump into the fixture-shaped payload."""
+    articles_file = next(root.rglob("articles.tsv"))
+    links_file = next(root.rglob("links.tsv"))
+    paths_file = next(root.rglob("paths_finished.tsv"))
+    articles = {row[0]: row[0].replace("_", " ") for row in _tsv_rows(articles_file) if row}
+    graph: dict[str, list[str]] = {}
+    for row in _tsv_rows(links_file):
+        if len(row) < 2:
+            continue
+        graph.setdefault(row[0], []).append(row[1])
+    paths: list[dict[str, Any]] = []
+    for i, row in enumerate(_tsv_rows(paths_file)):
+        path_field = next((c for c in row if ";" in c or c == "<" or "<" in c), None)
+        if path_field is None and len(row) >= 4:
+            path_field = row[3]
+        if not path_field:
+            continue
+        tokens = [t for t in path_field.split(";") if t]
+        if len(tokens) < 2:
+            continue
+        target = next((t for t in reversed(tokens) if t != "<"), tokens[-1])
+        paths.append({"id": f"snap_{i}", "target": target, "tokens": tokens})
+    return {"articles": articles, "graph": graph, "paths": paths}
+
+
+def try_load_snap() -> dict[str, Any] | None:
+    raw_dir = repo_root() / "data" / "raw" / "wikispeedia"
+    extracted = raw_dir / "wikispeedia_paths-and-graph"
+    tar = raw_dir / "wikispeedia_paths-and-graph.tar.gz"
+    if not extracted.exists() or not any(extracted.rglob("paths_finished.tsv")):
+        if not tar.exists() or tar.stat().st_size == 0:
+            if not download_file(SNAP_URL, tar, timeout=180):
+                return None
+        import tarfile
+
+        try:
+            with tarfile.open(tar, "r:gz") as handle:
+                kwargs: dict[str, Any] = {"path": str(raw_dir)}
+                if hasattr(tarfile, "data_filter"):
+                    kwargs["filter"] = "data"
+                handle.extractall(**kwargs)
+        except Exception:
+            return None
+    search_root = raw_dir
+    try:
+        return payload_from_snap_dir(search_root)
+    except StopIteration:
+        return None
+
+
 def convert_wikispeedia(out_dir: Path, fixture: Path | None = None) -> Path:
     spec_path = criteria_path("wikispeedia")
     if not spec_path.exists():
@@ -70,12 +134,20 @@ def convert_wikispeedia(out_dir: Path, fixture: Path | None = None) -> Path:
             encoding="utf-8",
         )
     spec = load_criteria(spec_path)
-    if fixture is None:
-        default = repo_root() / "tests" / "fixtures" / "data" / "wikispeedia.json"
-        if not default.exists():
-            raise FileNotFoundError("Wikispeedia SNAP dump is not vendored; pass --fixture JSON")
-        fixture = default
-    payload = parse_fixture(fixture)
+    source = "snap.stanford.edu/data/wikispeedia"
+    if fixture is not None:
+        payload = parse_fixture(fixture)
+        source = str(fixture)
+    else:
+        loaded = try_load_snap()
+        if loaded is not None:
+            payload = loaded
+        else:
+            default = repo_root() / "tests" / "fixtures" / "data" / "wikispeedia.json"
+            if not default.exists():
+                raise FileNotFoundError("Wikispeedia SNAP dump is not vendored; pass --fixture JSON")
+            payload = parse_fixture(default)
+            source = str(default)
     articles: dict[str, str] = payload.get("articles", {})
     graph: dict[str, list[str]] = payload["graph"]
     paths: list[dict[str, Any]] = payload["paths"]
@@ -114,12 +186,16 @@ def convert_wikispeedia(out_dir: Path, fixture: Path | None = None) -> Path:
                 )
             )
     groups = [r.metadata.group_id or r.id for r in rows]
-    assigned = assign_groups(groups, seed=3, fractions=(0.7, 0.1, 0.1))
+    unique = sorted(set(groups))
+    test_groups = {
+        g for g in unique if int(hashlib.sha256(f"wiki-test:{g}".encode()).hexdigest()[:2], 16) < 26
+    }
+    rest = [g for g in unique if g not in test_groups]
+    assigned = assign_groups(rest, seed=3, fractions=(0.7, 0.1, 0.1)) if rest else {}
     splits: dict[str, list[ChoiceTrainingExample]] = {"train": [], "validation": [], "calibration": [], "test": []}
     for row in rows:
         g = row.metadata.group_id or row.id
-        test_bit = int(hashlib.sha256(f"wiki-test:{g}".encode()).hexdigest()[:2], 16) < 26
-        dest = "test" if test_bit else assigned[g]
+        dest = "test" if g in test_groups else assigned[g]
         splits[dest].append(row.model_copy(update={"metadata": row.metadata.model_copy(update={"split": dest})}))
     return freeze_and_write(
         dataset="wikispeedia",
@@ -127,7 +203,7 @@ def convert_wikispeedia(out_dir: Path, fixture: Path | None = None) -> Path:
         criteria_file=spec_path,
         converter="jev.data.wikispeedia",
         license_name="SNAP + Wikipedia CC BY-SA",
-        source="snap.stanford.edu/data/wikispeedia",
+        source=source,
         split_rule="split by target article; replay '<' via navigation stack; cap 255 keeping gold",
         examples_by_split=splits,
         out_dir=out_dir,

@@ -1,0 +1,1 @@
+{"accuracy":0.5,"backend":"majority","brier":0.8252437036922705,"coverage_at_1pct":0.0,"ece":0.3830798686165125,"limit":null,"mean_entropy_confidence":0.6755413287807345,"model_id":"majority-prior","n":12,"nll":2.095767408456164,"shuffled_accuracy":0.5,"temperature":1.0}

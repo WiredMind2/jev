@@ -64,8 +64,12 @@ def split_synthetic(
     rows: list[ChoiceTrainingExample], seed: int = 0
 ) -> dict[str, list[ChoiceTrainingExample]]:
     groups = [group_key(r) for r in rows]
-    assigned = assign_groups(groups, seed=seed, fractions=(0.7, 0.1, 0.1))
-    # leftover ~0.1 goes to test by hashing
+    unique = sorted(set(groups))
+    test_groups = {
+        g for g in unique if int(hashlib.sha256(f"test:{seed}:{g}".encode()).hexdigest()[:2], 16) < 26
+    }
+    rest = [g for g in unique if g not in test_groups]
+    assigned = assign_groups(rest, seed=seed, fractions=(0.7, 0.1, 0.1)) if rest else {}
     splits: dict[str, list[ChoiceTrainingExample]] = {
         "train": [],
         "validation": [],
@@ -74,12 +78,7 @@ def split_synthetic(
     }
     for row in rows:
         g = group_key(row)
-        # 10% of groups reserved for test via a second hash bit
-        test_bit = int(hashlib.sha256(f"test:{seed}:{g}".encode()).hexdigest()[:2], 16) < 26
-        if test_bit:
-            dest = "test"
-        else:
-            dest = assigned[g]
+        dest = "test" if g in test_groups else assigned[g]
         payload = row.model_copy(update={"metadata": row.metadata.model_copy(update={"split": dest})})
         splits[dest].append(payload)
     return splits
