@@ -80,15 +80,22 @@ All of the following must be true before research v0 can stop:
 
 ## What this machine executed
 
+Host: local Python 3.12 `.venv`, **no Colab runtime**. Command:
+`SYNTHETIC_N=128 ./scripts/colab_cpu_smoke.sh`.
+
 | Item | Status |
 |---|---|
 | Docs + notebook + CPU smoke script authored | Yes |
-| Local CPU synthetic hashing CLI sequence | See `colab-cpu-smoke.json` if present after smoke |
+| Local CPU synthetic hashing CLI sequence | **Executed.** Convert → `train-head --encoder hashing` → calibrate → evaluate. Eval JSON: [`metrics/eval-colab-cli-cpu-smoke.json`](metrics/eval-colab-cli-cpu-smoke.json) (n=4 test, acc 1.00, shuffled 0.75). This is the trainer proof, not the Qwen comparison. |
 | Live Colab T4 GPU session from this agent | **Not executed** (no Colab runtime on this host) |
-| BANKING77 / Wikispeedia / 3B hosted-GPU numbers | **Not executed** |
+| `pytest -m "cuda and not hf"` on Colab | **Not executed** here |
+| BANKING77 frozen-head on T4 | **Not executed** |
+| Wikispeedia next-click on T4 | **Not executed** |
+| Qwen2.5-3B `--max-steps` VRAM probe | **Not executed** |
 
 A CPU smoke proves the CLI path exists. It is not evidence about T4
-VRAM, 3B fit, or BANKING77 accuracy.
+VRAM, 3B fit, or BANKING77 accuracy. Do not copy the hashing 1.00 into
+the 1650 Qwen table.
 
 ## Report layout for a future T4 run
 

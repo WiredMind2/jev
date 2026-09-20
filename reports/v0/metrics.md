@@ -52,3 +52,7 @@ here. Hosted-GPU jobs (BANKING77, Wikispeedia, a 3B encoder) use
 [docs/11-colab.md](../../docs/11-colab.md) and
 [notebooks/jev_colab_hosted_gpu.ipynb](../../notebooks/jev_colab_hosted_gpu.ipynb).
 Success criteria and execution status: [colab.md](colab.md).
+
+A local CPU hashing smoke of that same CLI sequence is
+[`metrics/eval-colab-cli-cpu-smoke.json`](metrics/eval-colab-cli-cpu-smoke.json).
+It is not a Colab T4 run.
