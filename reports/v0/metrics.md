@@ -38,7 +38,7 @@ These are **per-dataset** heads and scorers on the expanded converter fixtures, 
 | BANKING77 | 154 | Fake overlap | 0.792 | 3.121 | 0.925 | 0.746 | 0.182 | 0.013 |
 | BANKING77 | 154 | Hashing head (T=1.00, calib n=77) | 0.013 | 14.485 | 1.425 | 0.568 | 0.000 | 0.019 |
 | BANKING77 | 154 | Zero-shot Qwen logprob (T=1.0) | 0.786 | 1.278 | 0.437 | 0.353 | 0.377 | 0.006 |
-| BANKING77 | 154 | Frozen Qwen head | — | — | — | — | — | — |
+| BANKING77 | 154 | Frozen Qwen head (T=5.0, calib n=77) | 0.013 | 4.379 | 0.988 | 0.011 | 0.006 | 0.013 |
 | SST-5 | 15 | Fake overlap | 1.000 | 0.842 | 0.421 | 0.567 | 1.000 | 0.400 |
 | SST-5 | 15 | Hashing head (T=0.25, calib n=5) | 0.667 | 1.134 | 0.576 | 0.321 | 0.467 | 0.267 |
 | SST-5 | 15 | Zero-shot Qwen logprob (T=1.0) | 0.200 | 1.354 | 0.682 | 0.328 | 0.200 | 0.200 |
@@ -50,15 +50,17 @@ These are **per-dataset** heads and scorers on the expanded converter fixtures, 
 | CLINC150 | 26 | Fake overlap | 0.923 | 4.043 | 0.969 | 0.904 | 0.923 | 0.115 |
 | CLINC150 | 26 | Hashing head (T=0.75, calib n=13) | 0.769 | 0.824 | 0.366 | 0.141 | 0.538 | 0.154 |
 | CLINC150 | 26 | Zero-shot Qwen logprob (T=1.0) | 0.538 | 1.731 | 0.666 | 0.211 | 0.385 | 0.038 |
+| CLINC150 | 26 | Frozen Qwen head (T=1.0, calib n=13) | 0.154 | 3.825 | 0.927 | 0.088 | 0.077 | 0.077 |
 | Wikispeedia | 4 | Fake overlap | 0.750 | 1.882 | 0.617 | 0.417 | 0.500 | 0.250 |
 | Wikispeedia | 4 | Hashing head (T=0.50, calib n=5) | 0.500 | 1.947 | 0.869 | 0.483 | 0.000 | 0.500 |
 | Wikispeedia | 4 | Zero-shot Qwen logprob (T=1.0) | 0.500 | 1.547 | 0.590 | 0.264 | 0.250 | 0.250 |
+| Wikispeedia | 4 | Frozen Qwen head (T=3.0, calib n=5) | 0.500 | 1.985 | 0.867 | 0.429 | 0.250 | 0.500 |
 
-BANKING77 frozen Qwen head: **not OOM**. Training on the 154-row fixture (77-way menus, batch 1, fp16) held **1198 MiB / 4096 MiB** at 100% GPU for ~80 minutes and did not finish 12 epochs; the process was stopped. Evidence: `eval-hf-head-banking77-fixture-test-timeout.json`. Official BANKING77 / CLINC150 / Wikispeedia frozen-head jobs stay on Colab T4 ([colab.md](colab.md)).
+BANKING77 frozen Qwen head **completed** on this 1650 after frozen-encoder text caching (shared 77-way menu encoded once). Test acc 0.013 = shuffled 0.013 (chance on 77-way), T=5.0 on 77 calibration rows, peak ≈ 1176 MiB, **no OOM**. A prior uncached 12-epoch attempt used 1198 MiB for ~80 min and was stopped; that log remains in `eval-hf-head-banking77-fixture-test-timeout.json`. Official full-split BANKING77 / Wikispeedia / 3B jobs stay on Colab T4 ([colab.md](colab.md)). Zero-shot on the same frozen fixture test is the stronger Qwen result (0.786).
 
 BANKING77 zero-shot 0.786 vs shuffled 0.006 (77-way chance ≈ 0.013) shows the cached continuation scorer is reading the utterance, not the menu prior. CLINC150 zero-shot 0.538 vs shuffled 0.038 is the same control.
 
-Sources: `eval-hf-logprob-{banking77,sst5,boolq,clinc150,wikispeedia}-fixture-test.json`, `eval-hf-head-{sst5,boolq}-fixture-test.json`, `eval-hashing-*-test.json`, `eval-fake-*-test.json`, `calibrate-hashing-*.json`, `calibrate-hf-head-{sst5,boolq}.json`.
+Sources: `eval-hf-logprob-{banking77,sst5,boolq,clinc150,wikispeedia}-fixture-test.json`, `eval-hf-head-{banking77,sst5,boolq,clinc150,wikispeedia}-fixture-test.json`, `eval-hashing-*-test.json`, `eval-fake-*-test.json`, `calibrate-hashing-*.json`, `calibrate-hf-head-*.json`.
 
 ## Converted official splits (not scored with Qwen here)
 
@@ -71,6 +73,7 @@ Manifests under `reports/v0/manifests/`: BANKING77 `mteb/banking77` train 8067 /
 - Qwen2.5-0.5B naïve vs cached continuation scores: pass (`tests/test_hf_cuda.py`). No OOM.
 - CLI `train-head --encoder hf` on full synthetic train: completed, no OOM.
 - Fixture SST-5 and BoolQ `train-head --encoder hf`: completed, peak ≈ 1138 MiB, no OOM.
+- Fixture BANKING77 / CLINC150 / Wikispeedia frozen Qwen heads: completed after encoder-text cache; peak ≈ 1208 MiB, no OOM.
 - Fixture BANKING77 / CLINC150 / Wikispeedia / BoolQ / SST-5 cached zero-shot: completed on this GPU. BANKING77 n=154 max allocated 1821 MiB. No OOM.
 
 Logged GPU run: `reports/v0/metrics/gpu-run.json`. CLI HF train/eval: `eval-hf-head-synthetic-test.json`, `verification-commands.txt`.

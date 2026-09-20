@@ -1,15 +1,15 @@
 CPU: pytest -m "not cuda and not hf"
-47 passed, 4 deselected, 2 warnings in 5.47s
+48 passed, 4 deselected, 2 warnings
 
 CUDA: pytest -m "cuda and not hf"
-3 passed, 47 deselected, 2 warnings in ~2s
+3 passed, 48 deselected, 2 warnings
 
 HF CUDA: pytest -m "cuda and hf"  (Qwen2.5-0.5B naive vs cached on GTX 1650)
-1 passed, 49 deselected, 2 warnings in ~7s
+1 passed, 50 deselected, 2 warnings
 
 CLI train-head --encoder hf on synthetic train completed with no OOM.
-Fixture SST-5 and BoolQ train-head --encoder hf completed, peak ~1138 MiB, no OOM.
-Fixture BANKING77 / CLINC150 / BoolQ / SST-5 / Wikispeedia cached zero-shot completed, no OOM.
-BANKING77 frozen-head train used 1198 MiB / 4096 MiB (not OOM); 12 epochs did not finish in ~80 min.
+Fixture frozen Qwen heads completed on SST-5, BoolQ, Wikispeedia, BANKING77, CLINC150.
+Peak VRAM ~1208 MiB / 4096 MiB. No OOM.
+Fixture cached zero-shot completed on all five datasets. BANKING77 n=154 max allocated 1821 MiB.
 Hardware pin: NVIDIA GeForce GTX 1650, 4096 MiB, Qwen/Qwen2.5-0.5B fp16.
 Python 3.12.3 .venv, torch 2.6.0+cu124.

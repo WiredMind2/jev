@@ -49,7 +49,7 @@ class FrozenHFEncoder(nn.Module):
             raise ValueError(f"{model_id} has no hidden_size")
         self.d_model = int(hidden)
 
-    def forward_texts(self, texts: Sequence[str], device: torch.device) -> tuple[torch.Tensor, torch.Tensor]:
+    def _forward_chunk(self, texts: Sequence[str], device: torch.device) -> tuple[torch.Tensor, torch.Tensor]:
         enc = self.tokenizer(
             list(texts),
             return_tensors="pt",
@@ -62,6 +62,39 @@ class FrozenHFEncoder(nn.Module):
             out = self.backbone(**enc, use_cache=False)
             hidden = out.last_hidden_state.float()
         mask = enc["attention_mask"].bool()
+        return hidden, mask
+
+    def forward_texts(
+        self,
+        texts: Sequence[str],
+        device: torch.device,
+        *,
+        chunk_size: int = 8,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Encode texts. Wide menus are chunked so a 4 GiB card does not OOM."""
+        if not texts:
+            hidden = torch.zeros(0, 1, self.d_model, device=device)
+            mask = torch.zeros(0, 1, dtype=torch.bool, device=device)
+            return hidden, mask
+        rows = list(texts)
+        if len(rows) <= chunk_size:
+            return self._forward_chunk(rows, device)
+        parts_h: list[torch.Tensor] = []
+        parts_m: list[torch.Tensor] = []
+        for i in range(0, len(rows), chunk_size):
+            h, m = self._forward_chunk(rows[i : i + chunk_size], device)
+            parts_h.append(h)
+            parts_m.append(m)
+        max_t = max(h.size(1) for h in parts_h)
+        dim = parts_h[0].size(-1)
+        hidden = parts_h[0].new_zeros(len(rows), max_t, dim)
+        mask = parts_m[0].new_zeros(len(rows), max_t, dtype=torch.bool)
+        offset = 0
+        for h, m in zip(parts_h, parts_m, strict=True):
+            n, tlen = h.size(0), h.size(1)
+            hidden[offset : offset + n, :tlen] = h
+            mask[offset : offset + n, :tlen] = m
+            offset += n
         return hidden, mask
 
 

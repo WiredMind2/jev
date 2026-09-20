@@ -7,8 +7,8 @@ This is research v0. It is not TypeSafe Jev and does not reproduce RLCD.
 - No factual-correctness guarantee from typed outputs.
 - No authorization: model output never sets access boundaries.
 - No match to hosted Jev 0.78 BANKING77 (jev-eval, n=300). That is a later bar.
-- Frozen Qwen option head underfit on the CLI `train-head --encoder hf` run (full synthetic train, batch 1, GTX 1650): test acc 0.083. Zero-shot beat it on the same frozen test (0.75). Fixture SST-5 and BoolQ frozen heads also underfit (acc 0.20 and 0.50). Do not read the hashing 100% as an LM result.
-- BANKING77 fixture frozen-head train **fit in 4 GiB** (1198 MiB used) but did not finish 12 epochs in ~80 min. That is wall-clock, not OOM. Official 77-way / 151-way frozen-head jobs stay on Colab T4.
+- Frozen Qwen option head underfit on the CLI `train-head --encoder hf` run (full synthetic train, batch 1, GTX 1650): test acc 0.083. Zero-shot beat it on the same frozen test (0.75). Fixture frozen heads: SST-5 0.20, BoolQ 0.50, BANKING77 0.013 (chance), CLINC150 0.154, Wikispeedia 0.50. Do not read the hashing 100% as an LM result.
+- BANKING77 fixture frozen-head **fits in 4 GiB** (completed run peak ≈ 1176 MiB after encoder-text cache; earlier uncached attempt used 1198 MiB for ~80 min). Official full-split 77-way / Wikispeedia / 3B jobs stay on Colab T4.
 - JSON-LM and TF-IDF baselines **were** run on the frozen synthetic test (`eval-json-llm-synthetic-test.json`, `eval-tfidf-synthetic-test.json`). Official BANKING77/Wikispeedia Qwen scoring is a Colab T4 job. Fixture BANKING77 zero-shot **was** scored on this 1650 (n=154, acc 0.786).
 - Multi-question amortization (stage 5) is specified, not profiled.
 - Isotonic / Dirichlet calibration was not fit; temperature scaling only.

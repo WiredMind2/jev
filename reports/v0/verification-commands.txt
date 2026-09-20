@@ -145,5 +145,13 @@ frozen Qwen option head (train-head --encoder hf, calib split for T only):
   banking77: 1198 MiB / 4096, 100% util, ~80 min, not finished 12 epochs, NOT OOM
     reports/v0/metrics/eval-hf-head-banking77-fixture-test-timeout.json
 
+==== 2026-09-20T12:40:00Z frozen-head cache completed remaining fixture heads ====
+EncoderTextCache + FrozenHFEncoder chunk_size=8
+wikispeedia frozen head acc 0.500 T=3.0 n=4 ~1208 MiB no OOM
+banking77 frozen head acc 0.013 T=5.0 n=154 ~1176 MiB no OOM (completed)
+clinc150 frozen head acc 0.154 T=1.0 n=26 ~1194 MiB no OOM
+HEADS_DONE ~80s wall after cache (was ~80 min uncached on banking77)
+CPU pytest: 48 passed; CUDA 3 passed; HF CUDA 1 passed
+
 hf-download-probe.json: token absent; banking77_source=mteb/banking77; boolq original HTTP 403
 Colab path present: docs/11-colab.md notebooks/jev_colab_hosted_gpu.ipynb scripts/colab_cpu_smoke.sh reports/v0/colab.md

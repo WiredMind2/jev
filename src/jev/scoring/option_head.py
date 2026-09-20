@@ -164,6 +164,7 @@ class OptionHeadScorer:
         self.head.eval()
         self.encoder.eval()
         self._model_id = model_id
+        self._cache = EncoderTextCache(self.encoder, self.device)
 
     @property
     def model_id(self) -> str:
@@ -171,8 +172,8 @@ class OptionHeadScorer:
 
     @torch.no_grad()
     def score_texts(self, state_text: str, option_text_list: Sequence[str]) -> list[float]:
-        state_h, state_m = self.encoder.forward_texts([state_text], self.device)
-        opt_h, opt_m = self.encoder.forward_texts(list(option_text_list), self.device)
+        state_h, state_m = self._cache.encode([state_text])
+        opt_h, opt_m = self._cache.encode(list(option_text_list))
         idx = torch.zeros(len(option_text_list), dtype=torch.long, device=self.device)
         logits = self.head(state_h.float(), state_m, opt_h.float(), opt_m, idx)
         return [float(x) for x in logits.detach().cpu().tolist()]
@@ -221,7 +222,43 @@ def load_jsonl_examples(path: Path) -> list[Any]:
     return rows
 
 
-def _collate(encoder: nn.Module, batch: Sequence[Any], device: torch.device):
+class EncoderTextCache:
+    """Reuse frozen encoder states for repeated option menus / states."""
+
+    def __init__(self, encoder: nn.Module, device: torch.device, chunk_size: int | None = None) -> None:
+        self.encoder = encoder
+        self.device = device
+        if chunk_size is None:
+            chunk_size = 8 if encoder.__class__.__name__ == "FrozenHFEncoder" else 256
+        self.chunk_size = chunk_size
+        self._store: dict[str, tuple[torch.Tensor, torch.Tensor]] = {}
+
+    def encode(self, texts: Sequence[str]) -> tuple[torch.Tensor, torch.Tensor]:
+        missing = [t for t in dict.fromkeys(texts) if t not in self._store]
+        for i in range(0, len(missing), self.chunk_size):
+            chunk = missing[i : i + self.chunk_size]
+            hidden, mask = self.encoder.forward_texts(chunk, self.device)
+            for j, text in enumerate(chunk):
+                n = max(int(mask[j].sum().item()), 1)
+                self._store[text] = (hidden[j, :n].detach(), mask[j, :n].detach())
+        items = [self._store[t] for t in texts]
+        max_t = max(h.size(0) for h, _m in items)
+        dim = items[0][0].size(-1)
+        stacked_h = items[0][0].new_zeros(len(items), max_t, dim)
+        stacked_m = items[0][1].new_zeros(len(items), max_t, dtype=torch.bool)
+        for i, (h, m) in enumerate(items):
+            n = h.size(0)
+            stacked_h[i, :n] = h
+            stacked_m[i, :n] = m
+        return stacked_h, stacked_m
+
+
+def _collate(
+    encoder: nn.Module,
+    batch: Sequence[Any],
+    device: torch.device,
+    cache: EncoderTextCache | None = None,
+):
     state_texts = [example_state_text(ex) for ex in batch]
     option_texts_flat: list[str] = []
     option_index: list[int] = []
@@ -234,8 +271,12 @@ def _collate(encoder: nn.Module, batch: Sequence[Any], device: torch.device):
         for t in opts:
             option_texts_flat.append(t)
             option_index.append(i)
-    state_h, state_m = encoder.forward_texts(state_texts, device)
-    opt_h, opt_m = encoder.forward_texts(option_texts_flat, device)
+    if cache is None:
+        state_h, state_m = encoder.forward_texts(state_texts, device)
+        opt_h, opt_m = encoder.forward_texts(option_texts_flat, device)
+    else:
+        state_h, state_m = cache.encode(state_texts)
+        opt_h, opt_m = cache.encode(option_texts_flat)
     idx = torch.tensor(option_index, dtype=torch.long, device=device)
     gold_t = torch.tensor(gold, dtype=torch.long, device=device)
     return state_h.float(), state_m, opt_h.float(), opt_m, idx, gold_t, n_opts
@@ -276,6 +317,7 @@ def train_option_head(
     encoder.eval()
     for p in encoder.parameters():
         p.requires_grad_(False)
+    cache = EncoderTextCache(encoder, device)
     d_model = int(getattr(encoder, "d_model", cfg.d_model))
     head = OptionAttentionHead(d_model, rank=cfg.rank).to(device)
     opt = torch.optim.Adam(head.parameters(), lr=cfg.lr)
@@ -297,7 +339,9 @@ def train_option_head(
             batch_idx = perm[start : start + cfg.batch_size]
             batch = [examples[i] for i in batch_idx]
             with torch.no_grad():
-                state_h, state_m, opt_h, opt_m, idx, gold, n_opts = _collate(encoder, batch, device)
+                state_h, state_m, opt_h, opt_m, idx, gold, n_opts = _collate(
+                    encoder, batch, device, cache=cache
+                )
             logits = head(state_h, state_m, opt_h, opt_m, idx)
             loss = listwise_ce(logits, n_opts, gold)
             opt.zero_grad(set_to_none=True)
@@ -310,7 +354,7 @@ def train_option_head(
                 history["stopped_epoch"] = float(epoch)
                 return encoder, head, history
         if val_examples:
-            acc = accuracy_on_examples(encoder, head, val_examples, device=device)
+            acc = accuracy_on_examples(encoder, head, val_examples, device=device, cache=cache)
             if acc > best_val:
                 best_val = acc
                 best_state = {k: v.detach().cpu().clone() for k, v in head.state_dict().items()}
@@ -335,10 +379,13 @@ def accuracy_on_examples(
     device: torch.device | None = None,
     shuffle_state: bool = False,
     seed: int = 0,
+    cache: EncoderTextCache | None = None,
 ) -> float:
     device = device or torch.device("cpu")
     if not examples:
         return 0.0
+    if cache is None:
+        cache = EncoderTextCache(encoder, device)
     states = [example_state_text(ex) for ex in examples]
     if shuffle_state:
         g = torch.Generator().manual_seed(seed)
@@ -348,8 +395,8 @@ def accuracy_on_examples(
     for ex, state in zip(examples, states, strict=True):
         opts = example_option_texts(ex)
         gold = example_gold_index(ex)
-        state_h, state_m = encoder.forward_texts([state], device)
-        opt_h, opt_m = encoder.forward_texts(opts, device)
+        state_h, state_m = cache.encode([state])
+        opt_h, opt_m = cache.encode(opts)
         idx = torch.zeros(len(opts), dtype=torch.long, device=device)
         logits = head(state_h.float(), state_m, opt_h.float(), opt_m, idx)
         pred = int(logits.argmax().item())
