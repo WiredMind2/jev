@@ -30,3 +30,4 @@ data/*
 .git-commit-msg.txt
 *.tar.gz
 wikispeedia_paths-and-graph/
+.jev-colab-smoke/

@@ -12,6 +12,12 @@ This is research v0. It is not TypeSafe Jev and does not reproduce RLCD.
 - Multi-question amortization (stage 5) is specified, not profiled.
 - Isotonic / Dirichlet calibration was not fit; temperature scaling only.
 - Latency, P95, and cost per 1k decisions were not measured.
+- No live Colab / T4 measurement from the v0 1650 box. The hosted-GPU
+  path is specified in `docs/11-colab.md` and
+  `notebooks/jev_colab_hosted_gpu.ipynb`; the gate and what was (not)
+  executed are in [colab.md](colab.md). BANKING77 / Wikispeedia / 3B
+  numbers require a T4 run filed as a **new** hardware note, not an
+  edit of this 1650 pin.
 
 ## Data limits
 

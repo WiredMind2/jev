@@ -26,7 +26,7 @@ state + {typed question_i}  -->  {typed decision_i, distribution_i, confidence_i
 | Reproduce TypeSafe's private architecture | **Not possible from public information** |
 | Reproduce RLCD as TypeSafe trains it | **Not possible from public information** |
 
-Hardware pin: **Qwen/Qwen2.5-0.5B fp16** for both zero-shot and the frozen head. Qwen2.5-3B does not fit on the 4 GiB GTX 1650 used here (`configs/hardware.yaml`).
+Hardware pin: **Qwen/Qwen2.5-0.5B fp16** for both zero-shot and the frozen head. Qwen2.5-3B does not fit on the 4 GiB GTX 1650 used here (`configs/hardware.yaml`). Later frozen-head runs that need more VRAM (BANKING77, Wikispeedia, a 3B encoder) can use a free Colab T4; that is a separate pin, not a rewrite of the v0 table. See [Hosted GPUs](docs/11-colab.md) and the runnable notebook [notebooks/jev_colab_hosted_gpu.ipynb](notebooks/jev_colab_hosted_gpu.ipynb) ([Open in Colab](https://colab.research.google.com/github/WiredMind2/jev/blob/main/notebooks/jev_colab_hosted_gpu.ipynb)).
 
 ### Research package
 
@@ -39,7 +39,7 @@ jev --help
 
 CLI: `validate`, `data-convert`, `score`, `train-head`, `calibrate`, `evaluate`, `serve`, `hardware`.
 
-CPU tests: `pytest -m "not cuda and not hf"`. CUDA gates: `pytest -m cuda`. Do not use system Python 3.9; use `.venv`.
+CPU tests: `pytest -m "not cuda and not hf"`. CUDA gates: `pytest -m cuda`. Do not use system Python 3.9; use `.venv`. Hosted GPU training (Colab T4, not serving): [docs/11-colab.md](docs/11-colab.md), [notebook](notebooks/jev_colab_hosted_gpu.ipynb), v0 gate in [reports/v0/colab.md](reports/v0/colab.md). Local CPU proof of that CLI sequence: `scripts/colab_cpu_smoke.sh`.
 
 This is independent research. It is **not** TypeSafe Jev and **not** RLCD.
 
@@ -71,6 +71,7 @@ Start here:
 8. [Limitations](docs/08-limitations.md) — jaggedness that any replica must handle
 9. [Bibliography](docs/09-bibliography.md) — sources with retrieval dates
 10. [Datasets](docs/10-datasets.md) — public corpora mapped to Choice / Score / Noul
+11. [Hosted GPUs](docs/11-colab.md) — Colab for training/eval that does not fit the 1650; not serving. Notebook: [notebooks/jev_colab_hosted_gpu.ipynb](notebooks/jev_colab_hosted_gpu.ipynb)
 
 JSON Schemas for the public request/response and a training-row format live in
 [`schemas/`](schemas/).

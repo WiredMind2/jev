@@ -124,7 +124,10 @@ Fill this in. Empty cells are better than invented numbers.
 | JSON LLM |  |  |  |  |  |  |  |  |
 
 Also log: model version, prompt/schema version, candidate-set hash,
-calibration method, and whether the split was grouped.
+calibration method, whether the split was grouped, and the **GPU pin**
+(name, VRAM, dtype). Do not mix a 4 GiB 1650 row and a Colab T4 row in
+one comparison table without labeling them. Hosted-GPU recipe:
+[Colab](11-colab.md).
 
 ## Split hygiene
 

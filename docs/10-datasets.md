@@ -5,7 +5,9 @@ to be trained and measured on **public labeled tasks that match the three
 primitives**, plus one variable-menu task so the head is not just a fixed
 classifier.
 
-Do not vendor raw datasets in git. Download them locally, convert to
+Do not vendor raw datasets in git. Download them locally or onto a
+Colab Drive folder with the same `dataset/jsonl/` layout
+([Hosted GPUs](11-colab.md)), convert to
 [`../schemas/training-example.schema.json`](../schemas/training-example.schema.json),
 and keep converted JSONL under `data/` (gitignored except README). Cite
 the source. Honor each dataset's license; those terms are stricter than

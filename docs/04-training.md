@@ -67,6 +67,27 @@ already in encoder pretraining, and they do not stress variable menus.
 Carve a calibration split from the official train set (stratified);
 never tune criteria text on the frozen test split.
 
+## Where to train
+
+The loss and split rules in this file do not change with the GPU.
+The box does.
+
+| Work | Machine |
+|---|---|
+| Hashing-head proofs, CPU tests, converters | Local / CI |
+| v0 0.5B synthetic numbers already in `reports/v0/` | The pinned 4 GiB GTX 1650. Leave them. |
+| Frozen-head on BANKING77, SST-5, BoolQ, Wikispeedia | **Google Colab T4** (or any ≥12 GiB NVIDIA). Recipe in [Hosted GPUs](11-colab.md). |
+| Frozen 3B encoder (the plan's starting class) | Colab T4. Does not fit the 1650. |
+| `jev serve` | Local process. Not a Colab notebook. |
+
+Call `jev train-head` / `calibrate` / `evaluate` in both places. A Colab
+cell should only provision CUDA, mount Drive, and invoke the CLI. Write
+checkpoints off the ephemeral VM. Record the live GPU; `jev hardware`
+still prints the repo's 1650 pin.
+
+Do not paste Colab metrics into the v0 table without a new hardware
+note and model card.
+
 ## Stage 1 — listwise supervised baseline
 
 For labeled `(x, C, y)`:

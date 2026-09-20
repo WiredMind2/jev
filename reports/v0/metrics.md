@@ -44,3 +44,11 @@ Full official splits were converted when Hugging Face downloads succeeded (see m
 - Qwen2.5-0.5B naïve vs cached continuation scores: pass (`tests/test_hf_cuda.py`). No OOM on the short prefix used in that test.
 
 Logged GPU run: `reports/v0/metrics/gpu-run.json`.
+
+## Reproduce on Colab (different pin)
+
+This table is the 1650 / Qwen2.5-0.5B measurement. Do not paste T4 rows
+here. Hosted-GPU jobs (BANKING77, Wikispeedia, a 3B encoder) use
+[docs/11-colab.md](../../docs/11-colab.md) and
+[notebooks/jev_colab_hosted_gpu.ipynb](../../notebooks/jev_colab_hosted_gpu.ipynb).
+Success criteria and execution status: [colab.md](colab.md).

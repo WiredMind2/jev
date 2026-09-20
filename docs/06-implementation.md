@@ -26,6 +26,7 @@ Local causal model, candidate continuation scoring, prefix cache.
 |---|---|
 | Apple Silicon, rapid iteration | Gemma 3 4B or Qwen 3–4B via MLX |
 | Consumer NVIDIA GPU | Qwen 2.5/3 3B–8B via Transformers, vLLM, or SGLang |
+| Free hosted GPU (Colab T4, ~16 GiB) | Frozen-head train/eval for 0.5B–3B. Not serving. See [Hosted GPUs](11-colab.md). |
 | CPU / low-memory proof of concept | Small quantized Qwen/Gemma or an embedding baseline |
 | Production experimental server | vLLM or SGLang with batched prefill |
 
@@ -76,6 +77,11 @@ Loss: listwise cross-entropy on the gold option index.
 Fork/adapt `jevlike`. Compare the head to zero-shot causal scoring on the
 exact same held-out test set.
 
+This is the step that benefits from a free Colab T4: the v0 1650 can
+run a 0.5B smoke train, but BANKING77 / Wikispeedia (and a 3B encoder)
+need the extra VRAM. Keep the CLI; persist `runs/` to Drive. Do not host
+`jev serve` in the notebook.
+
 ## Stage 4 — calibration and deferral
 
 Fit temperature scaling, then isotonic / Dirichlet. Add explicit `defer`.
@@ -110,8 +116,14 @@ compile only after correctness and calibration are stable.
 
 - Frozen encoder + low-rank option-query head.
 - Train on BANKING77; eval vs zero-shot on the same test set.
+  Prefer a Colab T4 (or similar) so batch size and `max_state_tokens`
+  are not dictated by 4 GiB. Recipe: [Hosted GPUs](11-colab.md).
+  Notebook: [`notebooks/jev_colab_hosted_gpu.ipynb`](../notebooks/jev_colab_hosted_gpu.ipynb).
 - If that works, start Wikispeedia next-click (variable `N`,
-  target-disjoint split). Synthetic 98% is not evidence.
+  target-disjoint split) on the same hosted GPU. Synthetic 98% is not
+  evidence.
+- Write a run-specific hardware note. Do not overwrite
+  `configs/hardware.yaml` or `reports/v0/` with Colab numbers.
 
 ### Week 4 — calibration and deferral
 
@@ -129,6 +141,8 @@ compile only after correctness and calibration are stable.
 - Freeze datasets and splits.
 - Robustness suite.
 - Model card, data card, calibration plots, failure analysis.
+- If any row used Colab, file a **new** hardware note beside the 1650
+  pin. Do not overwrite `reports/v0/hardware.md`.
 - Document non-goals: no factual-correctness guarantee, no replacement
   for authorization, no claim of reproducing Jev/RLCD.
 
@@ -151,4 +165,5 @@ src/jev/
 ```
 
 This repository currently contains documentation, schemas, a Python package
-(`src/jev`), CPU/CUDA tests, and a v0 report under `reports/v0/`.
+(`src/jev`), CPU/CUDA tests, and a v0 report under `reports/v0/`. Hosted-GPU
+training (Colab T4) is specified in [11-colab.md](11-colab.md).
