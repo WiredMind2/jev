@@ -1,0 +1,294 @@
+{
+  "train": [
+    {
+      "id": "b77_activate_my_card_0",
+      "text": "Please activate my new card number 0",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_1",
+      "text": "Please activate my new card number 1",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_2",
+      "text": "Please activate my new card number 2",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_3",
+      "text": "Please activate my new card number 3",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_4",
+      "text": "Please activate my new card number 4",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_5",
+      "text": "Please activate my new card number 5",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_6",
+      "text": "Please activate my new card number 6",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_7",
+      "text": "Please activate my new card number 7",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_8",
+      "text": "Please activate my new card number 8",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_activate_my_card_9",
+      "text": "Please activate my new card number 9",
+      "label": "activate_my_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_0",
+      "text": "Why was I charged an ATM fee on withdrawal 0",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_1",
+      "text": "Why was I charged an ATM fee on withdrawal 1",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_2",
+      "text": "Why was I charged an ATM fee on withdrawal 2",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_3",
+      "text": "Why was I charged an ATM fee on withdrawal 3",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_4",
+      "text": "Why was I charged an ATM fee on withdrawal 4",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_5",
+      "text": "Why was I charged an ATM fee on withdrawal 5",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_6",
+      "text": "Why was I charged an ATM fee on withdrawal 6",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_7",
+      "text": "Why was I charged an ATM fee on withdrawal 7",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_8",
+      "text": "Why was I charged an ATM fee on withdrawal 8",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_9",
+      "text": "Why was I charged an ATM fee on withdrawal 9",
+      "label": "cash_withdrawal_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_0",
+      "text": "How long will transfer 0 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_1",
+      "text": "How long will transfer 1 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_2",
+      "text": "How long will transfer 2 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_3",
+      "text": "How long will transfer 3 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_4",
+      "text": "How long will transfer 4 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_5",
+      "text": "How long will transfer 5 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_6",
+      "text": "How long will transfer 6 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_7",
+      "text": "How long will transfer 7 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_8",
+      "text": "How long will transfer 8 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_9",
+      "text": "How long will transfer 9 take to arrive",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_0",
+      "text": "I think my card 0 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_1",
+      "text": "I think my card 1 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_2",
+      "text": "I think my card 2 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_3",
+      "text": "I think my card 3 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_4",
+      "text": "I think my card 4 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_5",
+      "text": "I think my card 5 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_6",
+      "text": "I think my card 6 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_7",
+      "text": "I think my card 7 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_8",
+      "text": "I think my card 8 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_compromised_card_9",
+      "text": "I think my card 9 was stolen last night",
+      "label": "compromised_card",
+      "split": "train"
+    }
+  ],
+  "test": [
+    {
+      "id": "b77_activate_my_card_t0",
+      "text": "Please activate my new card number 100",
+      "label": "activate_my_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_activate_my_card_t1",
+      "text": "Please activate my new card number 101",
+      "label": "activate_my_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_t0",
+      "text": "Why was I charged an ATM fee on withdrawal 100",
+      "label": "cash_withdrawal_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_t1",
+      "text": "Why was I charged an ATM fee on withdrawal 101",
+      "label": "cash_withdrawal_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_timing_t0",
+      "text": "How long will transfer 100 take to arrive",
+      "label": "transfer_timing",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_timing_t1",
+      "text": "How long will transfer 101 take to arrive",
+      "label": "transfer_timing",
+      "split": "test"
+    },
+    {
+      "id": "b77_compromised_card_t0",
+      "text": "I think my card 100 was stolen last night",
+      "label": "compromised_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_compromised_card_t1",
+      "text": "I think my card 101 was stolen last night",
+      "label": "compromised_card",
+      "split": "test"
+    }
+  ]
+}

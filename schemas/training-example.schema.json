@@ -2,31 +2,122 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/WiredMind2/jev/blob/main/schemas/training-example.schema.json",
   "title": "DecisionTrainingExample",
-  "description": "Labeled row for training an open Jev-like finite-option scorer.",
+  "description": "Discriminated labeled row for training an open Jev-like finite-option scorer. Not an official TypeSafe schema.",
   "type": "object",
-  "required": ["state", "question", "gold"],
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "format_version",
+    "criteria_version",
+    "state",
+    "question",
+    "gold",
+    "metadata"
+  ],
   "properties": {
-    "id": { "type": "string" },
-    "state": true,
-    "question": {
-      "type": "object",
-      "required": ["instructions", "criteria"],
-      "properties": {
-        "type": { "enum": ["choice", "score", "noul"] },
-        "instructions": true,
-        "criteria": true
-      }
-    },
+    "id": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["choice", "score", "noul"] },
+    "format_version": { "type": "string", "minLength": 1 },
+    "criteria_version": { "type": "string", "minLength": 1 },
+    "state": { "$ref": "#/$defs/jsonValue" },
+    "question": { "type": "object" },
     "gold": {
-      "description": "Choice key, score level index (int or numeric string), or boolean / 'true'/'false' for Noul.",
+      "description": "Choice key, Score level index 0..K-1, or Noul boolean.",
       "type": ["string", "integer", "boolean"]
     },
     "metadata": {
       "type": "object",
+      "additionalProperties": true,
+      "required": ["domain"],
       "properties": {
-        "domain": { "type": "string" },
+        "domain": { "type": "string", "minLength": 1 },
         "group_id": { "type": "string" },
-        "risk_tier": { "type": "string" }
+        "risk_tier": { "type": "string" },
+        "split": { "enum": ["train", "validation", "calibration", "test"] },
+        "source": { "type": "string" },
+        "candidate_sha256": { "type": "string" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "choice" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "gold": { "type": "string", "minLength": 1 },
+          "question": { "$ref": "#/$defs/choiceQuestion" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "score" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "gold": { "type": "integer", "minimum": 0, "maximum": 9 },
+          "question": { "$ref": "#/$defs/scoreQuestion" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "noul" } }, "required": ["type"] },
+      "then": {
+        "properties": {
+          "gold": { "type": "boolean" },
+          "question": { "$ref": "#/$defs/noulQuestion" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "jsonValue": {
+      "type": ["string", "number", "boolean", "null", "array", "object"]
+    },
+    "choiceQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "instructions", "criteria"],
+      "properties": {
+        "type": { "const": "choice" },
+        "instructions": { "$ref": "#/$defs/jsonValue" },
+        "criteria": {
+          "type": "object",
+          "minProperties": 2,
+          "maxProperties": 255,
+          "additionalProperties": true
+        }
+      }
+    },
+    "scoreQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "instructions", "criteria"],
+      "properties": {
+        "type": { "const": "score" },
+        "instructions": { "$ref": "#/$defs/jsonValue" },
+        "criteria": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "items": { "$ref": "#/$defs/jsonValue" }
+        }
+      }
+    },
+    "noulQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "instructions"],
+      "properties": {
+        "type": { "const": "noul" },
+        "instructions": { "$ref": "#/$defs/jsonValue" },
+        "criteria": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "true": { "$ref": "#/$defs/jsonValue" },
+            "false": { "$ref": "#/$defs/jsonValue" }
+          }
+        }
       }
     }
   }

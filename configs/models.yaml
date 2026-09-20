@@ -1,0 +1,16 @@
+format_version: "1"
+zero_shot:
+  model_id: Qwen/Qwen2.5-0.5B
+  reductions: [sum, mean, pmi]
+  max_batch_options: 32
+  dtype: float16
+frozen_head:
+  model_id: Qwen/Qwen2.5-0.5B
+  encoder_frozen: true
+  query_rank: 64
+  attn_dropout: 0.0
+  max_state_tokens: 512
+  max_option_tokens: 64
+calibration:
+  method: temperature_scaling
+  fit_split: calibration

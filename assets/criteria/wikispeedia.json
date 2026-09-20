@@ -1,0 +1,8 @@
+{
+  "criteria_version": "wikispeedia-v0",
+  "dataset": "wikispeedia",
+  "instructions": "Which outgoing article should a player click next to reach `target` from `current`?",
+  "title_template": "Outgoing link: {title}",
+  "max_options": 255,
+  "notes": "Option sets are per-row (variable N). This file freezes the instruction text and title template, not a global menu."
+}
