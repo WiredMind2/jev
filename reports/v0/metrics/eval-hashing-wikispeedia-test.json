@@ -1,0 +1,1 @@
+{"accuracy":0.0,"backend":"option-head","brier":1.1464942240367315,"coverage_at_1pct":0.0,"ece":0.7319175191960883,"mean_entropy_confidence":0.34525636513293606,"model_id":"option-attention-hashing","n":2,"nll":1.6821055569968886,"shuffled_accuracy":0.0,"temperature":0.25}

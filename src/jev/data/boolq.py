@@ -1,4 +1,4 @@
-"""BoolQ Noul conversion. Group by Wikipedia title."""
+"""BoolQ Noul conversion. Group by Wikipedia title (or passage hash if omitted)."""
 
 from __future__ import annotations
 
@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from jev.canonical import sha256_text
 from jev.data.convert import freeze_and_write, load_records_jsonl, try_load_hf
 from jev.data.manifest import criteria_path, load_criteria
 from jev.data.splits import assign_groups
@@ -16,6 +17,16 @@ from jev.schema import (
     NoulQuestion,
     NoulTrainingExample,
 )
+
+
+def group_key_for_row(row: dict[str, Any], fallback_i: int = 0) -> str:
+    title = row.get("title")
+    if title:
+        return str(title)
+    passage = str(row.get("passage") or "")
+    if passage:
+        return f"passage:{sha256_text(passage[:800])[:16]}"
+    return f"page-{fallback_i}"
 
 
 def convert_boolq(out_dir: Path, fixture: Path | None = None) -> Path:
@@ -37,7 +48,7 @@ def convert_boolq(out_dir: Path, fixture: Path | None = None) -> Path:
             raw[split] = [
                 {
                     "id": f"boolq_{split}_{i}",
-                    "title": row.get("title") or f"page-{i}",
+                    "title": group_key_for_row(row, i),
                     "passage": row["passage"],
                     "question": row["question"],
                     "answer": bool(row["answer"]),
@@ -63,12 +74,22 @@ def convert_boolq(out_dir: Path, fixture: Path | None = None) -> Path:
                 criteria=NoulCriteria(true=spec["criteria"]["true"], false=spec["criteria"]["false"]),
             ),
             gold=bool(row["answer"]),
-            metadata=ExampleMetadata(domain="boolq", group_id=title.lower(), source="google/boolq", split=split),  # type: ignore[arg-type]
+            metadata=ExampleMetadata(
+                domain="boolq",
+                group_id=title.lower(),
+                source="google/boolq",
+                split=split,  # type: ignore[arg-type]
+            ),
         )
 
     groups = [str(r.get("title") or r["id"]).lower() for r in train_kept]
     assigned = assign_groups(groups, seed=2, fractions=(0.8, 0.1, 0.1))
-    splits: dict[str, list[NoulTrainingExample]] = {"train": [], "validation": [], "calibration": [], "test": []}
+    splits: dict[str, list[NoulTrainingExample]] = {
+        "train": [],
+        "validation": [],
+        "calibration": [],
+        "test": [],
+    }
     for row in train_kept:
         dest = assigned[str(row.get("title") or row["id"]).lower()]
         splits[dest].append(to_ex(row, dest))
@@ -80,7 +101,12 @@ def convert_boolq(out_dir: Path, fixture: Path | None = None) -> Path:
         converter="jev.data.boolq",
         license_name="CC BY-SA 3.0",
         source="google/boolq",
-        split_rule="official validation frozen as test; remaining titles 80/10/10; no title overlap",
+        split_rule=(
+            "official validation frozen as test; remaining groups 80/10/10; "
+            "group_id is Wikipedia title when present, else a hash of the passage "
+            "(the google/boolq mirror omits title)"
+        ),
         examples_by_split=splits,
         out_dir=out_dir,
+        notes="google/boolq has no title column; passage-hash grouping is the leakage control.",
     )

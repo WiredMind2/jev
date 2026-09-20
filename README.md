@@ -18,12 +18,30 @@ state + {typed question_i}  -->  {typed decision_i, distribution_i, confidence_i
 
 | Claim | Status |
 |---|---|
-| Document the public API contract | In progress in this repo |
-| Choose public train/eval datasets | Catalog in `docs/10-datasets.md` |
-| Reconstruct a serving baseline (cached option scoring) | Specified; not yet implemented here |
-| Train a variable-menu decision head | Specified; not yet implemented here |
+| Document the public API contract | Schemas and `docs/02-api-contract.md` |
+| Choose public train/eval datasets | Catalog in `docs/10-datasets.md`; converters in `src/jev/data/` |
+| Reconstruct a serving baseline (cached option scoring) | Implemented: FastAPI `POST /v1/systemone`, Qwen2.5-0.5B cached logprob |
+| Train a variable-menu decision head | Implemented: frozen encoder + option-attention head; hashing trainer proof + Qwen frozen head |
+| v0 report on frozen synthetic test | [reports/v0](reports/v0/metrics.md) (zero-shot 0.75 vs underfit frozen head 0.33; hashing 1.00 is not the LM comparison) |
 | Reproduce TypeSafe's private architecture | **Not possible from public information** |
 | Reproduce RLCD as TypeSafe trains it | **Not possible from public information** |
+
+Hardware pin: **Qwen/Qwen2.5-0.5B fp16** for both zero-shot and the frozen head. Qwen2.5-3B does not fit on the 4 GiB GTX 1650 used here (`configs/hardware.yaml`).
+
+### Research package
+
+Python ≥3.11, install from this repo:
+
+```text
+python -m pip install -e ".[dev]"
+jev --help
+```
+
+CLI: `validate`, `data-convert`, `score`, `train-head`, `calibrate`, `evaluate`, `serve`, `hardware`.
+
+CPU tests: `pytest -m "not cuda and not hf"`. CUDA gates: `pytest -m cuda`. Do not use system Python 3.9; use `.venv`.
+
+This is independent research. It is **not** TypeSafe Jev and **not** RLCD.
 
 TypeSafe has not published parameter counts, topology, tokenizer, pretraining
 data, the RLCD reward, or open weights. Treat every architectural diagram in

@@ -150,4 +150,5 @@ src/jev/
     ablations.py
 ```
 
-This repository currently contains documentation and schemas only.
+This repository currently contains documentation, schemas, a Python package
+(`src/jev`), CPU/CUDA tests, and a v0 report under `reports/v0/`.

@@ -71,7 +71,7 @@ def score_ids_cached(
     prefix = torch.tensor([list(prefix_ids)], dtype=torch.long, device=device)
     prefix_logits, past = forward_cache(prefix, None)
     first_target = torch.tensor([cont_ids[0]], dtype=torch.long, device=prefix_logits.device)
-    first_lp = _gather_token_logprobs(prefix_logits[0, -1:, :], first_target.unsqueeze(0))[0]
+    first_lp = _gather_token_logprobs(prefix_logits[0, -1, :].unsqueeze(0), first_target)[0]
     lps = [first_lp]
     if len(cont_ids) > 1:
         rest = torch.tensor([list(cont_ids[:-1])], dtype=torch.long, device=prefix_logits.device)

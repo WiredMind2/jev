@@ -38,7 +38,7 @@ class FrozenHFEncoder(nn.Module):
         self.backbone = AutoModel.from_pretrained(
             model_id,
             revision=revision,
-            torch_dtype=dtype,
+            dtype=dtype,
         )
         self.backbone.to(self.device)
         self.backbone.eval()

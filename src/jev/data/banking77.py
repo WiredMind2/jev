@@ -6,22 +6,31 @@ import json
 from pathlib import Path
 from typing import Any
 
-from jev.data.convert import freeze_and_write, load_records_jsonl, try_load_hf
+from jev.data.convert import freeze_and_write, load_records_jsonl, try_load_hf_first
 from jev.data.manifest import criteria_path, load_criteria
 from jev.data.splits import stratified_indices
 from jev.schema import FORMAT_VERSION, ChoiceQuestion, ChoiceTrainingExample, ExampleMetadata
 
 
 def _rows_from_hf() -> dict[str, list[dict[str, Any]]] | None:
-    ds = try_load_hf("PolyAI/banking77")
+    ds = try_load_hf_first(
+        [
+            ("PolyAI/banking77", {}),
+            ("mteb/banking77", {}),
+        ]
+    )
     if ds is None:
         return None
     out: dict[str, list[dict[str, Any]]] = {}
-    names = ds["train"].features["label"].names
+    names = getattr(ds["train"].features.get("label"), "names", None)
     for split in ds:
         rows = []
         for i, row in enumerate(ds[split]):
-            label = names[int(row["label"])]
+            raw_label = row.get("label_text") or row.get("label")
+            if names is not None and not isinstance(raw_label, str):
+                label = names[int(raw_label)]
+            else:
+                label = str(raw_label)
             rows.append({"id": f"banking77_{split}_{i}", "text": row["text"], "label": label})
         out[split] = rows
     return out

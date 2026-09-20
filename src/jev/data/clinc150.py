@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from jev.data.clinc_intents import clinc_criteria as frozen_clinc_criteria
-from jev.data.convert import freeze_and_write, try_load_hf
+from jev.data.convert import freeze_and_write, try_load_hf_first
 from jev.data.manifest import criteria_path, load_criteria
 from jev.schema import FORMAT_VERSION, ChoiceQuestion, ChoiceTrainingExample, ExampleMetadata
 
@@ -41,7 +41,12 @@ def convert_clinc150(out_dir: Path, fixture: Path | None = None) -> Path:
     if fixture:
         raw = json.loads(fixture.read_text(encoding="utf-8"))
     else:
-        ds = try_load_hf("clinc_oos", "plus")
+        ds = try_load_hf_first(
+            [
+                ("clinc_oos", {"name": "plus"}),
+                ("clinc/clinc_oos", {"name": "plus"}),
+            ]
+        )
         if ds is None:
             raise FileNotFoundError("CLINC150 not available: pass --fixture")
         raw = {}

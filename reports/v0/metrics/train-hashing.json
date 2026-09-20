@@ -1,0 +1,1 @@
+{"best_val_acc":1.0,"checkpoint":"runs/synthetic-hashing-head.pt","encoder_kind":"hashing","final_loss":3.362378993188031e-05,"hf_model_id":"Qwen/Qwen2.5-0.5B","model_id":"option-attention-hashing","shuffled_acc":0.23837209302325582,"stopped_epoch":8.0,"train_acc":1.0}

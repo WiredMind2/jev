@@ -23,15 +23,30 @@ def load_records_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+LAST_HF_ERROR: str | None = None
+
+
 def try_load_hf(path_or_name: str, **kwargs: Any) -> Any | None:
+    global LAST_HF_ERROR
+    LAST_HF_ERROR = None
     try:
         from datasets import load_dataset
-    except ImportError:
+    except ImportError as exc:
+        LAST_HF_ERROR = f"{type(exc).__name__}: {exc}"
         return None
     try:
         return load_dataset(path_or_name, **kwargs)
-    except Exception:
+    except Exception as exc:
+        LAST_HF_ERROR = f"{path_or_name}: {type(exc).__name__}: {exc}"
         return None
+
+
+def try_load_hf_first(candidates: list[tuple[str, dict[str, Any]]]) -> Any | None:
+    for name, kwargs in candidates:
+        ds = try_load_hf(name, **kwargs)
+        if ds is not None:
+            return ds
+    return None
 
 
 def freeze_and_write(

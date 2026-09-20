@@ -66,7 +66,7 @@ class TinyCausalLM(nn.Module):
         d_model: int = 32,
         n_layer: int = 2,
         n_head: int = 4,
-        max_len: int = 256,
+        max_len: int = 1024,
     ) -> None:
         super().__init__()
         self.vocab_size = vocab_size

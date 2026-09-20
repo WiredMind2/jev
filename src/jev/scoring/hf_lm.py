@@ -39,7 +39,7 @@ def try_load_hf_logprob_scorer(
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             revision=revision,
-            torch_dtype=torch_dtype,
+            dtype=torch_dtype,
         )
         model.to(device)
         model.eval()
