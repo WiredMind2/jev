@@ -1,0 +1,1 @@
+{"accuracy":0.2,"backend":"hf-logprob","brier":0.6816489674449073,"coverage_at_1pct":0.2,"dataset":"sst5","ece":0.32788732509890217,"mae":0.914513582166545,"mean_entropy_confidence":0.12430667683913503,"model_id":"Qwen/Qwen2.5-0.5B","n":15,"nll":1.3543169225701803,"shuffled_accuracy":0.2,"temperature":1.0}

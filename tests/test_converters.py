@@ -44,6 +44,27 @@ def test_synthetic_group_splits(tmp_path: Path) -> None:
     assert_no_group_overlap(loaded)
 
 
+def test_all_fixture_converters_emit_four_nonempty_splits(tmp_path: Path) -> None:
+    """Fixtures must be large enough for train/val/calib/test, not empty carved splits."""
+    jobs = (
+        ("banking77", convert_banking77),
+        ("sst5", convert_sst5),
+        ("boolq", convert_boolq),
+        ("clinc150", convert_clinc150),
+        ("wikispeedia", convert_wikispeedia),
+    )
+    names = ("train", "validation", "calibration", "test")
+    for dataset, fn in jobs:
+        dest = tmp_path / dataset
+        dest.mkdir()
+        fn(dest, fixture=FIXTURES / "data" / f"{dataset}.json")
+        splits = {name: _read_split(dest / "jsonl" / f"{name}.jsonl") for name in names}
+        assert all(splits[name] for name in names), {k: len(v) for k, v in splits.items()}
+        assert_no_group_overlap(splits)
+        manifest = __import__("json").loads((dest / "manifest.json").read_text())
+        assert set(manifest["splits"]) >= set(names)
+
+
 def test_banking77_does_not_use_intent_as_group_id(tmp_path: Path) -> None:
     convert_banking77(tmp_path, fixture=FIXTURES / "data" / "banking77.json")
     test_rows = _read_split(tmp_path / "jsonl" / "test.jsonl")

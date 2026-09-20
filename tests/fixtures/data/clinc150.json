@@ -1,64 +1,244 @@
 {
   "train": [
     {
-      "id": "cl_tr_translate_0",
-      "text": "please translate hello into french 0",
-      "label": "translate"
+      "id": "cl_tr_accept_reservations_0",
+      "text": "please help with accept reservations 0",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_tr_translate_1",
-      "text": "please translate hello into french 1",
-      "label": "translate"
+      "id": "cl_tr_accept_reservations_1",
+      "text": "please help with accept reservations 1",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_tr_translate_2",
-      "text": "please translate hello into french 2",
-      "label": "translate"
+      "id": "cl_tr_accept_reservations_2",
+      "text": "please help with accept reservations 2",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_tr_translate_3",
-      "text": "please translate hello into french 3",
-      "label": "translate"
+      "id": "cl_tr_accept_reservations_3",
+      "text": "please help with accept reservations 3",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_tr_translate_4",
-      "text": "please translate hello into french 4",
-      "label": "translate"
+      "id": "cl_tr_account_blocked_0",
+      "text": "please help with account blocked 0",
+      "label": "account_blocked"
     },
     {
-      "id": "cl_tr_translate_5",
-      "text": "please translate hello into french 5",
-      "label": "translate"
+      "id": "cl_tr_account_blocked_1",
+      "text": "please help with account blocked 1",
+      "label": "account_blocked"
     },
     {
-      "id": "cl_tr_weather_0",
-      "text": "what is the weather in paris 0",
-      "label": "weather"
+      "id": "cl_tr_account_blocked_2",
+      "text": "please help with account blocked 2",
+      "label": "account_blocked"
     },
     {
-      "id": "cl_tr_weather_1",
-      "text": "what is the weather in paris 1",
-      "label": "weather"
+      "id": "cl_tr_account_blocked_3",
+      "text": "please help with account blocked 3",
+      "label": "account_blocked"
     },
     {
-      "id": "cl_tr_weather_2",
-      "text": "what is the weather in paris 2",
-      "label": "weather"
+      "id": "cl_tr_alarm_0",
+      "text": "please help with alarm 0",
+      "label": "alarm"
     },
     {
-      "id": "cl_tr_weather_3",
-      "text": "what is the weather in paris 3",
-      "label": "weather"
+      "id": "cl_tr_alarm_1",
+      "text": "please help with alarm 1",
+      "label": "alarm"
     },
     {
-      "id": "cl_tr_weather_4",
-      "text": "what is the weather in paris 4",
-      "label": "weather"
+      "id": "cl_tr_alarm_2",
+      "text": "please help with alarm 2",
+      "label": "alarm"
     },
     {
-      "id": "cl_tr_weather_5",
-      "text": "what is the weather in paris 5",
-      "label": "weather"
+      "id": "cl_tr_alarm_3",
+      "text": "please help with alarm 3",
+      "label": "alarm"
+    },
+    {
+      "id": "cl_tr_application_status_0",
+      "text": "please help with application status 0",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_tr_application_status_1",
+      "text": "please help with application status 1",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_tr_application_status_2",
+      "text": "please help with application status 2",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_tr_application_status_3",
+      "text": "please help with application status 3",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_tr_apr_0",
+      "text": "please help with apr 0",
+      "label": "apr"
+    },
+    {
+      "id": "cl_tr_apr_1",
+      "text": "please help with apr 1",
+      "label": "apr"
+    },
+    {
+      "id": "cl_tr_apr_2",
+      "text": "please help with apr 2",
+      "label": "apr"
+    },
+    {
+      "id": "cl_tr_apr_3",
+      "text": "please help with apr 3",
+      "label": "apr"
+    },
+    {
+      "id": "cl_tr_are_you_a_bot_0",
+      "text": "please help with are you a bot 0",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_tr_are_you_a_bot_1",
+      "text": "please help with are you a bot 1",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_tr_are_you_a_bot_2",
+      "text": "please help with are you a bot 2",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_tr_are_you_a_bot_3",
+      "text": "please help with are you a bot 3",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_tr_balance_0",
+      "text": "please help with balance 0",
+      "label": "balance"
+    },
+    {
+      "id": "cl_tr_balance_1",
+      "text": "please help with balance 1",
+      "label": "balance"
+    },
+    {
+      "id": "cl_tr_balance_2",
+      "text": "please help with balance 2",
+      "label": "balance"
+    },
+    {
+      "id": "cl_tr_balance_3",
+      "text": "please help with balance 3",
+      "label": "balance"
+    },
+    {
+      "id": "cl_tr_bill_balance_0",
+      "text": "please help with bill balance 0",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_tr_bill_balance_1",
+      "text": "please help with bill balance 1",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_tr_bill_balance_2",
+      "text": "please help with bill balance 2",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_tr_bill_balance_3",
+      "text": "please help with bill balance 3",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_tr_bill_due_0",
+      "text": "please help with bill due 0",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_tr_bill_due_1",
+      "text": "please help with bill due 1",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_tr_bill_due_2",
+      "text": "please help with bill due 2",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_tr_bill_due_3",
+      "text": "please help with bill due 3",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_tr_book_flight_0",
+      "text": "please help with book flight 0",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_tr_book_flight_1",
+      "text": "please help with book flight 1",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_tr_book_flight_2",
+      "text": "please help with book flight 2",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_tr_book_flight_3",
+      "text": "please help with book flight 3",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_tr_book_hotel_0",
+      "text": "please help with book hotel 0",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_tr_book_hotel_1",
+      "text": "please help with book hotel 1",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_tr_book_hotel_2",
+      "text": "please help with book hotel 2",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_tr_book_hotel_3",
+      "text": "please help with book hotel 3",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_tr_calculator_0",
+      "text": "please help with calculator 0",
+      "label": "calculator"
+    },
+    {
+      "id": "cl_tr_calculator_1",
+      "text": "please help with calculator 1",
+      "label": "calculator"
+    },
+    {
+      "id": "cl_tr_calculator_2",
+      "text": "please help with calculator 2",
+      "label": "calculator"
+    },
+    {
+      "id": "cl_tr_calculator_3",
+      "text": "please help with calculator 3",
+      "label": "calculator"
     },
     {
       "id": "cl_tr_out_of_scope_0",
@@ -79,64 +259,269 @@
       "id": "cl_tr_out_of_scope_3",
       "text": "how do I train a dragon 3",
       "label": "out_of_scope"
-    },
-    {
-      "id": "cl_tr_out_of_scope_4",
-      "text": "how do I train a dragon 4",
-      "label": "out_of_scope"
-    },
-    {
-      "id": "cl_tr_out_of_scope_5",
-      "text": "how do I train a dragon 5",
-      "label": "out_of_scope"
     }
   ],
   "validation": [
     {
-      "id": "cl_va_translate",
-      "text": "please translate hello into french val",
-      "label": "translate"
+      "id": "cl_va_accept_reservations_0",
+      "text": "please help with accept reservations val 0",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_va2_translate",
-      "text": "please translate hello into french val2",
-      "label": "translate"
+      "id": "cl_va_accept_reservations_1",
+      "text": "please help with accept reservations val 1",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_va_weather",
-      "text": "what is the weather in paris val",
-      "label": "weather"
+      "id": "cl_va_account_blocked_0",
+      "text": "please help with account blocked val 0",
+      "label": "account_blocked"
     },
     {
-      "id": "cl_va2_weather",
-      "text": "what is the weather in paris val2",
-      "label": "weather"
+      "id": "cl_va_account_blocked_1",
+      "text": "please help with account blocked val 1",
+      "label": "account_blocked"
     },
     {
-      "id": "cl_va_out_of_scope",
-      "text": "how do I train a dragon val",
+      "id": "cl_va_alarm_0",
+      "text": "please help with alarm val 0",
+      "label": "alarm"
+    },
+    {
+      "id": "cl_va_alarm_1",
+      "text": "please help with alarm val 1",
+      "label": "alarm"
+    },
+    {
+      "id": "cl_va_application_status_0",
+      "text": "please help with application status val 0",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_va_application_status_1",
+      "text": "please help with application status val 1",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_va_apr_0",
+      "text": "please help with apr val 0",
+      "label": "apr"
+    },
+    {
+      "id": "cl_va_apr_1",
+      "text": "please help with apr val 1",
+      "label": "apr"
+    },
+    {
+      "id": "cl_va_are_you_a_bot_0",
+      "text": "please help with are you a bot val 0",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_va_are_you_a_bot_1",
+      "text": "please help with are you a bot val 1",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_va_balance_0",
+      "text": "please help with balance val 0",
+      "label": "balance"
+    },
+    {
+      "id": "cl_va_balance_1",
+      "text": "please help with balance val 1",
+      "label": "balance"
+    },
+    {
+      "id": "cl_va_bill_balance_0",
+      "text": "please help with bill balance val 0",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_va_bill_balance_1",
+      "text": "please help with bill balance val 1",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_va_bill_due_0",
+      "text": "please help with bill due val 0",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_va_bill_due_1",
+      "text": "please help with bill due val 1",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_va_book_flight_0",
+      "text": "please help with book flight val 0",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_va_book_flight_1",
+      "text": "please help with book flight val 1",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_va_book_hotel_0",
+      "text": "please help with book hotel val 0",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_va_book_hotel_1",
+      "text": "please help with book hotel val 1",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_va_calculator_0",
+      "text": "please help with calculator val 0",
+      "label": "calculator"
+    },
+    {
+      "id": "cl_va_calculator_1",
+      "text": "please help with calculator val 1",
+      "label": "calculator"
+    },
+    {
+      "id": "cl_va_out_of_scope_0",
+      "text": "how do I train a dragon val 0",
       "label": "out_of_scope"
     },
     {
-      "id": "cl_va2_out_of_scope",
-      "text": "how do I train a dragon val2",
+      "id": "cl_va_out_of_scope_1",
+      "text": "how do I train a dragon val 1",
       "label": "out_of_scope"
     }
   ],
   "test": [
     {
-      "id": "cl_te_translate",
-      "text": "please translate hello into french test",
-      "label": "translate"
+      "id": "cl_te_accept_reservations_0",
+      "text": "please help with accept reservations test 0",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_te_weather",
-      "text": "what is the weather in paris test",
-      "label": "weather"
+      "id": "cl_te_accept_reservations_1",
+      "text": "please help with accept reservations test 1",
+      "label": "accept_reservations"
     },
     {
-      "id": "cl_te_out_of_scope",
-      "text": "how do I train a dragon test",
+      "id": "cl_te_account_blocked_0",
+      "text": "please help with account blocked test 0",
+      "label": "account_blocked"
+    },
+    {
+      "id": "cl_te_account_blocked_1",
+      "text": "please help with account blocked test 1",
+      "label": "account_blocked"
+    },
+    {
+      "id": "cl_te_alarm_0",
+      "text": "please help with alarm test 0",
+      "label": "alarm"
+    },
+    {
+      "id": "cl_te_alarm_1",
+      "text": "please help with alarm test 1",
+      "label": "alarm"
+    },
+    {
+      "id": "cl_te_application_status_0",
+      "text": "please help with application status test 0",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_te_application_status_1",
+      "text": "please help with application status test 1",
+      "label": "application_status"
+    },
+    {
+      "id": "cl_te_apr_0",
+      "text": "please help with apr test 0",
+      "label": "apr"
+    },
+    {
+      "id": "cl_te_apr_1",
+      "text": "please help with apr test 1",
+      "label": "apr"
+    },
+    {
+      "id": "cl_te_are_you_a_bot_0",
+      "text": "please help with are you a bot test 0",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_te_are_you_a_bot_1",
+      "text": "please help with are you a bot test 1",
+      "label": "are_you_a_bot"
+    },
+    {
+      "id": "cl_te_balance_0",
+      "text": "please help with balance test 0",
+      "label": "balance"
+    },
+    {
+      "id": "cl_te_balance_1",
+      "text": "please help with balance test 1",
+      "label": "balance"
+    },
+    {
+      "id": "cl_te_bill_balance_0",
+      "text": "please help with bill balance test 0",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_te_bill_balance_1",
+      "text": "please help with bill balance test 1",
+      "label": "bill_balance"
+    },
+    {
+      "id": "cl_te_bill_due_0",
+      "text": "please help with bill due test 0",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_te_bill_due_1",
+      "text": "please help with bill due test 1",
+      "label": "bill_due"
+    },
+    {
+      "id": "cl_te_book_flight_0",
+      "text": "please help with book flight test 0",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_te_book_flight_1",
+      "text": "please help with book flight test 1",
+      "label": "book_flight"
+    },
+    {
+      "id": "cl_te_book_hotel_0",
+      "text": "please help with book hotel test 0",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_te_book_hotel_1",
+      "text": "please help with book hotel test 1",
+      "label": "book_hotel"
+    },
+    {
+      "id": "cl_te_calculator_0",
+      "text": "please help with calculator test 0",
+      "label": "calculator"
+    },
+    {
+      "id": "cl_te_calculator_1",
+      "text": "please help with calculator test 1",
+      "label": "calculator"
+    },
+    {
+      "id": "cl_te_out_of_scope_0",
+      "text": "how do I train a dragon test 0",
+      "label": "out_of_scope"
+    },
+    {
+      "id": "cl_te_out_of_scope_1",
+      "text": "how do I train a dragon test 1",
       "label": "out_of_scope"
     }
   ]

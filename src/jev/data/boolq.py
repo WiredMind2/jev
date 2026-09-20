@@ -77,7 +77,7 @@ def convert_boolq(out_dir: Path, fixture: Path | None = None) -> Path:
             for row in load_records_jsonl(fixture):
                 grouped.setdefault(row.get("split", "train"), []).append(row)
             raw = grouped
-        source_name = "fixture"
+        source_name = "fixture (titles present)"
     else:
         raw = try_original_boolq()
         if raw is not None:

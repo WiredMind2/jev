@@ -42,216 +42,316 @@
     },
     {
       "id": "sst_tr_1_0",
-      "text": "The film is clearly unfavorable and dull. n=0",
+      "text": "The film is clearly unfavorable, not mixed. n=0",
       "label": 1
     },
     {
       "id": "sst_tr_1_1",
-      "text": "The film is clearly unfavorable and dull. n=1",
+      "text": "The film is clearly unfavorable, not mixed. n=1",
       "label": 1
     },
     {
       "id": "sst_tr_1_2",
-      "text": "The film is clearly unfavorable and dull. n=2",
+      "text": "The film is clearly unfavorable, not mixed. n=2",
       "label": 1
     },
     {
       "id": "sst_tr_1_3",
-      "text": "The film is clearly unfavorable and dull. n=3",
+      "text": "The film is clearly unfavorable, not mixed. n=3",
       "label": 1
     },
     {
       "id": "sst_tr_1_4",
-      "text": "The film is clearly unfavorable and dull. n=4",
+      "text": "The film is clearly unfavorable, not mixed. n=4",
       "label": 1
     },
     {
       "id": "sst_tr_1_5",
-      "text": "The film is clearly unfavorable and dull. n=5",
+      "text": "The film is clearly unfavorable, not mixed. n=5",
       "label": 1
     },
     {
       "id": "sst_tr_1_6",
-      "text": "The film is clearly unfavorable and dull. n=6",
+      "text": "The film is clearly unfavorable, not mixed. n=6",
       "label": 1
     },
     {
       "id": "sst_tr_1_7",
-      "text": "The film is clearly unfavorable and dull. n=7",
+      "text": "The film is clearly unfavorable, not mixed. n=7",
       "label": 1
     },
     {
       "id": "sst_tr_2_0",
-      "text": "The plot is mixed and mostly factual. n=0",
+      "text": "A mixed or merely factual review. n=0",
       "label": 2
     },
     {
       "id": "sst_tr_2_1",
-      "text": "The plot is mixed and mostly factual. n=1",
+      "text": "A mixed or merely factual review. n=1",
       "label": 2
     },
     {
       "id": "sst_tr_2_2",
-      "text": "The plot is mixed and mostly factual. n=2",
+      "text": "A mixed or merely factual review. n=2",
       "label": 2
     },
     {
       "id": "sst_tr_2_3",
-      "text": "The plot is mixed and mostly factual. n=3",
+      "text": "A mixed or merely factual review. n=3",
       "label": 2
     },
     {
       "id": "sst_tr_2_4",
-      "text": "The plot is mixed and mostly factual. n=4",
+      "text": "A mixed or merely factual review. n=4",
       "label": 2
     },
     {
       "id": "sst_tr_2_5",
-      "text": "The plot is mixed and mostly factual. n=5",
+      "text": "A mixed or merely factual review. n=5",
       "label": 2
     },
     {
       "id": "sst_tr_2_6",
-      "text": "The plot is mixed and mostly factual. n=6",
+      "text": "A mixed or merely factual review. n=6",
       "label": 2
     },
     {
       "id": "sst_tr_2_7",
-      "text": "The plot is mixed and mostly factual. n=7",
+      "text": "A mixed or merely factual review. n=7",
       "label": 2
     },
     {
       "id": "sst_tr_3_0",
-      "text": "A clearly favorable, warm picture. n=0",
+      "text": "Clearly favorable without being ecstatic. n=0",
       "label": 3
     },
     {
       "id": "sst_tr_3_1",
-      "text": "A clearly favorable, warm picture. n=1",
+      "text": "Clearly favorable without being ecstatic. n=1",
       "label": 3
     },
     {
       "id": "sst_tr_3_2",
-      "text": "A clearly favorable, warm picture. n=2",
+      "text": "Clearly favorable without being ecstatic. n=2",
       "label": 3
     },
     {
       "id": "sst_tr_3_3",
-      "text": "A clearly favorable, warm picture. n=3",
+      "text": "Clearly favorable without being ecstatic. n=3",
       "label": 3
     },
     {
       "id": "sst_tr_3_4",
-      "text": "A clearly favorable, warm picture. n=4",
+      "text": "Clearly favorable without being ecstatic. n=4",
       "label": 3
     },
     {
       "id": "sst_tr_3_5",
-      "text": "A clearly favorable, warm picture. n=5",
+      "text": "Clearly favorable without being ecstatic. n=5",
       "label": 3
     },
     {
       "id": "sst_tr_3_6",
-      "text": "A clearly favorable, warm picture. n=6",
+      "text": "Clearly favorable without being ecstatic. n=6",
       "label": 3
     },
     {
       "id": "sst_tr_3_7",
-      "text": "A clearly favorable, warm picture. n=7",
+      "text": "Clearly favorable without being ecstatic. n=7",
       "label": 3
     },
     {
       "id": "sst_tr_4_0",
-      "text": "Enthusiastic praise throughout, a triumph. n=0",
+      "text": "Enthusiastic praise throughout. n=0",
       "label": 4
     },
     {
       "id": "sst_tr_4_1",
-      "text": "Enthusiastic praise throughout, a triumph. n=1",
+      "text": "Enthusiastic praise throughout. n=1",
       "label": 4
     },
     {
       "id": "sst_tr_4_2",
-      "text": "Enthusiastic praise throughout, a triumph. n=2",
+      "text": "Enthusiastic praise throughout. n=2",
       "label": 4
     },
     {
       "id": "sst_tr_4_3",
-      "text": "Enthusiastic praise throughout, a triumph. n=3",
+      "text": "Enthusiastic praise throughout. n=3",
       "label": 4
     },
     {
       "id": "sst_tr_4_4",
-      "text": "Enthusiastic praise throughout, a triumph. n=4",
+      "text": "Enthusiastic praise throughout. n=4",
       "label": 4
     },
     {
       "id": "sst_tr_4_5",
-      "text": "Enthusiastic praise throughout, a triumph. n=5",
+      "text": "Enthusiastic praise throughout. n=5",
       "label": 4
     },
     {
       "id": "sst_tr_4_6",
-      "text": "Enthusiastic praise throughout, a triumph. n=6",
+      "text": "Enthusiastic praise throughout. n=6",
       "label": 4
     },
     {
       "id": "sst_tr_4_7",
-      "text": "Enthusiastic praise throughout, a triumph. n=7",
+      "text": "Enthusiastic praise throughout. n=7",
       "label": 4
     }
   ],
   "validation": [
     {
-      "id": "sst_va_0",
-      "text": "This movie is a hostile, dismissive waste. val",
+      "id": "sst_va_0_0",
+      "text": "This movie is a hostile, dismissive waste. val n=0",
       "label": 0
     },
     {
-      "id": "sst_va_1",
-      "text": "The film is clearly unfavorable and dull. val",
+      "id": "sst_va_0_1",
+      "text": "This movie is a hostile, dismissive waste. val n=1",
+      "label": 0
+    },
+    {
+      "id": "sst_va_0_2",
+      "text": "This movie is a hostile, dismissive waste. val n=2",
+      "label": 0
+    },
+    {
+      "id": "sst_va_1_0",
+      "text": "The film is clearly unfavorable, not mixed. val n=0",
       "label": 1
     },
     {
-      "id": "sst_va_2",
-      "text": "The plot is mixed and mostly factual. val",
+      "id": "sst_va_1_1",
+      "text": "The film is clearly unfavorable, not mixed. val n=1",
+      "label": 1
+    },
+    {
+      "id": "sst_va_1_2",
+      "text": "The film is clearly unfavorable, not mixed. val n=2",
+      "label": 1
+    },
+    {
+      "id": "sst_va_2_0",
+      "text": "A mixed or merely factual review. val n=0",
       "label": 2
     },
     {
-      "id": "sst_va_3",
-      "text": "A clearly favorable, warm picture. val",
+      "id": "sst_va_2_1",
+      "text": "A mixed or merely factual review. val n=1",
+      "label": 2
+    },
+    {
+      "id": "sst_va_2_2",
+      "text": "A mixed or merely factual review. val n=2",
+      "label": 2
+    },
+    {
+      "id": "sst_va_3_0",
+      "text": "Clearly favorable without being ecstatic. val n=0",
       "label": 3
     },
     {
-      "id": "sst_va_4",
-      "text": "Enthusiastic praise throughout, a triumph. val",
+      "id": "sst_va_3_1",
+      "text": "Clearly favorable without being ecstatic. val n=1",
+      "label": 3
+    },
+    {
+      "id": "sst_va_3_2",
+      "text": "Clearly favorable without being ecstatic. val n=2",
+      "label": 3
+    },
+    {
+      "id": "sst_va_4_0",
+      "text": "Enthusiastic praise throughout. val n=0",
+      "label": 4
+    },
+    {
+      "id": "sst_va_4_1",
+      "text": "Enthusiastic praise throughout. val n=1",
+      "label": 4
+    },
+    {
+      "id": "sst_va_4_2",
+      "text": "Enthusiastic praise throughout. val n=2",
       "label": 4
     }
   ],
   "test": [
     {
-      "id": "sst_te_0",
-      "text": "This movie is a hostile, dismissive waste. test",
+      "id": "sst_te_0_0",
+      "text": "This movie is a hostile, dismissive waste. test n=0",
       "label": 0
     },
     {
-      "id": "sst_te_1",
-      "text": "The film is clearly unfavorable and dull. test",
+      "id": "sst_te_0_1",
+      "text": "This movie is a hostile, dismissive waste. test n=1",
+      "label": 0
+    },
+    {
+      "id": "sst_te_0_2",
+      "text": "This movie is a hostile, dismissive waste. test n=2",
+      "label": 0
+    },
+    {
+      "id": "sst_te_1_0",
+      "text": "The film is clearly unfavorable, not mixed. test n=0",
       "label": 1
     },
     {
-      "id": "sst_te_2",
-      "text": "The plot is mixed and mostly factual. test",
+      "id": "sst_te_1_1",
+      "text": "The film is clearly unfavorable, not mixed. test n=1",
+      "label": 1
+    },
+    {
+      "id": "sst_te_1_2",
+      "text": "The film is clearly unfavorable, not mixed. test n=2",
+      "label": 1
+    },
+    {
+      "id": "sst_te_2_0",
+      "text": "A mixed or merely factual review. test n=0",
       "label": 2
     },
     {
-      "id": "sst_te_3",
-      "text": "A clearly favorable, warm picture. test",
+      "id": "sst_te_2_1",
+      "text": "A mixed or merely factual review. test n=1",
+      "label": 2
+    },
+    {
+      "id": "sst_te_2_2",
+      "text": "A mixed or merely factual review. test n=2",
+      "label": 2
+    },
+    {
+      "id": "sst_te_3_0",
+      "text": "Clearly favorable without being ecstatic. test n=0",
       "label": 3
     },
     {
-      "id": "sst_te_4",
-      "text": "Enthusiastic praise throughout, a triumph. test",
+      "id": "sst_te_3_1",
+      "text": "Clearly favorable without being ecstatic. test n=1",
+      "label": 3
+    },
+    {
+      "id": "sst_te_3_2",
+      "text": "Clearly favorable without being ecstatic. test n=2",
+      "label": 3
+    },
+    {
+      "id": "sst_te_4_0",
+      "text": "Enthusiastic praise throughout. test n=0",
+      "label": 4
+    },
+    {
+      "id": "sst_te_4_1",
+      "text": "Enthusiastic praise throughout. test n=1",
+      "label": 4
+    },
+    {
+      "id": "sst_te_4_2",
+      "text": "Enthusiastic praise throughout. test n=2",
       "label": 4
     }
   ]

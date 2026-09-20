@@ -1,293 +1,2777 @@
 {
   "train": [
     {
-      "id": "b77_activate_my_card_0",
-      "text": "Please activate my new card number 0",
+      "id": "b77_activate_my_card_tr_0",
+      "text": "Support request about activate my card, case 0.",
       "label": "activate_my_card",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_1",
-      "text": "Please activate my new card number 1",
+      "id": "b77_activate_my_card_tr_1",
+      "text": "Support request about activate my card, case 1.",
       "label": "activate_my_card",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_2",
-      "text": "Please activate my new card number 2",
+      "id": "b77_activate_my_card_tr_2",
+      "text": "Support request about activate my card, case 2.",
       "label": "activate_my_card",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_3",
-      "text": "Please activate my new card number 3",
+      "id": "b77_activate_my_card_tr_3",
+      "text": "Support request about activate my card, case 3.",
       "label": "activate_my_card",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_4",
-      "text": "Please activate my new card number 4",
-      "label": "activate_my_card",
+      "id": "b77_age_limit_tr_0",
+      "text": "Support request about age limit, case 0.",
+      "label": "age_limit",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_5",
-      "text": "Please activate my new card number 5",
-      "label": "activate_my_card",
+      "id": "b77_age_limit_tr_1",
+      "text": "Support request about age limit, case 1.",
+      "label": "age_limit",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_6",
-      "text": "Please activate my new card number 6",
-      "label": "activate_my_card",
+      "id": "b77_age_limit_tr_2",
+      "text": "Support request about age limit, case 2.",
+      "label": "age_limit",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_7",
-      "text": "Please activate my new card number 7",
-      "label": "activate_my_card",
+      "id": "b77_age_limit_tr_3",
+      "text": "Support request about age limit, case 3.",
+      "label": "age_limit",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_8",
-      "text": "Please activate my new card number 8",
-      "label": "activate_my_card",
+      "id": "b77_apple_pay_or_google_pay_tr_0",
+      "text": "Support request about apple pay or google pay, case 0.",
+      "label": "apple_pay_or_google_pay",
       "split": "train"
     },
     {
-      "id": "b77_activate_my_card_9",
-      "text": "Please activate my new card number 9",
-      "label": "activate_my_card",
+      "id": "b77_apple_pay_or_google_pay_tr_1",
+      "text": "Support request about apple pay or google pay, case 1.",
+      "label": "apple_pay_or_google_pay",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_0",
-      "text": "Why was I charged an ATM fee on withdrawal 0",
+      "id": "b77_apple_pay_or_google_pay_tr_2",
+      "text": "Support request about apple pay or google pay, case 2.",
+      "label": "apple_pay_or_google_pay",
+      "split": "train"
+    },
+    {
+      "id": "b77_apple_pay_or_google_pay_tr_3",
+      "text": "Support request about apple pay or google pay, case 3.",
+      "label": "apple_pay_or_google_pay",
+      "split": "train"
+    },
+    {
+      "id": "b77_atm_support_tr_0",
+      "text": "Support request about atm support, case 0.",
+      "label": "atm_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_atm_support_tr_1",
+      "text": "Support request about atm support, case 1.",
+      "label": "atm_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_atm_support_tr_2",
+      "text": "Support request about atm support, case 2.",
+      "label": "atm_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_atm_support_tr_3",
+      "text": "Support request about atm support, case 3.",
+      "label": "atm_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_automatic_top_up_tr_0",
+      "text": "Support request about automatic top up, case 0.",
+      "label": "automatic_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_automatic_top_up_tr_1",
+      "text": "Support request about automatic top up, case 1.",
+      "label": "automatic_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_automatic_top_up_tr_2",
+      "text": "Support request about automatic top up, case 2.",
+      "label": "automatic_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_automatic_top_up_tr_3",
+      "text": "Support request about automatic top up, case 3.",
+      "label": "automatic_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_bank_transfer_tr_0",
+      "text": "Support request about balance not updated after bank transfer, case 0.",
+      "label": "balance_not_updated_after_bank_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_bank_transfer_tr_1",
+      "text": "Support request about balance not updated after bank transfer, case 1.",
+      "label": "balance_not_updated_after_bank_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_bank_transfer_tr_2",
+      "text": "Support request about balance not updated after bank transfer, case 2.",
+      "label": "balance_not_updated_after_bank_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_bank_transfer_tr_3",
+      "text": "Support request about balance not updated after bank transfer, case 3.",
+      "label": "balance_not_updated_after_bank_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_cheque_or_cash_deposit_tr_0",
+      "text": "Support request about balance not updated after cheque or cash deposit, case 0.",
+      "label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_cheque_or_cash_deposit_tr_1",
+      "text": "Support request about balance not updated after cheque or cash deposit, case 1.",
+      "label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_cheque_or_cash_deposit_tr_2",
+      "text": "Support request about balance not updated after cheque or cash deposit, case 2.",
+      "label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "split": "train"
+    },
+    {
+      "id": "b77_balance_not_updated_after_cheque_or_cash_deposit_tr_3",
+      "text": "Support request about balance not updated after cheque or cash deposit, case 3.",
+      "label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "split": "train"
+    },
+    {
+      "id": "b77_beneficiary_not_allowed_tr_0",
+      "text": "Support request about beneficiary not allowed, case 0.",
+      "label": "beneficiary_not_allowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_beneficiary_not_allowed_tr_1",
+      "text": "Support request about beneficiary not allowed, case 1.",
+      "label": "beneficiary_not_allowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_beneficiary_not_allowed_tr_2",
+      "text": "Support request about beneficiary not allowed, case 2.",
+      "label": "beneficiary_not_allowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_beneficiary_not_allowed_tr_3",
+      "text": "Support request about beneficiary not allowed, case 3.",
+      "label": "beneficiary_not_allowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_cancel_transfer_tr_0",
+      "text": "Support request about cancel transfer, case 0.",
+      "label": "cancel_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_cancel_transfer_tr_1",
+      "text": "Support request about cancel transfer, case 1.",
+      "label": "cancel_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_cancel_transfer_tr_2",
+      "text": "Support request about cancel transfer, case 2.",
+      "label": "cancel_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_cancel_transfer_tr_3",
+      "text": "Support request about cancel transfer, case 3.",
+      "label": "cancel_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_about_to_expire_tr_0",
+      "text": "Support request about card about to expire, case 0.",
+      "label": "card_about_to_expire",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_about_to_expire_tr_1",
+      "text": "Support request about card about to expire, case 1.",
+      "label": "card_about_to_expire",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_about_to_expire_tr_2",
+      "text": "Support request about card about to expire, case 2.",
+      "label": "card_about_to_expire",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_about_to_expire_tr_3",
+      "text": "Support request about card about to expire, case 3.",
+      "label": "card_about_to_expire",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_acceptance_tr_0",
+      "text": "Support request about card acceptance, case 0.",
+      "label": "card_acceptance",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_acceptance_tr_1",
+      "text": "Support request about card acceptance, case 1.",
+      "label": "card_acceptance",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_acceptance_tr_2",
+      "text": "Support request about card acceptance, case 2.",
+      "label": "card_acceptance",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_acceptance_tr_3",
+      "text": "Support request about card acceptance, case 3.",
+      "label": "card_acceptance",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_arrival_tr_0",
+      "text": "Support request about card arrival, case 0.",
+      "label": "card_arrival",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_arrival_tr_1",
+      "text": "Support request about card arrival, case 1.",
+      "label": "card_arrival",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_arrival_tr_2",
+      "text": "Support request about card arrival, case 2.",
+      "label": "card_arrival",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_arrival_tr_3",
+      "text": "Support request about card arrival, case 3.",
+      "label": "card_arrival",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_delivery_estimate_tr_0",
+      "text": "Support request about card delivery estimate, case 0.",
+      "label": "card_delivery_estimate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_delivery_estimate_tr_1",
+      "text": "Support request about card delivery estimate, case 1.",
+      "label": "card_delivery_estimate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_delivery_estimate_tr_2",
+      "text": "Support request about card delivery estimate, case 2.",
+      "label": "card_delivery_estimate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_delivery_estimate_tr_3",
+      "text": "Support request about card delivery estimate, case 3.",
+      "label": "card_delivery_estimate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_linking_tr_0",
+      "text": "Support request about card linking, case 0.",
+      "label": "card_linking",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_linking_tr_1",
+      "text": "Support request about card linking, case 1.",
+      "label": "card_linking",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_linking_tr_2",
+      "text": "Support request about card linking, case 2.",
+      "label": "card_linking",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_linking_tr_3",
+      "text": "Support request about card linking, case 3.",
+      "label": "card_linking",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_not_working_tr_0",
+      "text": "Support request about card not working, case 0.",
+      "label": "card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_not_working_tr_1",
+      "text": "Support request about card not working, case 1.",
+      "label": "card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_not_working_tr_2",
+      "text": "Support request about card not working, case 2.",
+      "label": "card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_not_working_tr_3",
+      "text": "Support request about card not working, case 3.",
+      "label": "card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_fee_charged_tr_0",
+      "text": "Support request about card payment fee charged, case 0.",
+      "label": "card_payment_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_fee_charged_tr_1",
+      "text": "Support request about card payment fee charged, case 1.",
+      "label": "card_payment_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_fee_charged_tr_2",
+      "text": "Support request about card payment fee charged, case 2.",
+      "label": "card_payment_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_fee_charged_tr_3",
+      "text": "Support request about card payment fee charged, case 3.",
+      "label": "card_payment_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_not_recognised_tr_0",
+      "text": "Support request about card payment not recognised, case 0.",
+      "label": "card_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_not_recognised_tr_1",
+      "text": "Support request about card payment not recognised, case 1.",
+      "label": "card_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_not_recognised_tr_2",
+      "text": "Support request about card payment not recognised, case 2.",
+      "label": "card_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_not_recognised_tr_3",
+      "text": "Support request about card payment not recognised, case 3.",
+      "label": "card_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_wrong_exchange_rate_tr_0",
+      "text": "Support request about card payment wrong exchange rate, case 0.",
+      "label": "card_payment_wrong_exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_wrong_exchange_rate_tr_1",
+      "text": "Support request about card payment wrong exchange rate, case 1.",
+      "label": "card_payment_wrong_exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_wrong_exchange_rate_tr_2",
+      "text": "Support request about card payment wrong exchange rate, case 2.",
+      "label": "card_payment_wrong_exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_payment_wrong_exchange_rate_tr_3",
+      "text": "Support request about card payment wrong exchange rate, case 3.",
+      "label": "card_payment_wrong_exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_swallowed_tr_0",
+      "text": "Support request about card swallowed, case 0.",
+      "label": "card_swallowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_swallowed_tr_1",
+      "text": "Support request about card swallowed, case 1.",
+      "label": "card_swallowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_swallowed_tr_2",
+      "text": "Support request about card swallowed, case 2.",
+      "label": "card_swallowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_card_swallowed_tr_3",
+      "text": "Support request about card swallowed, case 3.",
+      "label": "card_swallowed",
+      "split": "train"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_tr_0",
+      "text": "Support request about cash withdrawal charge, case 0.",
       "label": "cash_withdrawal_charge",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_1",
-      "text": "Why was I charged an ATM fee on withdrawal 1",
+      "id": "b77_cash_withdrawal_charge_tr_1",
+      "text": "Support request about cash withdrawal charge, case 1.",
       "label": "cash_withdrawal_charge",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_2",
-      "text": "Why was I charged an ATM fee on withdrawal 2",
+      "id": "b77_cash_withdrawal_charge_tr_2",
+      "text": "Support request about cash withdrawal charge, case 2.",
       "label": "cash_withdrawal_charge",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_3",
-      "text": "Why was I charged an ATM fee on withdrawal 3",
+      "id": "b77_cash_withdrawal_charge_tr_3",
+      "text": "Support request about cash withdrawal charge, case 3.",
       "label": "cash_withdrawal_charge",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_4",
-      "text": "Why was I charged an ATM fee on withdrawal 4",
-      "label": "cash_withdrawal_charge",
+      "id": "b77_cash_withdrawal_not_recognised_tr_0",
+      "text": "Support request about cash withdrawal not recognised, case 0.",
+      "label": "cash_withdrawal_not_recognised",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_5",
-      "text": "Why was I charged an ATM fee on withdrawal 5",
-      "label": "cash_withdrawal_charge",
+      "id": "b77_cash_withdrawal_not_recognised_tr_1",
+      "text": "Support request about cash withdrawal not recognised, case 1.",
+      "label": "cash_withdrawal_not_recognised",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_6",
-      "text": "Why was I charged an ATM fee on withdrawal 6",
-      "label": "cash_withdrawal_charge",
+      "id": "b77_cash_withdrawal_not_recognised_tr_2",
+      "text": "Support request about cash withdrawal not recognised, case 2.",
+      "label": "cash_withdrawal_not_recognised",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_7",
-      "text": "Why was I charged an ATM fee on withdrawal 7",
-      "label": "cash_withdrawal_charge",
+      "id": "b77_cash_withdrawal_not_recognised_tr_3",
+      "text": "Support request about cash withdrawal not recognised, case 3.",
+      "label": "cash_withdrawal_not_recognised",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_8",
-      "text": "Why was I charged an ATM fee on withdrawal 8",
-      "label": "cash_withdrawal_charge",
+      "id": "b77_change_pin_tr_0",
+      "text": "Support request about change pin, case 0.",
+      "label": "change_pin",
       "split": "train"
     },
     {
-      "id": "b77_cash_withdrawal_charge_9",
-      "text": "Why was I charged an ATM fee on withdrawal 9",
-      "label": "cash_withdrawal_charge",
+      "id": "b77_change_pin_tr_1",
+      "text": "Support request about change pin, case 1.",
+      "label": "change_pin",
       "split": "train"
     },
     {
-      "id": "b77_transfer_timing_0",
-      "text": "How long will transfer 0 take to arrive",
-      "label": "transfer_timing",
+      "id": "b77_change_pin_tr_2",
+      "text": "Support request about change pin, case 2.",
+      "label": "change_pin",
       "split": "train"
     },
     {
-      "id": "b77_transfer_timing_1",
-      "text": "How long will transfer 1 take to arrive",
-      "label": "transfer_timing",
+      "id": "b77_change_pin_tr_3",
+      "text": "Support request about change pin, case 3.",
+      "label": "change_pin",
       "split": "train"
     },
     {
-      "id": "b77_transfer_timing_2",
-      "text": "How long will transfer 2 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_transfer_timing_3",
-      "text": "How long will transfer 3 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_transfer_timing_4",
-      "text": "How long will transfer 4 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_transfer_timing_5",
-      "text": "How long will transfer 5 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_transfer_timing_6",
-      "text": "How long will transfer 6 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_transfer_timing_7",
-      "text": "How long will transfer 7 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_transfer_timing_8",
-      "text": "How long will transfer 8 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_transfer_timing_9",
-      "text": "How long will transfer 9 take to arrive",
-      "label": "transfer_timing",
-      "split": "train"
-    },
-    {
-      "id": "b77_compromised_card_0",
-      "text": "I think my card 0 was stolen last night",
+      "id": "b77_compromised_card_tr_0",
+      "text": "Support request about compromised card, case 0.",
       "label": "compromised_card",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_1",
-      "text": "I think my card 1 was stolen last night",
+      "id": "b77_compromised_card_tr_1",
+      "text": "Support request about compromised card, case 1.",
       "label": "compromised_card",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_2",
-      "text": "I think my card 2 was stolen last night",
+      "id": "b77_compromised_card_tr_2",
+      "text": "Support request about compromised card, case 2.",
       "label": "compromised_card",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_3",
-      "text": "I think my card 3 was stolen last night",
+      "id": "b77_compromised_card_tr_3",
+      "text": "Support request about compromised card, case 3.",
       "label": "compromised_card",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_4",
-      "text": "I think my card 4 was stolen last night",
-      "label": "compromised_card",
+      "id": "b77_contactless_not_working_tr_0",
+      "text": "Support request about contactless not working, case 0.",
+      "label": "contactless_not_working",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_5",
-      "text": "I think my card 5 was stolen last night",
-      "label": "compromised_card",
+      "id": "b77_contactless_not_working_tr_1",
+      "text": "Support request about contactless not working, case 1.",
+      "label": "contactless_not_working",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_6",
-      "text": "I think my card 6 was stolen last night",
-      "label": "compromised_card",
+      "id": "b77_contactless_not_working_tr_2",
+      "text": "Support request about contactless not working, case 2.",
+      "label": "contactless_not_working",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_7",
-      "text": "I think my card 7 was stolen last night",
-      "label": "compromised_card",
+      "id": "b77_contactless_not_working_tr_3",
+      "text": "Support request about contactless not working, case 3.",
+      "label": "contactless_not_working",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_8",
-      "text": "I think my card 8 was stolen last night",
-      "label": "compromised_card",
+      "id": "b77_country_support_tr_0",
+      "text": "Support request about country support, case 0.",
+      "label": "country_support",
       "split": "train"
     },
     {
-      "id": "b77_compromised_card_9",
-      "text": "I think my card 9 was stolen last night",
-      "label": "compromised_card",
+      "id": "b77_country_support_tr_1",
+      "text": "Support request about country support, case 1.",
+      "label": "country_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_country_support_tr_2",
+      "text": "Support request about country support, case 2.",
+      "label": "country_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_country_support_tr_3",
+      "text": "Support request about country support, case 3.",
+      "label": "country_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_card_payment_tr_0",
+      "text": "Support request about declined card payment, case 0.",
+      "label": "declined_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_card_payment_tr_1",
+      "text": "Support request about declined card payment, case 1.",
+      "label": "declined_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_card_payment_tr_2",
+      "text": "Support request about declined card payment, case 2.",
+      "label": "declined_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_card_payment_tr_3",
+      "text": "Support request about declined card payment, case 3.",
+      "label": "declined_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_cash_withdrawal_tr_0",
+      "text": "Support request about declined cash withdrawal, case 0.",
+      "label": "declined_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_cash_withdrawal_tr_1",
+      "text": "Support request about declined cash withdrawal, case 1.",
+      "label": "declined_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_cash_withdrawal_tr_2",
+      "text": "Support request about declined cash withdrawal, case 2.",
+      "label": "declined_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_cash_withdrawal_tr_3",
+      "text": "Support request about declined cash withdrawal, case 3.",
+      "label": "declined_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_transfer_tr_0",
+      "text": "Support request about declined transfer, case 0.",
+      "label": "declined_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_transfer_tr_1",
+      "text": "Support request about declined transfer, case 1.",
+      "label": "declined_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_transfer_tr_2",
+      "text": "Support request about declined transfer, case 2.",
+      "label": "declined_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_declined_transfer_tr_3",
+      "text": "Support request about declined transfer, case 3.",
+      "label": "declined_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_direct_debit_payment_not_recognised_tr_0",
+      "text": "Support request about direct debit payment not recognised, case 0.",
+      "label": "direct_debit_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_direct_debit_payment_not_recognised_tr_1",
+      "text": "Support request about direct debit payment not recognised, case 1.",
+      "label": "direct_debit_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_direct_debit_payment_not_recognised_tr_2",
+      "text": "Support request about direct debit payment not recognised, case 2.",
+      "label": "direct_debit_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_direct_debit_payment_not_recognised_tr_3",
+      "text": "Support request about direct debit payment not recognised, case 3.",
+      "label": "direct_debit_payment_not_recognised",
+      "split": "train"
+    },
+    {
+      "id": "b77_disposable_card_limits_tr_0",
+      "text": "Support request about disposable card limits, case 0.",
+      "label": "disposable_card_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_disposable_card_limits_tr_1",
+      "text": "Support request about disposable card limits, case 1.",
+      "label": "disposable_card_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_disposable_card_limits_tr_2",
+      "text": "Support request about disposable card limits, case 2.",
+      "label": "disposable_card_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_disposable_card_limits_tr_3",
+      "text": "Support request about disposable card limits, case 3.",
+      "label": "disposable_card_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_edit_personal_details_tr_0",
+      "text": "Support request about edit personal details, case 0.",
+      "label": "edit_personal_details",
+      "split": "train"
+    },
+    {
+      "id": "b77_edit_personal_details_tr_1",
+      "text": "Support request about edit personal details, case 1.",
+      "label": "edit_personal_details",
+      "split": "train"
+    },
+    {
+      "id": "b77_edit_personal_details_tr_2",
+      "text": "Support request about edit personal details, case 2.",
+      "label": "edit_personal_details",
+      "split": "train"
+    },
+    {
+      "id": "b77_edit_personal_details_tr_3",
+      "text": "Support request about edit personal details, case 3.",
+      "label": "edit_personal_details",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_charge_tr_0",
+      "text": "Support request about exchange charge, case 0.",
+      "label": "exchange_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_charge_tr_1",
+      "text": "Support request about exchange charge, case 1.",
+      "label": "exchange_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_charge_tr_2",
+      "text": "Support request about exchange charge, case 2.",
+      "label": "exchange_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_charge_tr_3",
+      "text": "Support request about exchange charge, case 3.",
+      "label": "exchange_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_rate_tr_0",
+      "text": "Support request about exchange rate, case 0.",
+      "label": "exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_rate_tr_1",
+      "text": "Support request about exchange rate, case 1.",
+      "label": "exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_rate_tr_2",
+      "text": "Support request about exchange rate, case 2.",
+      "label": "exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_rate_tr_3",
+      "text": "Support request about exchange rate, case 3.",
+      "label": "exchange_rate",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_via_app_tr_0",
+      "text": "Support request about exchange via app, case 0.",
+      "label": "exchange_via_app",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_via_app_tr_1",
+      "text": "Support request about exchange via app, case 1.",
+      "label": "exchange_via_app",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_via_app_tr_2",
+      "text": "Support request about exchange via app, case 2.",
+      "label": "exchange_via_app",
+      "split": "train"
+    },
+    {
+      "id": "b77_exchange_via_app_tr_3",
+      "text": "Support request about exchange via app, case 3.",
+      "label": "exchange_via_app",
+      "split": "train"
+    },
+    {
+      "id": "b77_extra_charge_on_statement_tr_0",
+      "text": "Support request about extra charge on statement, case 0.",
+      "label": "extra_charge_on_statement",
+      "split": "train"
+    },
+    {
+      "id": "b77_extra_charge_on_statement_tr_1",
+      "text": "Support request about extra charge on statement, case 1.",
+      "label": "extra_charge_on_statement",
+      "split": "train"
+    },
+    {
+      "id": "b77_extra_charge_on_statement_tr_2",
+      "text": "Support request about extra charge on statement, case 2.",
+      "label": "extra_charge_on_statement",
+      "split": "train"
+    },
+    {
+      "id": "b77_extra_charge_on_statement_tr_3",
+      "text": "Support request about extra charge on statement, case 3.",
+      "label": "extra_charge_on_statement",
+      "split": "train"
+    },
+    {
+      "id": "b77_failed_transfer_tr_0",
+      "text": "Support request about failed transfer, case 0.",
+      "label": "failed_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_failed_transfer_tr_1",
+      "text": "Support request about failed transfer, case 1.",
+      "label": "failed_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_failed_transfer_tr_2",
+      "text": "Support request about failed transfer, case 2.",
+      "label": "failed_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_failed_transfer_tr_3",
+      "text": "Support request about failed transfer, case 3.",
+      "label": "failed_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_fiat_currency_support_tr_0",
+      "text": "Support request about fiat currency support, case 0.",
+      "label": "fiat_currency_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_fiat_currency_support_tr_1",
+      "text": "Support request about fiat currency support, case 1.",
+      "label": "fiat_currency_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_fiat_currency_support_tr_2",
+      "text": "Support request about fiat currency support, case 2.",
+      "label": "fiat_currency_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_fiat_currency_support_tr_3",
+      "text": "Support request about fiat currency support, case 3.",
+      "label": "fiat_currency_support",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_disposable_virtual_card_tr_0",
+      "text": "Support request about get disposable virtual card, case 0.",
+      "label": "get_disposable_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_disposable_virtual_card_tr_1",
+      "text": "Support request about get disposable virtual card, case 1.",
+      "label": "get_disposable_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_disposable_virtual_card_tr_2",
+      "text": "Support request about get disposable virtual card, case 2.",
+      "label": "get_disposable_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_disposable_virtual_card_tr_3",
+      "text": "Support request about get disposable virtual card, case 3.",
+      "label": "get_disposable_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_physical_card_tr_0",
+      "text": "Support request about get physical card, case 0.",
+      "label": "get_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_physical_card_tr_1",
+      "text": "Support request about get physical card, case 1.",
+      "label": "get_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_physical_card_tr_2",
+      "text": "Support request about get physical card, case 2.",
+      "label": "get_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_get_physical_card_tr_3",
+      "text": "Support request about get physical card, case 3.",
+      "label": "get_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_spare_card_tr_0",
+      "text": "Support request about getting spare card, case 0.",
+      "label": "getting_spare_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_spare_card_tr_1",
+      "text": "Support request about getting spare card, case 1.",
+      "label": "getting_spare_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_spare_card_tr_2",
+      "text": "Support request about getting spare card, case 2.",
+      "label": "getting_spare_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_spare_card_tr_3",
+      "text": "Support request about getting spare card, case 3.",
+      "label": "getting_spare_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_virtual_card_tr_0",
+      "text": "Support request about getting virtual card, case 0.",
+      "label": "getting_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_virtual_card_tr_1",
+      "text": "Support request about getting virtual card, case 1.",
+      "label": "getting_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_virtual_card_tr_2",
+      "text": "Support request about getting virtual card, case 2.",
+      "label": "getting_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_getting_virtual_card_tr_3",
+      "text": "Support request about getting virtual card, case 3.",
+      "label": "getting_virtual_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_card_tr_0",
+      "text": "Support request about lost or stolen card, case 0.",
+      "label": "lost_or_stolen_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_card_tr_1",
+      "text": "Support request about lost or stolen card, case 1.",
+      "label": "lost_or_stolen_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_card_tr_2",
+      "text": "Support request about lost or stolen card, case 2.",
+      "label": "lost_or_stolen_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_card_tr_3",
+      "text": "Support request about lost or stolen card, case 3.",
+      "label": "lost_or_stolen_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_phone_tr_0",
+      "text": "Support request about lost or stolen phone, case 0.",
+      "label": "lost_or_stolen_phone",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_phone_tr_1",
+      "text": "Support request about lost or stolen phone, case 1.",
+      "label": "lost_or_stolen_phone",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_phone_tr_2",
+      "text": "Support request about lost or stolen phone, case 2.",
+      "label": "lost_or_stolen_phone",
+      "split": "train"
+    },
+    {
+      "id": "b77_lost_or_stolen_phone_tr_3",
+      "text": "Support request about lost or stolen phone, case 3.",
+      "label": "lost_or_stolen_phone",
+      "split": "train"
+    },
+    {
+      "id": "b77_order_physical_card_tr_0",
+      "text": "Support request about order physical card, case 0.",
+      "label": "order_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_order_physical_card_tr_1",
+      "text": "Support request about order physical card, case 1.",
+      "label": "order_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_order_physical_card_tr_2",
+      "text": "Support request about order physical card, case 2.",
+      "label": "order_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_order_physical_card_tr_3",
+      "text": "Support request about order physical card, case 3.",
+      "label": "order_physical_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_passcode_forgotten_tr_0",
+      "text": "Support request about passcode forgotten, case 0.",
+      "label": "passcode_forgotten",
+      "split": "train"
+    },
+    {
+      "id": "b77_passcode_forgotten_tr_1",
+      "text": "Support request about passcode forgotten, case 1.",
+      "label": "passcode_forgotten",
+      "split": "train"
+    },
+    {
+      "id": "b77_passcode_forgotten_tr_2",
+      "text": "Support request about passcode forgotten, case 2.",
+      "label": "passcode_forgotten",
+      "split": "train"
+    },
+    {
+      "id": "b77_passcode_forgotten_tr_3",
+      "text": "Support request about passcode forgotten, case 3.",
+      "label": "passcode_forgotten",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_card_payment_tr_0",
+      "text": "Support request about pending card payment, case 0.",
+      "label": "pending_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_card_payment_tr_1",
+      "text": "Support request about pending card payment, case 1.",
+      "label": "pending_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_card_payment_tr_2",
+      "text": "Support request about pending card payment, case 2.",
+      "label": "pending_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_card_payment_tr_3",
+      "text": "Support request about pending card payment, case 3.",
+      "label": "pending_card_payment",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_cash_withdrawal_tr_0",
+      "text": "Support request about pending cash withdrawal, case 0.",
+      "label": "pending_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_cash_withdrawal_tr_1",
+      "text": "Support request about pending cash withdrawal, case 1.",
+      "label": "pending_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_cash_withdrawal_tr_2",
+      "text": "Support request about pending cash withdrawal, case 2.",
+      "label": "pending_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_cash_withdrawal_tr_3",
+      "text": "Support request about pending cash withdrawal, case 3.",
+      "label": "pending_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_top_up_tr_0",
+      "text": "Support request about pending top up, case 0.",
+      "label": "pending_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_top_up_tr_1",
+      "text": "Support request about pending top up, case 1.",
+      "label": "pending_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_top_up_tr_2",
+      "text": "Support request about pending top up, case 2.",
+      "label": "pending_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_top_up_tr_3",
+      "text": "Support request about pending top up, case 3.",
+      "label": "pending_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_transfer_tr_0",
+      "text": "Support request about pending transfer, case 0.",
+      "label": "pending_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_transfer_tr_1",
+      "text": "Support request about pending transfer, case 1.",
+      "label": "pending_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_transfer_tr_2",
+      "text": "Support request about pending transfer, case 2.",
+      "label": "pending_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_pending_transfer_tr_3",
+      "text": "Support request about pending transfer, case 3.",
+      "label": "pending_transfer",
+      "split": "train"
+    },
+    {
+      "id": "b77_pin_blocked_tr_0",
+      "text": "Support request about pin blocked, case 0.",
+      "label": "pin_blocked",
+      "split": "train"
+    },
+    {
+      "id": "b77_pin_blocked_tr_1",
+      "text": "Support request about pin blocked, case 1.",
+      "label": "pin_blocked",
+      "split": "train"
+    },
+    {
+      "id": "b77_pin_blocked_tr_2",
+      "text": "Support request about pin blocked, case 2.",
+      "label": "pin_blocked",
+      "split": "train"
+    },
+    {
+      "id": "b77_pin_blocked_tr_3",
+      "text": "Support request about pin blocked, case 3.",
+      "label": "pin_blocked",
+      "split": "train"
+    },
+    {
+      "id": "b77_receiving_money_tr_0",
+      "text": "Support request about receiving money, case 0.",
+      "label": "receiving_money",
+      "split": "train"
+    },
+    {
+      "id": "b77_receiving_money_tr_1",
+      "text": "Support request about receiving money, case 1.",
+      "label": "receiving_money",
+      "split": "train"
+    },
+    {
+      "id": "b77_receiving_money_tr_2",
+      "text": "Support request about receiving money, case 2.",
+      "label": "receiving_money",
+      "split": "train"
+    },
+    {
+      "id": "b77_receiving_money_tr_3",
+      "text": "Support request about receiving money, case 3.",
+      "label": "receiving_money",
+      "split": "train"
+    },
+    {
+      "id": "b77_Refund_not_showing_up_tr_0",
+      "text": "Support request about Refund not showing up, case 0.",
+      "label": "Refund_not_showing_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_Refund_not_showing_up_tr_1",
+      "text": "Support request about Refund not showing up, case 1.",
+      "label": "Refund_not_showing_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_Refund_not_showing_up_tr_2",
+      "text": "Support request about Refund not showing up, case 2.",
+      "label": "Refund_not_showing_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_Refund_not_showing_up_tr_3",
+      "text": "Support request about Refund not showing up, case 3.",
+      "label": "Refund_not_showing_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_request_refund_tr_0",
+      "text": "Support request about request refund, case 0.",
+      "label": "request_refund",
+      "split": "train"
+    },
+    {
+      "id": "b77_request_refund_tr_1",
+      "text": "Support request about request refund, case 1.",
+      "label": "request_refund",
+      "split": "train"
+    },
+    {
+      "id": "b77_request_refund_tr_2",
+      "text": "Support request about request refund, case 2.",
+      "label": "request_refund",
+      "split": "train"
+    },
+    {
+      "id": "b77_request_refund_tr_3",
+      "text": "Support request about request refund, case 3.",
+      "label": "request_refund",
+      "split": "train"
+    },
+    {
+      "id": "b77_reverted_card_payment?_tr_0",
+      "text": "Support request about reverted card payment, case 0.",
+      "label": "reverted_card_payment?",
+      "split": "train"
+    },
+    {
+      "id": "b77_reverted_card_payment?_tr_1",
+      "text": "Support request about reverted card payment, case 1.",
+      "label": "reverted_card_payment?",
+      "split": "train"
+    },
+    {
+      "id": "b77_reverted_card_payment?_tr_2",
+      "text": "Support request about reverted card payment, case 2.",
+      "label": "reverted_card_payment?",
+      "split": "train"
+    },
+    {
+      "id": "b77_reverted_card_payment?_tr_3",
+      "text": "Support request about reverted card payment, case 3.",
+      "label": "reverted_card_payment?",
+      "split": "train"
+    },
+    {
+      "id": "b77_supported_cards_and_currencies_tr_0",
+      "text": "Support request about supported cards and currencies, case 0.",
+      "label": "supported_cards_and_currencies",
+      "split": "train"
+    },
+    {
+      "id": "b77_supported_cards_and_currencies_tr_1",
+      "text": "Support request about supported cards and currencies, case 1.",
+      "label": "supported_cards_and_currencies",
+      "split": "train"
+    },
+    {
+      "id": "b77_supported_cards_and_currencies_tr_2",
+      "text": "Support request about supported cards and currencies, case 2.",
+      "label": "supported_cards_and_currencies",
+      "split": "train"
+    },
+    {
+      "id": "b77_supported_cards_and_currencies_tr_3",
+      "text": "Support request about supported cards and currencies, case 3.",
+      "label": "supported_cards_and_currencies",
+      "split": "train"
+    },
+    {
+      "id": "b77_terminate_account_tr_0",
+      "text": "Support request about terminate account, case 0.",
+      "label": "terminate_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_terminate_account_tr_1",
+      "text": "Support request about terminate account, case 1.",
+      "label": "terminate_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_terminate_account_tr_2",
+      "text": "Support request about terminate account, case 2.",
+      "label": "terminate_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_terminate_account_tr_3",
+      "text": "Support request about terminate account, case 3.",
+      "label": "terminate_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_bank_transfer_charge_tr_0",
+      "text": "Support request about top up by bank transfer charge, case 0.",
+      "label": "top_up_by_bank_transfer_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_bank_transfer_charge_tr_1",
+      "text": "Support request about top up by bank transfer charge, case 1.",
+      "label": "top_up_by_bank_transfer_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_bank_transfer_charge_tr_2",
+      "text": "Support request about top up by bank transfer charge, case 2.",
+      "label": "top_up_by_bank_transfer_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_bank_transfer_charge_tr_3",
+      "text": "Support request about top up by bank transfer charge, case 3.",
+      "label": "top_up_by_bank_transfer_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_card_charge_tr_0",
+      "text": "Support request about top up by card charge, case 0.",
+      "label": "top_up_by_card_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_card_charge_tr_1",
+      "text": "Support request about top up by card charge, case 1.",
+      "label": "top_up_by_card_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_card_charge_tr_2",
+      "text": "Support request about top up by card charge, case 2.",
+      "label": "top_up_by_card_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_card_charge_tr_3",
+      "text": "Support request about top up by card charge, case 3.",
+      "label": "top_up_by_card_charge",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_cash_or_cheque_tr_0",
+      "text": "Support request about top up by cash or cheque, case 0.",
+      "label": "top_up_by_cash_or_cheque",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_cash_or_cheque_tr_1",
+      "text": "Support request about top up by cash or cheque, case 1.",
+      "label": "top_up_by_cash_or_cheque",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_cash_or_cheque_tr_2",
+      "text": "Support request about top up by cash or cheque, case 2.",
+      "label": "top_up_by_cash_or_cheque",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_by_cash_or_cheque_tr_3",
+      "text": "Support request about top up by cash or cheque, case 3.",
+      "label": "top_up_by_cash_or_cheque",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_failed_tr_0",
+      "text": "Support request about top up failed, case 0.",
+      "label": "top_up_failed",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_failed_tr_1",
+      "text": "Support request about top up failed, case 1.",
+      "label": "top_up_failed",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_failed_tr_2",
+      "text": "Support request about top up failed, case 2.",
+      "label": "top_up_failed",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_failed_tr_3",
+      "text": "Support request about top up failed, case 3.",
+      "label": "top_up_failed",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_limits_tr_0",
+      "text": "Support request about top up limits, case 0.",
+      "label": "top_up_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_limits_tr_1",
+      "text": "Support request about top up limits, case 1.",
+      "label": "top_up_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_limits_tr_2",
+      "text": "Support request about top up limits, case 2.",
+      "label": "top_up_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_limits_tr_3",
+      "text": "Support request about top up limits, case 3.",
+      "label": "top_up_limits",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_reverted_tr_0",
+      "text": "Support request about top up reverted, case 0.",
+      "label": "top_up_reverted",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_reverted_tr_1",
+      "text": "Support request about top up reverted, case 1.",
+      "label": "top_up_reverted",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_reverted_tr_2",
+      "text": "Support request about top up reverted, case 2.",
+      "label": "top_up_reverted",
+      "split": "train"
+    },
+    {
+      "id": "b77_top_up_reverted_tr_3",
+      "text": "Support request about top up reverted, case 3.",
+      "label": "top_up_reverted",
+      "split": "train"
+    },
+    {
+      "id": "b77_topping_up_by_card_tr_0",
+      "text": "Support request about topping up by card, case 0.",
+      "label": "topping_up_by_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_topping_up_by_card_tr_1",
+      "text": "Support request about topping up by card, case 1.",
+      "label": "topping_up_by_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_topping_up_by_card_tr_2",
+      "text": "Support request about topping up by card, case 2.",
+      "label": "topping_up_by_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_topping_up_by_card_tr_3",
+      "text": "Support request about topping up by card, case 3.",
+      "label": "topping_up_by_card",
+      "split": "train"
+    },
+    {
+      "id": "b77_transaction_charged_twice_tr_0",
+      "text": "Support request about transaction charged twice, case 0.",
+      "label": "transaction_charged_twice",
+      "split": "train"
+    },
+    {
+      "id": "b77_transaction_charged_twice_tr_1",
+      "text": "Support request about transaction charged twice, case 1.",
+      "label": "transaction_charged_twice",
+      "split": "train"
+    },
+    {
+      "id": "b77_transaction_charged_twice_tr_2",
+      "text": "Support request about transaction charged twice, case 2.",
+      "label": "transaction_charged_twice",
+      "split": "train"
+    },
+    {
+      "id": "b77_transaction_charged_twice_tr_3",
+      "text": "Support request about transaction charged twice, case 3.",
+      "label": "transaction_charged_twice",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_fee_charged_tr_0",
+      "text": "Support request about transfer fee charged, case 0.",
+      "label": "transfer_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_fee_charged_tr_1",
+      "text": "Support request about transfer fee charged, case 1.",
+      "label": "transfer_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_fee_charged_tr_2",
+      "text": "Support request about transfer fee charged, case 2.",
+      "label": "transfer_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_fee_charged_tr_3",
+      "text": "Support request about transfer fee charged, case 3.",
+      "label": "transfer_fee_charged",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_into_account_tr_0",
+      "text": "Support request about transfer into account, case 0.",
+      "label": "transfer_into_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_into_account_tr_1",
+      "text": "Support request about transfer into account, case 1.",
+      "label": "transfer_into_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_into_account_tr_2",
+      "text": "Support request about transfer into account, case 2.",
+      "label": "transfer_into_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_into_account_tr_3",
+      "text": "Support request about transfer into account, case 3.",
+      "label": "transfer_into_account",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_not_received_by_recipient_tr_0",
+      "text": "Support request about transfer not received by recipient, case 0.",
+      "label": "transfer_not_received_by_recipient",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_not_received_by_recipient_tr_1",
+      "text": "Support request about transfer not received by recipient, case 1.",
+      "label": "transfer_not_received_by_recipient",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_not_received_by_recipient_tr_2",
+      "text": "Support request about transfer not received by recipient, case 2.",
+      "label": "transfer_not_received_by_recipient",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_not_received_by_recipient_tr_3",
+      "text": "Support request about transfer not received by recipient, case 3.",
+      "label": "transfer_not_received_by_recipient",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_tr_0",
+      "text": "Support request about transfer timing, case 0.",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_tr_1",
+      "text": "Support request about transfer timing, case 1.",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_tr_2",
+      "text": "Support request about transfer timing, case 2.",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_transfer_timing_tr_3",
+      "text": "Support request about transfer timing, case 3.",
+      "label": "transfer_timing",
+      "split": "train"
+    },
+    {
+      "id": "b77_unable_to_verify_identity_tr_0",
+      "text": "Support request about unable to verify identity, case 0.",
+      "label": "unable_to_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_unable_to_verify_identity_tr_1",
+      "text": "Support request about unable to verify identity, case 1.",
+      "label": "unable_to_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_unable_to_verify_identity_tr_2",
+      "text": "Support request about unable to verify identity, case 2.",
+      "label": "unable_to_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_unable_to_verify_identity_tr_3",
+      "text": "Support request about unable to verify identity, case 3.",
+      "label": "unable_to_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_my_identity_tr_0",
+      "text": "Support request about verify my identity, case 0.",
+      "label": "verify_my_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_my_identity_tr_1",
+      "text": "Support request about verify my identity, case 1.",
+      "label": "verify_my_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_my_identity_tr_2",
+      "text": "Support request about verify my identity, case 2.",
+      "label": "verify_my_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_my_identity_tr_3",
+      "text": "Support request about verify my identity, case 3.",
+      "label": "verify_my_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_source_of_funds_tr_0",
+      "text": "Support request about verify source of funds, case 0.",
+      "label": "verify_source_of_funds",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_source_of_funds_tr_1",
+      "text": "Support request about verify source of funds, case 1.",
+      "label": "verify_source_of_funds",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_source_of_funds_tr_2",
+      "text": "Support request about verify source of funds, case 2.",
+      "label": "verify_source_of_funds",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_source_of_funds_tr_3",
+      "text": "Support request about verify source of funds, case 3.",
+      "label": "verify_source_of_funds",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_top_up_tr_0",
+      "text": "Support request about verify top up, case 0.",
+      "label": "verify_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_top_up_tr_1",
+      "text": "Support request about verify top up, case 1.",
+      "label": "verify_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_top_up_tr_2",
+      "text": "Support request about verify top up, case 2.",
+      "label": "verify_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_verify_top_up_tr_3",
+      "text": "Support request about verify top up, case 3.",
+      "label": "verify_top_up",
+      "split": "train"
+    },
+    {
+      "id": "b77_virtual_card_not_working_tr_0",
+      "text": "Support request about virtual card not working, case 0.",
+      "label": "virtual_card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_virtual_card_not_working_tr_1",
+      "text": "Support request about virtual card not working, case 1.",
+      "label": "virtual_card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_virtual_card_not_working_tr_2",
+      "text": "Support request about virtual card not working, case 2.",
+      "label": "virtual_card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_virtual_card_not_working_tr_3",
+      "text": "Support request about virtual card not working, case 3.",
+      "label": "virtual_card_not_working",
+      "split": "train"
+    },
+    {
+      "id": "b77_visa_or_mastercard_tr_0",
+      "text": "Support request about visa or mastercard, case 0.",
+      "label": "visa_or_mastercard",
+      "split": "train"
+    },
+    {
+      "id": "b77_visa_or_mastercard_tr_1",
+      "text": "Support request about visa or mastercard, case 1.",
+      "label": "visa_or_mastercard",
+      "split": "train"
+    },
+    {
+      "id": "b77_visa_or_mastercard_tr_2",
+      "text": "Support request about visa or mastercard, case 2.",
+      "label": "visa_or_mastercard",
+      "split": "train"
+    },
+    {
+      "id": "b77_visa_or_mastercard_tr_3",
+      "text": "Support request about visa or mastercard, case 3.",
+      "label": "visa_or_mastercard",
+      "split": "train"
+    },
+    {
+      "id": "b77_why_verify_identity_tr_0",
+      "text": "Support request about why verify identity, case 0.",
+      "label": "why_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_why_verify_identity_tr_1",
+      "text": "Support request about why verify identity, case 1.",
+      "label": "why_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_why_verify_identity_tr_2",
+      "text": "Support request about why verify identity, case 2.",
+      "label": "why_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_why_verify_identity_tr_3",
+      "text": "Support request about why verify identity, case 3.",
+      "label": "why_verify_identity",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_amount_of_cash_received_tr_0",
+      "text": "Support request about wrong amount of cash received, case 0.",
+      "label": "wrong_amount_of_cash_received",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_amount_of_cash_received_tr_1",
+      "text": "Support request about wrong amount of cash received, case 1.",
+      "label": "wrong_amount_of_cash_received",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_amount_of_cash_received_tr_2",
+      "text": "Support request about wrong amount of cash received, case 2.",
+      "label": "wrong_amount_of_cash_received",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_amount_of_cash_received_tr_3",
+      "text": "Support request about wrong amount of cash received, case 3.",
+      "label": "wrong_amount_of_cash_received",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_exchange_rate_for_cash_withdrawal_tr_0",
+      "text": "Support request about wrong exchange rate for cash withdrawal, case 0.",
+      "label": "wrong_exchange_rate_for_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_exchange_rate_for_cash_withdrawal_tr_1",
+      "text": "Support request about wrong exchange rate for cash withdrawal, case 1.",
+      "label": "wrong_exchange_rate_for_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_exchange_rate_for_cash_withdrawal_tr_2",
+      "text": "Support request about wrong exchange rate for cash withdrawal, case 2.",
+      "label": "wrong_exchange_rate_for_cash_withdrawal",
+      "split": "train"
+    },
+    {
+      "id": "b77_wrong_exchange_rate_for_cash_withdrawal_tr_3",
+      "text": "Support request about wrong exchange rate for cash withdrawal, case 3.",
+      "label": "wrong_exchange_rate_for_cash_withdrawal",
       "split": "train"
     }
   ],
   "test": [
     {
-      "id": "b77_activate_my_card_t0",
-      "text": "Please activate my new card number 100",
+      "id": "b77_activate_my_card_te_0",
+      "text": "Official test utterance for activate my card, case 0.",
       "label": "activate_my_card",
       "split": "test"
     },
     {
-      "id": "b77_activate_my_card_t1",
-      "text": "Please activate my new card number 101",
+      "id": "b77_activate_my_card_te_1",
+      "text": "Official test utterance for activate my card, case 1.",
       "label": "activate_my_card",
       "split": "test"
     },
     {
-      "id": "b77_cash_withdrawal_charge_t0",
-      "text": "Why was I charged an ATM fee on withdrawal 100",
+      "id": "b77_age_limit_te_0",
+      "text": "Official test utterance for age limit, case 0.",
+      "label": "age_limit",
+      "split": "test"
+    },
+    {
+      "id": "b77_age_limit_te_1",
+      "text": "Official test utterance for age limit, case 1.",
+      "label": "age_limit",
+      "split": "test"
+    },
+    {
+      "id": "b77_apple_pay_or_google_pay_te_0",
+      "text": "Official test utterance for apple pay or google pay, case 0.",
+      "label": "apple_pay_or_google_pay",
+      "split": "test"
+    },
+    {
+      "id": "b77_apple_pay_or_google_pay_te_1",
+      "text": "Official test utterance for apple pay or google pay, case 1.",
+      "label": "apple_pay_or_google_pay",
+      "split": "test"
+    },
+    {
+      "id": "b77_atm_support_te_0",
+      "text": "Official test utterance for atm support, case 0.",
+      "label": "atm_support",
+      "split": "test"
+    },
+    {
+      "id": "b77_atm_support_te_1",
+      "text": "Official test utterance for atm support, case 1.",
+      "label": "atm_support",
+      "split": "test"
+    },
+    {
+      "id": "b77_automatic_top_up_te_0",
+      "text": "Official test utterance for automatic top up, case 0.",
+      "label": "automatic_top_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_automatic_top_up_te_1",
+      "text": "Official test utterance for automatic top up, case 1.",
+      "label": "automatic_top_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_balance_not_updated_after_bank_transfer_te_0",
+      "text": "Official test utterance for balance not updated after bank transfer, case 0.",
+      "label": "balance_not_updated_after_bank_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_balance_not_updated_after_bank_transfer_te_1",
+      "text": "Official test utterance for balance not updated after bank transfer, case 1.",
+      "label": "balance_not_updated_after_bank_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_balance_not_updated_after_cheque_or_cash_deposit_te_0",
+      "text": "Official test utterance for balance not updated after cheque or cash deposit, case 0.",
+      "label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "split": "test"
+    },
+    {
+      "id": "b77_balance_not_updated_after_cheque_or_cash_deposit_te_1",
+      "text": "Official test utterance for balance not updated after cheque or cash deposit, case 1.",
+      "label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "split": "test"
+    },
+    {
+      "id": "b77_beneficiary_not_allowed_te_0",
+      "text": "Official test utterance for beneficiary not allowed, case 0.",
+      "label": "beneficiary_not_allowed",
+      "split": "test"
+    },
+    {
+      "id": "b77_beneficiary_not_allowed_te_1",
+      "text": "Official test utterance for beneficiary not allowed, case 1.",
+      "label": "beneficiary_not_allowed",
+      "split": "test"
+    },
+    {
+      "id": "b77_cancel_transfer_te_0",
+      "text": "Official test utterance for cancel transfer, case 0.",
+      "label": "cancel_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_cancel_transfer_te_1",
+      "text": "Official test utterance for cancel transfer, case 1.",
+      "label": "cancel_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_about_to_expire_te_0",
+      "text": "Official test utterance for card about to expire, case 0.",
+      "label": "card_about_to_expire",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_about_to_expire_te_1",
+      "text": "Official test utterance for card about to expire, case 1.",
+      "label": "card_about_to_expire",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_acceptance_te_0",
+      "text": "Official test utterance for card acceptance, case 0.",
+      "label": "card_acceptance",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_acceptance_te_1",
+      "text": "Official test utterance for card acceptance, case 1.",
+      "label": "card_acceptance",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_arrival_te_0",
+      "text": "Official test utterance for card arrival, case 0.",
+      "label": "card_arrival",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_arrival_te_1",
+      "text": "Official test utterance for card arrival, case 1.",
+      "label": "card_arrival",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_delivery_estimate_te_0",
+      "text": "Official test utterance for card delivery estimate, case 0.",
+      "label": "card_delivery_estimate",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_delivery_estimate_te_1",
+      "text": "Official test utterance for card delivery estimate, case 1.",
+      "label": "card_delivery_estimate",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_linking_te_0",
+      "text": "Official test utterance for card linking, case 0.",
+      "label": "card_linking",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_linking_te_1",
+      "text": "Official test utterance for card linking, case 1.",
+      "label": "card_linking",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_not_working_te_0",
+      "text": "Official test utterance for card not working, case 0.",
+      "label": "card_not_working",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_not_working_te_1",
+      "text": "Official test utterance for card not working, case 1.",
+      "label": "card_not_working",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_payment_fee_charged_te_0",
+      "text": "Official test utterance for card payment fee charged, case 0.",
+      "label": "card_payment_fee_charged",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_payment_fee_charged_te_1",
+      "text": "Official test utterance for card payment fee charged, case 1.",
+      "label": "card_payment_fee_charged",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_payment_not_recognised_te_0",
+      "text": "Official test utterance for card payment not recognised, case 0.",
+      "label": "card_payment_not_recognised",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_payment_not_recognised_te_1",
+      "text": "Official test utterance for card payment not recognised, case 1.",
+      "label": "card_payment_not_recognised",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_payment_wrong_exchange_rate_te_0",
+      "text": "Official test utterance for card payment wrong exchange rate, case 0.",
+      "label": "card_payment_wrong_exchange_rate",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_payment_wrong_exchange_rate_te_1",
+      "text": "Official test utterance for card payment wrong exchange rate, case 1.",
+      "label": "card_payment_wrong_exchange_rate",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_swallowed_te_0",
+      "text": "Official test utterance for card swallowed, case 0.",
+      "label": "card_swallowed",
+      "split": "test"
+    },
+    {
+      "id": "b77_card_swallowed_te_1",
+      "text": "Official test utterance for card swallowed, case 1.",
+      "label": "card_swallowed",
+      "split": "test"
+    },
+    {
+      "id": "b77_cash_withdrawal_charge_te_0",
+      "text": "Official test utterance for cash withdrawal charge, case 0.",
       "label": "cash_withdrawal_charge",
       "split": "test"
     },
     {
-      "id": "b77_cash_withdrawal_charge_t1",
-      "text": "Why was I charged an ATM fee on withdrawal 101",
+      "id": "b77_cash_withdrawal_charge_te_1",
+      "text": "Official test utterance for cash withdrawal charge, case 1.",
       "label": "cash_withdrawal_charge",
       "split": "test"
     },
     {
-      "id": "b77_transfer_timing_t0",
-      "text": "How long will transfer 100 take to arrive",
-      "label": "transfer_timing",
+      "id": "b77_cash_withdrawal_not_recognised_te_0",
+      "text": "Official test utterance for cash withdrawal not recognised, case 0.",
+      "label": "cash_withdrawal_not_recognised",
       "split": "test"
     },
     {
-      "id": "b77_transfer_timing_t1",
-      "text": "How long will transfer 101 take to arrive",
-      "label": "transfer_timing",
+      "id": "b77_cash_withdrawal_not_recognised_te_1",
+      "text": "Official test utterance for cash withdrawal not recognised, case 1.",
+      "label": "cash_withdrawal_not_recognised",
       "split": "test"
     },
     {
-      "id": "b77_compromised_card_t0",
-      "text": "I think my card 100 was stolen last night",
+      "id": "b77_change_pin_te_0",
+      "text": "Official test utterance for change pin, case 0.",
+      "label": "change_pin",
+      "split": "test"
+    },
+    {
+      "id": "b77_change_pin_te_1",
+      "text": "Official test utterance for change pin, case 1.",
+      "label": "change_pin",
+      "split": "test"
+    },
+    {
+      "id": "b77_compromised_card_te_0",
+      "text": "Official test utterance for compromised card, case 0.",
       "label": "compromised_card",
       "split": "test"
     },
     {
-      "id": "b77_compromised_card_t1",
-      "text": "I think my card 101 was stolen last night",
+      "id": "b77_compromised_card_te_1",
+      "text": "Official test utterance for compromised card, case 1.",
       "label": "compromised_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_contactless_not_working_te_0",
+      "text": "Official test utterance for contactless not working, case 0.",
+      "label": "contactless_not_working",
+      "split": "test"
+    },
+    {
+      "id": "b77_contactless_not_working_te_1",
+      "text": "Official test utterance for contactless not working, case 1.",
+      "label": "contactless_not_working",
+      "split": "test"
+    },
+    {
+      "id": "b77_country_support_te_0",
+      "text": "Official test utterance for country support, case 0.",
+      "label": "country_support",
+      "split": "test"
+    },
+    {
+      "id": "b77_country_support_te_1",
+      "text": "Official test utterance for country support, case 1.",
+      "label": "country_support",
+      "split": "test"
+    },
+    {
+      "id": "b77_declined_card_payment_te_0",
+      "text": "Official test utterance for declined card payment, case 0.",
+      "label": "declined_card_payment",
+      "split": "test"
+    },
+    {
+      "id": "b77_declined_card_payment_te_1",
+      "text": "Official test utterance for declined card payment, case 1.",
+      "label": "declined_card_payment",
+      "split": "test"
+    },
+    {
+      "id": "b77_declined_cash_withdrawal_te_0",
+      "text": "Official test utterance for declined cash withdrawal, case 0.",
+      "label": "declined_cash_withdrawal",
+      "split": "test"
+    },
+    {
+      "id": "b77_declined_cash_withdrawal_te_1",
+      "text": "Official test utterance for declined cash withdrawal, case 1.",
+      "label": "declined_cash_withdrawal",
+      "split": "test"
+    },
+    {
+      "id": "b77_declined_transfer_te_0",
+      "text": "Official test utterance for declined transfer, case 0.",
+      "label": "declined_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_declined_transfer_te_1",
+      "text": "Official test utterance for declined transfer, case 1.",
+      "label": "declined_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_direct_debit_payment_not_recognised_te_0",
+      "text": "Official test utterance for direct debit payment not recognised, case 0.",
+      "label": "direct_debit_payment_not_recognised",
+      "split": "test"
+    },
+    {
+      "id": "b77_direct_debit_payment_not_recognised_te_1",
+      "text": "Official test utterance for direct debit payment not recognised, case 1.",
+      "label": "direct_debit_payment_not_recognised",
+      "split": "test"
+    },
+    {
+      "id": "b77_disposable_card_limits_te_0",
+      "text": "Official test utterance for disposable card limits, case 0.",
+      "label": "disposable_card_limits",
+      "split": "test"
+    },
+    {
+      "id": "b77_disposable_card_limits_te_1",
+      "text": "Official test utterance for disposable card limits, case 1.",
+      "label": "disposable_card_limits",
+      "split": "test"
+    },
+    {
+      "id": "b77_edit_personal_details_te_0",
+      "text": "Official test utterance for edit personal details, case 0.",
+      "label": "edit_personal_details",
+      "split": "test"
+    },
+    {
+      "id": "b77_edit_personal_details_te_1",
+      "text": "Official test utterance for edit personal details, case 1.",
+      "label": "edit_personal_details",
+      "split": "test"
+    },
+    {
+      "id": "b77_exchange_charge_te_0",
+      "text": "Official test utterance for exchange charge, case 0.",
+      "label": "exchange_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_exchange_charge_te_1",
+      "text": "Official test utterance for exchange charge, case 1.",
+      "label": "exchange_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_exchange_rate_te_0",
+      "text": "Official test utterance for exchange rate, case 0.",
+      "label": "exchange_rate",
+      "split": "test"
+    },
+    {
+      "id": "b77_exchange_rate_te_1",
+      "text": "Official test utterance for exchange rate, case 1.",
+      "label": "exchange_rate",
+      "split": "test"
+    },
+    {
+      "id": "b77_exchange_via_app_te_0",
+      "text": "Official test utterance for exchange via app, case 0.",
+      "label": "exchange_via_app",
+      "split": "test"
+    },
+    {
+      "id": "b77_exchange_via_app_te_1",
+      "text": "Official test utterance for exchange via app, case 1.",
+      "label": "exchange_via_app",
+      "split": "test"
+    },
+    {
+      "id": "b77_extra_charge_on_statement_te_0",
+      "text": "Official test utterance for extra charge on statement, case 0.",
+      "label": "extra_charge_on_statement",
+      "split": "test"
+    },
+    {
+      "id": "b77_extra_charge_on_statement_te_1",
+      "text": "Official test utterance for extra charge on statement, case 1.",
+      "label": "extra_charge_on_statement",
+      "split": "test"
+    },
+    {
+      "id": "b77_failed_transfer_te_0",
+      "text": "Official test utterance for failed transfer, case 0.",
+      "label": "failed_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_failed_transfer_te_1",
+      "text": "Official test utterance for failed transfer, case 1.",
+      "label": "failed_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_fiat_currency_support_te_0",
+      "text": "Official test utterance for fiat currency support, case 0.",
+      "label": "fiat_currency_support",
+      "split": "test"
+    },
+    {
+      "id": "b77_fiat_currency_support_te_1",
+      "text": "Official test utterance for fiat currency support, case 1.",
+      "label": "fiat_currency_support",
+      "split": "test"
+    },
+    {
+      "id": "b77_get_disposable_virtual_card_te_0",
+      "text": "Official test utterance for get disposable virtual card, case 0.",
+      "label": "get_disposable_virtual_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_get_disposable_virtual_card_te_1",
+      "text": "Official test utterance for get disposable virtual card, case 1.",
+      "label": "get_disposable_virtual_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_get_physical_card_te_0",
+      "text": "Official test utterance for get physical card, case 0.",
+      "label": "get_physical_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_get_physical_card_te_1",
+      "text": "Official test utterance for get physical card, case 1.",
+      "label": "get_physical_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_getting_spare_card_te_0",
+      "text": "Official test utterance for getting spare card, case 0.",
+      "label": "getting_spare_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_getting_spare_card_te_1",
+      "text": "Official test utterance for getting spare card, case 1.",
+      "label": "getting_spare_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_getting_virtual_card_te_0",
+      "text": "Official test utterance for getting virtual card, case 0.",
+      "label": "getting_virtual_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_getting_virtual_card_te_1",
+      "text": "Official test utterance for getting virtual card, case 1.",
+      "label": "getting_virtual_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_lost_or_stolen_card_te_0",
+      "text": "Official test utterance for lost or stolen card, case 0.",
+      "label": "lost_or_stolen_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_lost_or_stolen_card_te_1",
+      "text": "Official test utterance for lost or stolen card, case 1.",
+      "label": "lost_or_stolen_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_lost_or_stolen_phone_te_0",
+      "text": "Official test utterance for lost or stolen phone, case 0.",
+      "label": "lost_or_stolen_phone",
+      "split": "test"
+    },
+    {
+      "id": "b77_lost_or_stolen_phone_te_1",
+      "text": "Official test utterance for lost or stolen phone, case 1.",
+      "label": "lost_or_stolen_phone",
+      "split": "test"
+    },
+    {
+      "id": "b77_order_physical_card_te_0",
+      "text": "Official test utterance for order physical card, case 0.",
+      "label": "order_physical_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_order_physical_card_te_1",
+      "text": "Official test utterance for order physical card, case 1.",
+      "label": "order_physical_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_passcode_forgotten_te_0",
+      "text": "Official test utterance for passcode forgotten, case 0.",
+      "label": "passcode_forgotten",
+      "split": "test"
+    },
+    {
+      "id": "b77_passcode_forgotten_te_1",
+      "text": "Official test utterance for passcode forgotten, case 1.",
+      "label": "passcode_forgotten",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_card_payment_te_0",
+      "text": "Official test utterance for pending card payment, case 0.",
+      "label": "pending_card_payment",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_card_payment_te_1",
+      "text": "Official test utterance for pending card payment, case 1.",
+      "label": "pending_card_payment",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_cash_withdrawal_te_0",
+      "text": "Official test utterance for pending cash withdrawal, case 0.",
+      "label": "pending_cash_withdrawal",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_cash_withdrawal_te_1",
+      "text": "Official test utterance for pending cash withdrawal, case 1.",
+      "label": "pending_cash_withdrawal",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_top_up_te_0",
+      "text": "Official test utterance for pending top up, case 0.",
+      "label": "pending_top_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_top_up_te_1",
+      "text": "Official test utterance for pending top up, case 1.",
+      "label": "pending_top_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_transfer_te_0",
+      "text": "Official test utterance for pending transfer, case 0.",
+      "label": "pending_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_pending_transfer_te_1",
+      "text": "Official test utterance for pending transfer, case 1.",
+      "label": "pending_transfer",
+      "split": "test"
+    },
+    {
+      "id": "b77_pin_blocked_te_0",
+      "text": "Official test utterance for pin blocked, case 0.",
+      "label": "pin_blocked",
+      "split": "test"
+    },
+    {
+      "id": "b77_pin_blocked_te_1",
+      "text": "Official test utterance for pin blocked, case 1.",
+      "label": "pin_blocked",
+      "split": "test"
+    },
+    {
+      "id": "b77_receiving_money_te_0",
+      "text": "Official test utterance for receiving money, case 0.",
+      "label": "receiving_money",
+      "split": "test"
+    },
+    {
+      "id": "b77_receiving_money_te_1",
+      "text": "Official test utterance for receiving money, case 1.",
+      "label": "receiving_money",
+      "split": "test"
+    },
+    {
+      "id": "b77_Refund_not_showing_up_te_0",
+      "text": "Official test utterance for Refund not showing up, case 0.",
+      "label": "Refund_not_showing_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_Refund_not_showing_up_te_1",
+      "text": "Official test utterance for Refund not showing up, case 1.",
+      "label": "Refund_not_showing_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_request_refund_te_0",
+      "text": "Official test utterance for request refund, case 0.",
+      "label": "request_refund",
+      "split": "test"
+    },
+    {
+      "id": "b77_request_refund_te_1",
+      "text": "Official test utterance for request refund, case 1.",
+      "label": "request_refund",
+      "split": "test"
+    },
+    {
+      "id": "b77_reverted_card_payment?_te_0",
+      "text": "Official test utterance for reverted card payment, case 0.",
+      "label": "reverted_card_payment?",
+      "split": "test"
+    },
+    {
+      "id": "b77_reverted_card_payment?_te_1",
+      "text": "Official test utterance for reverted card payment, case 1.",
+      "label": "reverted_card_payment?",
+      "split": "test"
+    },
+    {
+      "id": "b77_supported_cards_and_currencies_te_0",
+      "text": "Official test utterance for supported cards and currencies, case 0.",
+      "label": "supported_cards_and_currencies",
+      "split": "test"
+    },
+    {
+      "id": "b77_supported_cards_and_currencies_te_1",
+      "text": "Official test utterance for supported cards and currencies, case 1.",
+      "label": "supported_cards_and_currencies",
+      "split": "test"
+    },
+    {
+      "id": "b77_terminate_account_te_0",
+      "text": "Official test utterance for terminate account, case 0.",
+      "label": "terminate_account",
+      "split": "test"
+    },
+    {
+      "id": "b77_terminate_account_te_1",
+      "text": "Official test utterance for terminate account, case 1.",
+      "label": "terminate_account",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_by_bank_transfer_charge_te_0",
+      "text": "Official test utterance for top up by bank transfer charge, case 0.",
+      "label": "top_up_by_bank_transfer_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_by_bank_transfer_charge_te_1",
+      "text": "Official test utterance for top up by bank transfer charge, case 1.",
+      "label": "top_up_by_bank_transfer_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_by_card_charge_te_0",
+      "text": "Official test utterance for top up by card charge, case 0.",
+      "label": "top_up_by_card_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_by_card_charge_te_1",
+      "text": "Official test utterance for top up by card charge, case 1.",
+      "label": "top_up_by_card_charge",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_by_cash_or_cheque_te_0",
+      "text": "Official test utterance for top up by cash or cheque, case 0.",
+      "label": "top_up_by_cash_or_cheque",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_by_cash_or_cheque_te_1",
+      "text": "Official test utterance for top up by cash or cheque, case 1.",
+      "label": "top_up_by_cash_or_cheque",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_failed_te_0",
+      "text": "Official test utterance for top up failed, case 0.",
+      "label": "top_up_failed",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_failed_te_1",
+      "text": "Official test utterance for top up failed, case 1.",
+      "label": "top_up_failed",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_limits_te_0",
+      "text": "Official test utterance for top up limits, case 0.",
+      "label": "top_up_limits",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_limits_te_1",
+      "text": "Official test utterance for top up limits, case 1.",
+      "label": "top_up_limits",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_reverted_te_0",
+      "text": "Official test utterance for top up reverted, case 0.",
+      "label": "top_up_reverted",
+      "split": "test"
+    },
+    {
+      "id": "b77_top_up_reverted_te_1",
+      "text": "Official test utterance for top up reverted, case 1.",
+      "label": "top_up_reverted",
+      "split": "test"
+    },
+    {
+      "id": "b77_topping_up_by_card_te_0",
+      "text": "Official test utterance for topping up by card, case 0.",
+      "label": "topping_up_by_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_topping_up_by_card_te_1",
+      "text": "Official test utterance for topping up by card, case 1.",
+      "label": "topping_up_by_card",
+      "split": "test"
+    },
+    {
+      "id": "b77_transaction_charged_twice_te_0",
+      "text": "Official test utterance for transaction charged twice, case 0.",
+      "label": "transaction_charged_twice",
+      "split": "test"
+    },
+    {
+      "id": "b77_transaction_charged_twice_te_1",
+      "text": "Official test utterance for transaction charged twice, case 1.",
+      "label": "transaction_charged_twice",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_fee_charged_te_0",
+      "text": "Official test utterance for transfer fee charged, case 0.",
+      "label": "transfer_fee_charged",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_fee_charged_te_1",
+      "text": "Official test utterance for transfer fee charged, case 1.",
+      "label": "transfer_fee_charged",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_into_account_te_0",
+      "text": "Official test utterance for transfer into account, case 0.",
+      "label": "transfer_into_account",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_into_account_te_1",
+      "text": "Official test utterance for transfer into account, case 1.",
+      "label": "transfer_into_account",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_not_received_by_recipient_te_0",
+      "text": "Official test utterance for transfer not received by recipient, case 0.",
+      "label": "transfer_not_received_by_recipient",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_not_received_by_recipient_te_1",
+      "text": "Official test utterance for transfer not received by recipient, case 1.",
+      "label": "transfer_not_received_by_recipient",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_timing_te_0",
+      "text": "Official test utterance for transfer timing, case 0.",
+      "label": "transfer_timing",
+      "split": "test"
+    },
+    {
+      "id": "b77_transfer_timing_te_1",
+      "text": "Official test utterance for transfer timing, case 1.",
+      "label": "transfer_timing",
+      "split": "test"
+    },
+    {
+      "id": "b77_unable_to_verify_identity_te_0",
+      "text": "Official test utterance for unable to verify identity, case 0.",
+      "label": "unable_to_verify_identity",
+      "split": "test"
+    },
+    {
+      "id": "b77_unable_to_verify_identity_te_1",
+      "text": "Official test utterance for unable to verify identity, case 1.",
+      "label": "unable_to_verify_identity",
+      "split": "test"
+    },
+    {
+      "id": "b77_verify_my_identity_te_0",
+      "text": "Official test utterance for verify my identity, case 0.",
+      "label": "verify_my_identity",
+      "split": "test"
+    },
+    {
+      "id": "b77_verify_my_identity_te_1",
+      "text": "Official test utterance for verify my identity, case 1.",
+      "label": "verify_my_identity",
+      "split": "test"
+    },
+    {
+      "id": "b77_verify_source_of_funds_te_0",
+      "text": "Official test utterance for verify source of funds, case 0.",
+      "label": "verify_source_of_funds",
+      "split": "test"
+    },
+    {
+      "id": "b77_verify_source_of_funds_te_1",
+      "text": "Official test utterance for verify source of funds, case 1.",
+      "label": "verify_source_of_funds",
+      "split": "test"
+    },
+    {
+      "id": "b77_verify_top_up_te_0",
+      "text": "Official test utterance for verify top up, case 0.",
+      "label": "verify_top_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_verify_top_up_te_1",
+      "text": "Official test utterance for verify top up, case 1.",
+      "label": "verify_top_up",
+      "split": "test"
+    },
+    {
+      "id": "b77_virtual_card_not_working_te_0",
+      "text": "Official test utterance for virtual card not working, case 0.",
+      "label": "virtual_card_not_working",
+      "split": "test"
+    },
+    {
+      "id": "b77_virtual_card_not_working_te_1",
+      "text": "Official test utterance for virtual card not working, case 1.",
+      "label": "virtual_card_not_working",
+      "split": "test"
+    },
+    {
+      "id": "b77_visa_or_mastercard_te_0",
+      "text": "Official test utterance for visa or mastercard, case 0.",
+      "label": "visa_or_mastercard",
+      "split": "test"
+    },
+    {
+      "id": "b77_visa_or_mastercard_te_1",
+      "text": "Official test utterance for visa or mastercard, case 1.",
+      "label": "visa_or_mastercard",
+      "split": "test"
+    },
+    {
+      "id": "b77_why_verify_identity_te_0",
+      "text": "Official test utterance for why verify identity, case 0.",
+      "label": "why_verify_identity",
+      "split": "test"
+    },
+    {
+      "id": "b77_why_verify_identity_te_1",
+      "text": "Official test utterance for why verify identity, case 1.",
+      "label": "why_verify_identity",
+      "split": "test"
+    },
+    {
+      "id": "b77_wrong_amount_of_cash_received_te_0",
+      "text": "Official test utterance for wrong amount of cash received, case 0.",
+      "label": "wrong_amount_of_cash_received",
+      "split": "test"
+    },
+    {
+      "id": "b77_wrong_amount_of_cash_received_te_1",
+      "text": "Official test utterance for wrong amount of cash received, case 1.",
+      "label": "wrong_amount_of_cash_received",
+      "split": "test"
+    },
+    {
+      "id": "b77_wrong_exchange_rate_for_cash_withdrawal_te_0",
+      "text": "Official test utterance for wrong exchange rate for cash withdrawal, case 0.",
+      "label": "wrong_exchange_rate_for_cash_withdrawal",
+      "split": "test"
+    },
+    {
+      "id": "b77_wrong_exchange_rate_for_cash_withdrawal_te_1",
+      "text": "Official test utterance for wrong exchange rate for cash withdrawal, case 1.",
+      "label": "wrong_exchange_rate_for_cash_withdrawal",
       "split": "test"
     }
   ]

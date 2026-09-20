@@ -1,1 +1,1 @@
-{"accuracy":0.6666666666666666,"backend":"fake","brier":0.4489107830198534,"coverage_at_1pct":0.3333333333333333,"ece":0.13879087967545511,"mean_entropy_confidence":0.006758076282070924,"model_id":"fake-overlap-v0","n":3,"nll":0.6415956471528054,"shuffled_accuracy":0.6666666666666666,"temperature":1.0}
+{"accuracy":0.5,"backend":"fake","brier":0.4234401075769612,"coverage_at_1pct":0.375,"dataset":"boolq","ece":0.12234350380751545,"mean_entropy_confidence":0.01820734311228911,"model_id":"fake-overlap-v0","n":8,"nll":0.6144939131752319,"shuffled_accuracy":0.5}

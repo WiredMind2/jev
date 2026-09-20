@@ -76,3 +76,74 @@ Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF
 {"accuracy":0.75,"backend":"hf-logprob","brier":0.3530824066781739,"coverage_at_1pct":0.25,"ece":0.25923330062680977,"limit":null,"mean_entropy_confidence":0.4457347516468711,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":0.6055112217128271,"shuffled_accuracy":0.16666666666666666,"temperature":1.0}
 name, memory.total [MiB], memory.used [MiB], memory.free [MiB]
 NVIDIA GeForce GTX 1650, 4096 MiB, 1 MiB, 3715 MiB
+
+==== 2026-09-20T07:19:24+02:00 CUDA + Qwen 0.5B comparison ====
+name, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+NVIDIA GeForce GTX 1650, 4096 MiB, 1 MiB, 3715 MiB
+---- pytest cuda not hf ----
+...                                                                      [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/william/Documents/Jev/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /home/william/Documents/Jev/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+---- pytest cuda hf (0.5B naive vs cached) ----
+.                                                                        [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/william/Documents/Jev/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /home/william/Documents/Jev/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+---- Qwen zero-shot vs frozen head on FROZEN synthetic test ----
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 3882.72it/s]
+{"accuracy":0.75,"backend":"hf-logprob","brier":0.3530824066781739,"coverage_at_1pct":0.25,"ece":0.25923330062680977,"limit":null,"mean_entropy_confidence":0.4457347516468711,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":0.6055112217128271,"shuffled_accuracy":0.16666666666666666,"temperature":1.0}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 3804.45it/s]
+{"accuracy":0.08333333333333333,"backend":"option-head","brier":0.7765019646053046,"coverage_at_1pct":0.0,"ece":0.21429927726015546,"limit":null,"mean_entropy_confidence":0.007783655677051425,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":1.4360112736167243,"shuffled_accuracy":0.08333333333333333,"temperature":5.0}
+synthetic zero-shot:
+{"accuracy":0.75,"backend":"hf-logprob","brier":0.3530824066781739,"coverage_at_1pct":0.25,"ece":0.25923330062680977,"limit":null,"mean_entropy_confidence":0.4457347516468711,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":0.6055112217128271,"shuffled_accuracy":0.16666666666666666,"temperature":1.0}
+synthetic frozen head:
+{"accuracy":0.08333333333333333,"backend":"option-head","brier":0.7765019646053046,"coverage_at_1pct":0.0,"ece":0.21429927726015546,"limit":null,"mean_entropy_confidence":0.007783655677051425,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":1.4360112736167243,"shuffled_accuracy":0.08333333333333333,"temperature":5.0}
+---- Qwen zero-shot on fixture slices (OOM -> real evidence) ----
+cuda True NVIDIA GeForce GTX 1650
+mem_before_alloc 0 MiB
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 3828.49it/s]
+loaded Qwen/Qwen2.5-0.5B
+eval sst5 n=15 n_opts=5
+OK reports/v0/metrics/eval-hf-logprob-sst5-fixture-test.json 0.2 shuffled 0.2 nll 1.3543169225701803 coverage 0.2
+# earlier ad-hoc script TypeError on len(NoulCriteria) was the probe, not the package.
+# BoolQ / remaining fixtures were scored via scripts/v0_fixture_gpu_evidence.py.
+
+==== 2026-09-20T08:06:00Z expanded fixtures + Qwen 0.5B fixture evidence ====
+CPU pytest -m "not cuda and not hf": 47 passed
+CUDA pytest -m "cuda and not hf": 3 passed
+HF CUDA pytest -m "cuda and hf": 1 passed
+hardware: NVIDIA GeForce GTX 1650, 4096 MiB, Qwen/Qwen2.5-0.5B fp16
+
+zero-shot hf-logprob (cached, full fixture tests, no OOM):
+  sst5 n=15 acc 0.200 shuffled 0.200
+  boolq n=8 acc 0.500 shuffled 0.500
+  wikispeedia n=4 acc 0.500 shuffled 0.250
+  clinc150 n=26 acc 0.538 shuffled 0.038
+  banking77 n=154 acc 0.786 shuffled 0.006  max_allocated 1821 MiB
+
+frozen Qwen option head (train-head --encoder hf, calib split for T only):
+  sst5 acc 0.200 T=5.0 n_calib=5 peak ~1138 MiB no OOM
+  boolq acc 0.500 T=2.0 n_calib=3 no OOM
+  banking77: 1198 MiB / 4096, 100% util, ~80 min, not finished 12 epochs, NOT OOM
+    reports/v0/metrics/eval-hf-head-banking77-fixture-test-timeout.json
+
+hf-download-probe.json: token absent; banking77_source=mteb/banking77; boolq original HTTP 403
+Colab path present: docs/11-colab.md notebooks/jev_colab_hosted_gpu.ipynb scripts/colab_cpu_smoke.sh reports/v0/colab.md

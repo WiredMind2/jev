@@ -1,1 +1,1 @@
-{"accuracy":0.5,"backend":"fake","brier":0.9375389868285992,"coverage_at_1pct":0.25,"ece":0.45784070206287397,"mean_entropy_confidence":0.028739959899081208,"model_id":"fake-overlap-v0","n":8,"nll":3.3161015523404815,"shuffled_accuracy":0.125,"temperature":1.0}
+{"accuracy":0.7922077922077922,"backend":"fake","brier":0.9254695386311925,"coverage_at_1pct":0.18181818181818182,"dataset":"banking77","ece":0.7461102071761827,"mean_entropy_confidence":0.027306780417869176,"model_id":"fake-overlap-v0","n":154,"nll":3.1205120380763196,"shuffled_accuracy":0.012987012987012988}
