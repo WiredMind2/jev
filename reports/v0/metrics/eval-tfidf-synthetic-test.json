@@ -1,0 +1,1 @@
+{"accuracy":1.0,"backend":"tfidf-linear","brier":0.09345919957121203,"coverage_at_1pct":1.0,"ece":0.2558824090678501,"limit":null,"mean_entropy_confidence":0.3985649600103433,"model_id":"tfidf-linear","n":12,"nll":0.29905338848482504,"shuffled_accuracy":0.5,"temperature":1.0}

@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-from jev.data.convert import LAST_HF_SOURCE, freeze_and_write, load_records_jsonl, try_load_hf_first
+from jev.data import convert as convert_mod
+from jev.data.convert import freeze_and_write, load_records_jsonl, try_load_hf_first
 from jev.data.manifest import criteria_path, load_criteria
 from jev.data.splits import stratified_indices
 from jev.schema import FORMAT_VERSION, ChoiceQuestion, ChoiceTrainingExample, ExampleMetadata
@@ -57,7 +58,7 @@ def convert_banking77(out_dir: Path, fixture: Path | None = None) -> Path:
         source = str(fixture)
     else:
         raw = _rows_from_hf()
-        source = LAST_HF_SOURCE or "mteb/banking77"
+        source = convert_mod.LAST_HF_SOURCE or "mteb/banking77"
     if raw is None:
         raise FileNotFoundError(
             "BANKING77 not available: pass --fixture or install datasets + network "

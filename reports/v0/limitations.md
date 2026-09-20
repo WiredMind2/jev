@@ -8,7 +8,7 @@ This is research v0. It is not TypeSafe Jev and does not reproduce RLCD.
 - No authorization: model output never sets access boundaries.
 - No match to hosted Jev 0.78 BANKING77 (jev-eval, n=300). That is a later bar.
 - Frozen Qwen option head underfit on 64 synthetic rows. Zero-shot beat it on the same frozen test. Do not read the hashing 100% as an LM result.
-- JSON-LLM and encoder-classifier baselines from `docs/05-evaluation.md` were not run.
+- JSON-LM and TF-IDF baselines **were** run on the frozen synthetic test (`eval-json-llm-synthetic-test.json`, `eval-tfidf-synthetic-test.json`). They were not run on BANKING77/Wikispeedia with Qwen — that is a Colab T4 job.
 - Multi-question amortization (stage 5) is specified, not profiled.
 - Isotonic / Dirichlet calibration was not fit; temperature scaling only.
 - Latency, P95, and cost per 1k decisions were not measured.
@@ -21,9 +21,9 @@ This is research v0. It is not TypeSafe Jev and does not reproduce RLCD.
 
 ## Data limits
 
-- `google/boolq` omits Wikipedia titles. Grouping falls back to a passage hash. Fixture BoolQ still groups by title.
-- BANKING77 was loaded from `mteb/banking77` (9993/3076) after `PolyAI/banking77` failed unauthenticated. Counts differ slightly from Casanueva's 10003/3080.
-- Wikispeedia SNAP archives are not vendored. Conversion is proven on a committed fixture that includes `<` back-clicks and a 260-degree hub (capped at 255, gold kept).
+- Original BoolQ JSONL (`storage.googleapis.com/boolq/train.jsonl`) returned **HTTP 403 Forbidden** from this host. Conversion therefore used `google/boolq`, which omits Wikipedia titles. Grouping falls back to a passage hash. Fixture BoolQ still groups by title.
+- BANKING77 was loaded from `mteb/banking77` after `PolyAI/banking77` failed unauthenticated. Counts differ slightly from Casanueva's 10003/3080.
+- Wikispeedia SNAP **was** downloaded and converted (see `reports/v0/manifests/wikispeedia-snap.json`). The committed fixture still proves `<` stack replay and the 255-cap-keeping-gold rule without vendoring the dump.
 - Public intent/sentiment sets are likely in LM pretraining. Shuffled-context is the contamination control used here.
 
 ## Jaggedness (hosted Jev, not re-measured)

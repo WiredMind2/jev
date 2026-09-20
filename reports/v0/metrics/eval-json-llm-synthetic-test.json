@@ -1,0 +1,1 @@
+{"accuracy":0.5833333333333334,"backend":"json-llm","brier":0.7967955568668351,"coverage_at_1pct":0.0,"ece":0.42099915508044744,"limit":null,"mean_entropy_confidence":0.7331722954855118,"model_id":"json-llm:tiny-causal-logprob","n":12,"nll":1.8070618214780574,"shuffled_accuracy":0.5833333333333334,"temperature":1.0}

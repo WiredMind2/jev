@@ -1,168 +1,27 @@
 === synthetic ===
-data/synthetic/manifest.json
-=== fixture banking77 ===
-data/banking77/manifest.json
-=== fixture sst5 ===
-data/sst5/manifest.json
-=== fixture boolq ===
-data/boolq/manifest.json
-=== fixture clinc150 ===
-data/clinc150/manifest.json
-=== fixture wikispeedia ===
-data/wikispeedia/manifest.json
-=== attempt real HF downloads ===
---- HF banking77 ---
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-╭───────────────────── Traceback (most recent call last) ──────────────────────╮
-│ /home/william/Documents/Jev/src/jev/cli.py:93 in data_convert                │
-│                                                                              │
-│    90 │   │   return                                                         │
-│    91 │   from jev.data.registry import convert_named                        │
-│    92 │                                                                      │
-│ ❱  93 │   path = convert_named(dataset, dest, fixture=fixture)               │
-│    94 │   typer.echo(str(path))                                              │
-│    95                                                                        │
-│    96                                                                        │
-│                                                                              │
-│ /home/william/Documents/Jev/src/jev/data/registry.py:24 in convert_named     │
-│                                                                              │
-│   21 │   }                                                                   │
-│   22 │   if dataset not in mapping:                                          │
-│   23 │   │   raise ValueError(f"unknown dataset {dataset!r}")                │
-│ ❱ 24 │   return mapping[dataset](out_dir, fixture=fixture)                   │
-│   25                                                                         │
-│                                                                              │
-│ /home/william/Documents/Jev/src/jev/data/banking77.py:47 in                  │
-│ convert_banking77                                                            │
-│                                                                              │
-│   44 │   instructions = spec["instructions"]                                 │
-│   45 │   raw = _rows_from_fixture(fixture) if fixture else _rows_from_hf()   │
-│   46 │   if raw is None:                                                     │
-│ ❱ 47 │   │   raise FileNotFoundError("BANKING77 not available: pass          │
-│      --fixture or install datasets + network")                               │
-│   48 │   official_test = raw.get("test", [])                                 │
-│   49 │   official_train = raw.get("train", raw.get("validation", []))        │
-│   50                                                                         │
-╰──────────────────────────────────────────────────────────────────────────────╯
-FileNotFoundError: BANKING77 not available: pass --fixture or install datasets +
-network
-HF_FAIL banking77
---- HF sst5 ---
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-Repo card metadata block was not found. Setting CardData to empty.
-Generating train split:   0%|          | 0/8544 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 8544/8544 [00:00<00:00, 514258.93 examples/s]
-Generating validation split:   0%|          | 0/1101 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 1101/1101 [00:00<00:00, 449827.46 examples/s]
-Generating test split:   0%|          | 0/2210 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 2210/2210 [00:00<00:00, 654203.67 examples/s]
-HF_OK sst5
---- HF boolq ---
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-Generating train split:   0%|          | 0/9427 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 9427/9427 [00:00<00:00, 310375.80 examples/s]
-Generating validation split:   0%|          | 0/3270 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 3270/3270 [00:00<00:00, 433523.22 examples/s]
-HF_OK boolq
---- HF clinc150 ---
-╭───────────────────── Traceback (most recent call last) ──────────────────────╮
-│ /home/william/Documents/Jev/src/jev/cli.py:93 in data_convert                │
-│                                                                              │
-│    90 │   │   return                                                         │
-│    91 │   from jev.data.registry import convert_named                        │
-│    92 │                                                                      │
-│ ❱  93 │   path = convert_named(dataset, dest, fixture=fixture)               │
-│    94 │   typer.echo(str(path))                                              │
-│    95                                                                        │
-│    96                                                                        │
-│                                                                              │
-│ /home/william/Documents/Jev/src/jev/data/registry.py:24 in convert_named     │
-│                                                                              │
-│   21 │   }                                                                   │
-│   22 │   if dataset not in mapping:                                          │
-│   23 │   │   raise ValueError(f"unknown dataset {dataset!r}")                │
-│ ❱ 24 │   return mapping[dataset](out_dir, fixture=fixture)                   │
-│   25                                                                         │
-│                                                                              │
-│ /home/william/Documents/Jev/src/jev/data/clinc150.py:44 in convert_clinc150  │
-│                                                                              │
-│   41 │   if fixture:                                                         │
-│   42 │   │   raw = json.loads(fixture.read_text(encoding="utf-8"))           │
-│   43 │   else:                                                               │
-│ ❱ 44 │   │   ds = try_load_hf("clinc_oos", "plus")                           │
-│   45 │   │   if ds is None:                                                  │
-│   46 │   │   │   raise FileNotFoundError("CLINC150 not available: pass       │
-│      --fixture")                                                             │
-│   47 │   │   raw = {}                                                        │
-╰──────────────────────────────────────────────────────────────────────────────╯
-TypeError: try_load_hf() takes 1 positional argument but 2 were given
-HF_FAIL clinc150
-=== manifests ===
--- data/banking77/manifest.json --
-{'dataset': 'banking77', 'primitive': 'choice', 'split_rule': 'official test frozen; official train 80/10/10 stratified by intent', 'license': 'CC BY 4.0'}
-{'calibration': {'n': 8, 'n_groups': 8}, 'test': {'n': 8, 'n_groups': 8}, 'train': {'n': 32, 'n_groups': 32}, 'validation': {'n': 0, 'n_groups': 0}}
--- data/boolq/manifest.json --
-{'dataset': 'boolq', 'primitive': 'noul', 'split_rule': 'official validation frozen as test; remaining titles 80/10/10; no title overlap', 'license': 'CC BY-SA 3.0'}
-{'calibration': {'n': 0, 'n_groups': 0}, 'test': {'n': 3, 'n_groups': 2}, 'train': {'n': 8, 'n_groups': 5}, 'validation': {'n': 0, 'n_groups': 0}}
--- data/clinc150/manifest.json --
-{'dataset': 'clinc150', 'primitive': 'choice', 'split_rule': 'official train+test; official validation split even/odd into val/calib', 'license': 'CC BY 3.0'}
-{'calibration': {'n': 3, 'n_groups': 3}, 'test': {'n': 3, 'n_groups': 3}, 'train': {'n': 18, 'n_groups': 18}, 'validation': {'n': 3, 'n_groups': 3}}
--- data/sst5/manifest.json --
-{'dataset': 'sst5', 'primitive': 'score', 'split_rule': 'official test/validation preferred; 10% of train carved as calibration', 'license': 'LicenseRef-SST-research'}
-{'calibration': {'n': 5, 'n_groups': 5}, 'test': {'n': 5, 'n_groups': 5}, 'train': {'n': 35, 'n_groups': 35}, 'validation': {'n': 5, 'n_groups': 5}}
--- data/synthetic/manifest.json --
-{'dataset': 'synthetic', 'primitive': 'choice', 'split_rule': 'group_id hashed; ~10% groups held out as test', 'license': 'generated-in-repo'}
-{'calibration': {'n': 48, 'n_groups': 12}, 'test': {'n': 12, 'n_groups': 3}, 'train': {'n': 172, 'n_groups': 43}, 'validation': {'n': 24, 'n_groups': 6}}
--- data/wikispeedia/manifest.json --
-{'dataset': 'wikispeedia', 'primitive': 'choice', 'split_rule': "split by target article; replay '<' via navigation stack; cap 255 keeping gold", 'license': 'SNAP + Wikipedia CC BY-SA'}
-{'calibration': {'n': 0, 'n_groups': 0}, 'test': {'n': 2, 'n_groups': 1}, 'train': {'n': 4, 'n_groups': 2}, 'validation': {'n': 0, 'n_groups': 0}}
-data/banking77/jsonl:
-total 304
-drwxrwxr-x 2 william william   4096 Sep 20 05:12 .
-drwxrwxr-x 3 william william   4096 Sep 20 05:12 ..
--rw-rw-r-- 1 william william  49178 Sep 20 05:12 calibration.jsonl
--rw-rw-r-- 1 william william  49154 Sep 20 05:12 test.jsonl
--rw-rw-r-- 1 william william 196520 Sep 20 05:12 train.jsonl
--rw-rw-r-- 1 william william      0 Sep 20 05:12 validation.jsonl
-
-data/boolq/jsonl:
-total 20
-drwxrwxr-x 2 william william 4096 Sep 20 05:12 .
-drwxrwxr-x 3 william william 4096 Sep 20 05:12 ..
--rw-rw-r-- 1 william william    0 Sep 20 05:12 calibration.jsonl
--rw-rw-r-- 1 william william 1679 Sep 20 05:12 test.jsonl
--rw-rw-r-- 1 william william 4469 Sep 20 05:12 train.jsonl
--rw-rw-r-- 1 william william    0 Sep 20 05:12 validation.jsonl
-
-data/clinc150/jsonl:
-total 316
-drwxrwxr-x 2 william william   4096 Sep 20 05:12 .
-drwxrwxr-x 3 william william   4096 Sep 20 05:12 ..
--rw-rw-r-- 1 william william  33505 Sep 20 05:12 calibration.jsonl
--rw-rw-r-- 1 william william  33478 Sep 20 05:12 test.jsonl
--rw-rw-r-- 1 william william 200904 Sep 20 05:12 train.jsonl
--rw-rw-r-- 1 william william  33493 Sep 20 05:12 validation.jsonl
-
-data/sst5/jsonl:
-total 44
-drwxrwxr-x 2 william william  4096 Sep 20 05:12 .
-drwxrwxr-x 3 william william  4096 Sep 20 05:12 ..
--rw-rw-r-- 1 william william  3186 Sep 20 05:12 calibration.jsonl
--rw-rw-r-- 1 william william  3136 Sep 20 05:12 test.jsonl
--rw-rw-r-- 1 william william 22092 Sep 20 05:12 train.jsonl
--rw-rw-r-- 1 william william  3161 Sep 20 05:12 validation.jsonl
-
-data/synthetic/jsonl:
-total 188
-drwxrwxr-x 2 william william   4096 Sep 20 05:12 .
-drwxrwxr-x 3 william william   4096 Sep 20 05:12 ..
--rw-rw-r-- 1 william william  32924 Sep 20 05:12 calibration.jsonl
--rw-rw-r-- 1 william william   8134 Sep 20 05:12 test.jsonl
--rw-rw-r-- 1 william william 116683 Sep 20 05:12 train.jsonl
--rw-rw-r-- 1 william william  16391 Sep 20 05:12 validation.jsonl
-
-data/wikispeedia/jsonl:
-total 24
-drwxrwxr-x 2 william william  4096 Sep 20 05:12 .
-drwxrwxr-x 3 william william  4096 Sep 20 05:12 ..
--rw-rw-r-- 1 william william     0 Sep 20 05:12 calibration.jsonl
--rw-rw-r-- 1 william william  1380 Sep 20 05:12 test.jsonl
--rw-rw-r-- 1 william william 12199 Sep 20 05:12 train.jsonl
--rw-rw-r-- 1 william william     0 Sep 20 05:12 validation.jsonl
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+data-convert synthetic --n 256 → data/synthetic/manifest.json
+=== fixture converters (tests/fixtures/data/*.json) ===
+banking77 / sst5 / boolq / clinc150 / wikispeedia → /tmp/jev-convert-proof
+group_id: banking77 never intent; BoolQ by title; Wikispeedia by target.
+BoolQ official validation frozen as test. Wikispeedia replay '<' via stack; cap 255 keeping gold.
+Wikispeedia fixture has 3 targets, so hashed test holdout leaves val/calib empty (n_groups < 3 after test). SNAP conversion fills all four splits.
+=== BoolQ original JSONL ===
+https://storage.googleapis.com/boolq/train.jsonl → HTTPError 403 Forbidden
+Fallback: google/boolq (no title column; passage-hash group_id).
+=== BANKING77 HF ===
+PolyAI/banking77 unauthenticated fail; mteb/banking77 OK.
+source recorded as mteb/banking77. Manifest reports/v0/manifests/banking77-hf.json
+=== SST-5 / CLINC150 / BoolQ HF / Wikispeedia SNAP ===
+Already converted under data/hf-attempt/ (gitignored JSONL). Manifests copied to reports/v0/manifests/.
+=== Colab CPU smoke ===
+SYNTHETIC_N=128 ./scripts/colab_cpu_smoke.sh
+hashing train_acc 1.00 shuffled_acc 0.25; eval n=4 acc 1.00 shuffled 0.75 T=1.0
+Copied to reports/v0/metrics/eval-colab-cli-cpu-smoke.json. Not a T4 run.
+=== pytest ===
+CPU: pytest -m "not cuda and not hf" → 46 passed
+CUDA: pytest -m "cuda and not hf" → 3 passed
+HF CUDA: pytest -m "cuda and hf" → 1 passed (Qwen2.5-0.5B naive vs cached; no OOM)
+=== FastAPI ===
+TestClient POST /v1/systemone Choice+Score+Noul; reject 1-option 422. reports/v0/api-smoke.json
+=== hardware ===
+python -m jev hardware → NVIDIA GeForce GTX 1650, Qwen/Qwen2.5-0.5B, vram_mib 4096
