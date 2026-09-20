@@ -99,5 +99,16 @@ def continuations(question: Question) -> list[str]:
     raise TypeError("unsupported question type")
 
 
+def json_continuations(question: Question) -> list[str]:
+    """JSON-object continuations for a JSON-generating LLM baseline."""
+    if isinstance(question, ChoiceQuestion):
+        return [f' {{"choice": "{key}"}}' for key in question.criteria]
+    if isinstance(question, ScoreQuestion):
+        return [f' {{"score": {i}}}' for i in range(len(question.criteria))]
+    if isinstance(question, NoulQuestion):
+        return [' {"noul": false}', ' {"noul": true}']
+    raise TypeError("unsupported question type")
+
+
 def render_request_prefixes(request: SystemOneRequest) -> dict[str, str]:
     return {qid: render_prefix(request.state, q) for qid, q in request.questions.items()}

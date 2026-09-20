@@ -40,12 +40,15 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
         "train-head",
         "calibrate",
         "evaluate",
+        "--out",
         "--no-deps",
         "Qwen/Qwen2.5-0.5B",
         "Qwen/Qwen2.5-3B",
         "HF_TOKEN",
         "google.colab",
         "nvidia-smi",
+        "hardware",
+        "--encoder",
     ):
         assert needle in text, needle
     assert "def train_option_head" not in text

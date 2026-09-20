@@ -17,12 +17,32 @@ def build_scorer(
     hf_model_id: str = "Qwen/Qwen2.5-0.5B",
     reduction: str = "sum",
     device: str | None = None,
+    train_jsonl: Path | None = None,
 ) -> Scorer:
     name = backend.strip().lower()
     if name in {"fake", "fake-overlap"}:
         return FakeScorer()
     if name in {"tiny-logprob", "tiny"}:
         return LogprobScorer(seeded_tiny_lm(0), ByteTokenizer(), model_id="tiny-causal-logprob")
+    if name in {"majority"}:
+        if train_jsonl is None:
+            raise ValueError("majority backend requires --train-jsonl")
+        from jev.scoring.baselines import MajorityScorer
+        from jev.scoring.option_head import load_jsonl_examples
+
+        return MajorityScorer.fit(load_jsonl_examples(train_jsonl))
+    if name in {"tfidf-linear", "encoder-linear", "linear"}:
+        if train_jsonl is None:
+            raise ValueError("tfidf-linear backend requires --train-jsonl")
+        from jev.scoring.baselines import TfidfLinearScorer
+        from jev.scoring.option_head import load_jsonl_examples
+
+        return TfidfLinearScorer.fit(load_jsonl_examples(train_jsonl))
+    if name in {"json-llm", "json-lm"}:
+        from jev.scoring.baselines import JsonLmScorer
+
+        inner = LogprobScorer(seeded_tiny_lm(0), ByteTokenizer(), model_id="tiny-causal-logprob")
+        return JsonLmScorer(inner)
     if name in {"hf-logprob", "hf", "zero-shot"}:
         from jev.scoring.hf_lm import try_load_hf_logprob_scorer
 
@@ -44,5 +64,5 @@ def build_scorer(
         model_id = str(meta.get("model_id") or "option-attention")
         return OptionHeadScorer(encoder, head, model_id=model_id)
     raise ValueError(
-        f"unknown backend {backend!r}; expected fake|tiny-logprob|hf-logprob|option-head"
+        f"unknown backend {backend!r}; expected fake|tiny-logprob|hf-logprob|option-head|majority|tfidf-linear|json-llm"
     )

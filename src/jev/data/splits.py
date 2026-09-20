@@ -50,7 +50,8 @@ def assign_groups(
     labeled: dict[str, str] = {}
     names = ("train", "validation", "calibration")
     cuts = (fractions[0], fractions[0] + fractions[1], 1.0)
-    for gid in sorted(set(group_ids)):
+    unique = sorted(set(group_ids))
+    for gid in unique:
         digest = hashlib.sha256(f"{seed}:{gid}".encode()).hexdigest()
         u = int(digest[:8], 16) / 0xFFFFFFFF
         if u < cuts[0]:
@@ -59,6 +60,15 @@ def assign_groups(
             labeled[gid] = names[1]
         else:
             labeled[gid] = names[2]
+    if len(unique) >= 3:
+        present = set(labeled.values())
+        for needed in names:
+            if needed in present:
+                continue
+            donor = max(names, key=lambda n: sum(1 for v in labeled.values() if v == n))
+            steal = next(g for g in unique if labeled[g] == donor)
+            labeled[steal] = needed
+            present.add(needed)
     return labeled
 
 
@@ -73,23 +83,26 @@ def stratified_indices(
     for i, lab in enumerate(labels):
         by_label[str(lab)].append(i)
     out: dict[str, list[int]] = {"train": [], "validation": [], "calibration": []}
-    cuts = (fractions[0], fractions[0] + fractions[1])
+    frac_train, frac_val, _frac_cal = fractions
     for lab, idxs in by_label.items():
         ordered = sorted(idxs, key=lambda i: hashlib.sha256(f"{seed}:{lab}:{i}".encode()).hexdigest())
         n = len(ordered)
-        n_train = int(n * cuts[0])
-        n_val = int(n * (cuts[1] - cuts[0]))
+        if n >= 3:
+            n_val = max(1, int(n * frac_val))
+            n_cal = max(1, int(n * (1.0 - frac_train - frac_val)))
+            n_train = n - n_val - n_cal
+            if n_train < 1:
+                n_train = 1
+                leftover = n - 1
+                n_val = max(1, leftover // 2)
+                n_cal = leftover - n_val
+        elif n == 2:
+            n_train, n_val, n_cal = 1, 0, 1
+        else:
+            n_train, n_val, n_cal = n, 0, 0
         out["train"].extend(ordered[:n_train])
         out["validation"].extend(ordered[n_train : n_train + n_val])
-        out["calibration"].extend(ordered[n_train + n_val :])
-        # Keep at least one train row when n>=1
-        if n >= 1 and not out["train"] and ordered:
-            moved = ordered[0]
-            for key in ("calibration", "validation"):
-                if moved in out[key]:
-                    out[key].remove(moved)
-                    out["train"].append(moved)
-                    break
+        out["calibration"].extend(ordered[n_train + n_val : n_train + n_val + n_cal])
     for key in out:
         out[key].sort()
     return out

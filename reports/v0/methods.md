@@ -22,7 +22,11 @@ Retrieved hardware and models: 20 September 2026.
    - hashing toy encoder (CPU trainer proof, not a language model)
    - frozen `Qwen/Qwen2.5-0.5B` (`AutoModel`, no LM head)
 
-Hashing is not a substitute for the Qwen comparison. The research comparison on the frozen synthetic test is zero-shot Qwen logprob vs the frozen-Qwen option head.
+5. **Majority prior** — class counts from the train split. Practical non-AI floor.
+6. **TF-IDF + logistic regression** — embedding/linear encoder-classifier baseline on state text.
+7. **JSON-LM** — same causal scorer, but continuations are JSON objects (`{"choice": ...}`). Tiny LM on CPU; swap the inner HF model for a hosted comparison.
+
+Hashing is not a substitute for the Qwen comparison. The research comparison on the frozen synthetic test is zero-shot Qwen logprob vs the frozen-Qwen option head. Majority / TF-IDF / JSON-LM sit on the same frozen split so later heads have numbers to beat.
 
 ## Calibration
 

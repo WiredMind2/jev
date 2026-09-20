@@ -152,6 +152,27 @@ def _gather_token_logprobs_2d(logits: torch.Tensor, token_ids: torch.Tensor) -> 
     return logp.gather(-1, token_ids.unsqueeze(-1)).squeeze(-1)
 
 
+def _clone_past(past: object) -> object:
+    """Copy a KV cache so option continuations do not mutate a shared prefix cache."""
+    if past is None:
+        return None
+    if isinstance(past, (list, tuple)):
+        cloned = []
+        for layer in past:
+            if isinstance(layer, (list, tuple)) and len(layer) == 2:
+                cloned.append((layer[0].clone(), layer[1].clone()))
+            else:
+                cloned.append(layer)
+        return tuple(cloned) if isinstance(past, tuple) else cloned
+    if hasattr(past, "to_legacy_cache") and hasattr(type(past), "from_legacy_cache"):
+        legacy = past.to_legacy_cache()
+        cloned = tuple((k.clone(), v.clone()) for k, v in legacy)
+        return type(past).from_legacy_cache(cloned)
+    import copy
+
+    return copy.deepcopy(past)
+
+
 def _expand_past(past: list[tuple[torch.Tensor, torch.Tensor]], batch: int) -> list[tuple[torch.Tensor, torch.Tensor]]:
     out: list[tuple[torch.Tensor, torch.Tensor]] = []
     for k, v in past:
@@ -204,6 +225,32 @@ class LogprobScorer:
             return out[0], out[1]
         return out.logits, getattr(out, "past_key_values", None)
 
+    def _score_hf_prefix_once(
+        self,
+        prefix_ids: Sequence[int],
+        cont_ids: Sequence[Sequence[int]],
+        red: Reduction,
+        device: torch.device,
+    ) -> list[float]:
+        prefix = torch.tensor([list(prefix_ids)], dtype=torch.long, device=device)
+        prefix_logits, past = self._forward_cache(prefix, None)
+        scores: list[float] = []
+        for c in cont_ids:
+            if not c:
+                scores.append(0.0)
+                continue
+            first_target = torch.tensor([c[0]], dtype=torch.long, device=prefix_logits.device)
+            first_lp = _gather_token_logprobs(prefix_logits[0, -1, :].unsqueeze(0), first_target)[0]
+            lps: list[torch.Tensor] = [first_lp]
+            if len(c) > 1:
+                rest = torch.tensor([list(c[:-1])], dtype=torch.long, device=prefix_logits.device)
+                rest_logits, _ = self._forward_cache(rest, _clone_past(past))
+                rest_targets = torch.tensor(list(c[1:]), dtype=torch.long, device=prefix_logits.device)
+                lps.append(_gather_token_logprobs(rest_logits[0], rest_targets))
+            tok_lp = torch.cat([p.reshape(-1) for p in lps], dim=0)
+            scores.append(float(_reduce(tok_lp, red)))
+        return scores
+
     @torch.no_grad()
     def score_strings(self, prefix: str, option_conts: Sequence[str]) -> list[float]:
         prefix_ids = self._encode(prefix)
@@ -218,10 +265,7 @@ class LogprobScorer:
                     self._forward_cache, prefix_ids, cont_ids, red, device=device
                 )
             else:
-                scores = [
-                    score_ids_cached(self._forward_cache, prefix_ids, c, red, device=device)
-                    for c in cont_ids
-                ]
+                scores = self._score_hf_prefix_once(prefix_ids, cont_ids, red, device)
         else:
             scores = [
                 score_ids_naive(self._forward_full, prefix_ids, c, red, device=device)

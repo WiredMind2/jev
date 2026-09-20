@@ -65,6 +65,18 @@ def test_sst5_score_levels_frozen(tmp_path: Path) -> None:
     assert 0 <= test_rows[0].gold <= 4
 
 
+def test_boolq_original_jsonl_uses_title(tmp_path: Path) -> None:
+    dev = tmp_path / "dev.jsonl"
+    dev.write_text(
+        '{"title":"Pluto","passage":"Pluto is a dwarf planet.","question":"Is Pluto a dwarf planet?","answer":true}\n',
+        encoding="utf-8",
+    )
+    from jev.data.boolq import _load_original_boolq_jsonl
+
+    rows = _load_original_boolq_jsonl(dev, "validation")
+    assert rows[0]["title"] == "Pluto"
+
+
 def test_boolq_groups_by_title_and_uses_validation_as_test(tmp_path: Path) -> None:
     convert_boolq(tmp_path, fixture=FIXTURES / "data" / "boolq.json")
     names = ("train", "validation", "calibration", "test")
@@ -107,3 +119,26 @@ def test_wikispeedia_replay_stack_and_cap(tmp_path: Path) -> None:
     menu = sample_menu("Photon", [f"x{i}" for i in range(300)] + ["Photon"], cap=255, seed_key="k")
     assert len(menu) == 255
     assert "Photon" in menu
+
+
+def test_wikispeedia_snap_parser(tmp_path: Path) -> None:
+    snap = tmp_path / "snap"
+    snap.mkdir()
+    (snap / "articles.tsv").write_text("# name\nWater\nPhoton\nAlbert_Einstein\n", encoding="utf-8")
+    (snap / "links.tsv").write_text(
+        "# src\tdst\nWater\tPhoton\nPhoton\tAlbert_Einstein\nWater\tAlbert_Einstein\n",
+        encoding="utf-8",
+    )
+    (snap / "paths_finished.tsv").write_text(
+        "# ip\tts\tdur\tpath\trating\nabc\t0\t1\tWater;Photon;<;Albert_Einstein\t5\n",
+        encoding="utf-8",
+    )
+    from jev.data.wikispeedia import payload_from_snap_dir
+
+    payload = payload_from_snap_dir(snap)
+    assert "Water" in payload["articles"]
+    assert "Photon" in payload["graph"]["Water"]
+    assert payload["paths"][0]["tokens"][-1] == "Albert_Einstein"
+    pairs = replay_path(payload["paths"][0]["tokens"])
+    assert ("Water", "Photon") in pairs
+    assert ("Water", "Albert_Einstein") in pairs

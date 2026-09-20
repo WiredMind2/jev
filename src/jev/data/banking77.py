@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from jev.data.convert import freeze_and_write, load_records_jsonl, try_load_hf_first
+from jev.data.convert import LAST_HF_SOURCE, freeze_and_write, load_records_jsonl, try_load_hf_first
 from jev.data.manifest import criteria_path, load_criteria
 from jev.data.splits import stratified_indices
 from jev.schema import FORMAT_VERSION, ChoiceQuestion, ChoiceTrainingExample, ExampleMetadata
@@ -51,9 +51,18 @@ def convert_banking77(out_dir: Path, fixture: Path | None = None) -> Path:
     spec = load_criteria(criteria_file)
     criteria = spec["criteria"]
     instructions = spec["instructions"]
-    raw = _rows_from_fixture(fixture) if fixture else _rows_from_hf()
+    source = "PolyAI/banking77"
+    if fixture:
+        raw = _rows_from_fixture(fixture)
+        source = str(fixture)
+    else:
+        raw = _rows_from_hf()
+        source = LAST_HF_SOURCE or "mteb/banking77"
     if raw is None:
-        raise FileNotFoundError("BANKING77 not available: pass --fixture or install datasets + network")
+        raise FileNotFoundError(
+            "BANKING77 not available: pass --fixture or install datasets + network "
+            "(tries PolyAI/banking77 then mteb/banking77)"
+        )
     official_test = raw.get("test", [])
     official_train = raw.get("train", raw.get("validation", []))
 
@@ -72,7 +81,7 @@ def convert_banking77(out_dir: Path, fixture: Path | None = None) -> Path:
             metadata=ExampleMetadata(
                 domain="banking77",
                 group_id=str(row.get("id") or row["text"]),
-                source="PolyAI/banking77",
+                source=source,
                 split=split,  # type: ignore[arg-type]
             ),
         )
@@ -91,7 +100,7 @@ def convert_banking77(out_dir: Path, fixture: Path | None = None) -> Path:
         criteria_file=criteria_file,
         converter="jev.data.banking77",
         license_name="CC BY 4.0",
-        source="PolyAI/banking77",
+        source=source,
         split_rule="official test frozen; official train 80/10/10 stratified by intent",
         examples_by_split=splits,
         out_dir=out_dir,
