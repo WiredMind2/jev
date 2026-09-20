@@ -46,8 +46,10 @@ randomization; adversarial state.
 Concrete reference: `daseinlabs/open-jev`, including its check that cached
 batched scoring matches naive re-encoding.
 
-Create 500–2,000 labeled examples from **one** narrow domain before
-chasing generality.
+Do not invent a private ticket corpus in week 1. Convert **BANKING77**
+(Choice) using the recipe in [Datasets](10-datasets.md). Keep a
+`jevlike` synthetic run as a unit test of the trainer. Add SST-5 and
+BoolQ before mixing domains.
 
 ## Stage 2 — evaluation harness
 
@@ -92,7 +94,10 @@ compile only after correctness and calibration are stable.
 
 - One finite-option abstraction for Choice, Score, Noul.
 - Local logprob scorer with batching and prefix caching.
-- 500–2,000 labeled examples, one domain.
+- Convert BANKING77 + synthetic menus to the training schema; freeze
+  intent descriptions in a hashed file.
+- Run zero-shot logprob on a 300-row stratified BANKING77 slice (same
+  protocol as `jev-eval`) so later heads have a number to beat.
 
 ### Week 2 — evaluation harness
 
@@ -104,7 +109,9 @@ compile only after correctness and calibration are stable.
 ### Week 3 — learned option scorer
 
 - Frozen encoder + low-rank option-query head.
-- Head vs zero-shot on the same test set.
+- Train on BANKING77; eval vs zero-shot on the same test set.
+- If that works, start Wikispeedia next-click (variable `N`,
+  target-disjoint split). Synthetic 98% is not evidence.
 
 ### Week 4 — calibration and deferral
 
@@ -135,10 +142,13 @@ src/jev/
   scorer_head.py     # Stage 3
   calibrate.py
   serve.py           # FastAPI /v1/systemone
+  data/
+    convert.py       # BANKING77 / SST-5 / BoolQ / Wikispeedia → JSONL
   eval/
     metrics.py
     splits.py
     ablations.py
 ```
 
-This repository currently contains documentation and schemas only.
+This repository currently contains documentation, schemas, a Python package
+(`src/jev`), CPU/CUDA tests, and a v0 report under `reports/v0/`.

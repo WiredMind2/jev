@@ -1,0 +1,12 @@
+{
+  "criteria_version": "sst5-v0",
+  "dataset": "sst5",
+  "instructions": "What is the sentiment of `text`?",
+  "criteria": [
+    "Very negative: hostile or dismissive throughout.",
+    "Negative: clearly unfavorable, not mixed.",
+    "Neutral: mixed, factual, or no clear valence.",
+    "Positive: clearly favorable, not ecstatic.",
+    "Very positive: enthusiastic praise throughout."
+  ]
+}

@@ -11,6 +11,10 @@ debuggable before the next.
 
 ## Data
 
+Public sources, licenses, conversions, and the v0 mix (synthetic →
+BANKING77 → SST-5 → BoolQ → Wikispeedia) are in
+[Datasets](10-datasets.md). This section is only the on-disk row shape.
+
 A generic labeled choice record:
 
 ```json
@@ -55,7 +59,13 @@ Rules:
 - Include `defer` / `insufficient_information` as a first-class label
   where the gold is genuinely unknown.
 
-See [`../schemas/training-example.schema.json`](../schemas/training-example.schema.json).
+See [`../schemas/training-example.schema.json`](../schemas/training-example.schema.json)
+and the conversion recipes in [Datasets](10-datasets.md).
+
+Do not train the first head on AG News or IMDB. They are easy, often
+already in encoder pretraining, and they do not stress variable menus.
+Carve a calibration split from the official train set (stratified);
+never tune criteria text on the frozen test split.
 
 ## Stage 1 — listwise supervised baseline
 

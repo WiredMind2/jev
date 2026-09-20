@@ -1,0 +1,15 @@
+{
+  "criteria_version": "synthetic-v0",
+  "dataset": "synthetic",
+  "instructions": "Which bucket does `ticket` name?",
+  "criteria": {
+    "crimson": "The named bucket is crimson.",
+    "azure": "The named bucket is azure.",
+    "ochre": "The named bucket is ochre.",
+    "violet": "The named bucket is violet.",
+    "emerald": "The named bucket is emerald.",
+    "amber": "The named bucket is amber.",
+    "indigo": "The named bucket is indigo.",
+    "ivory": "The named bucket is ivory."
+  }
+}

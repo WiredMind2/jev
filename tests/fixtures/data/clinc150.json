@@ -1,0 +1,143 @@
+{
+  "train": [
+    {
+      "id": "cl_tr_translate_0",
+      "text": "please translate hello into french 0",
+      "label": "translate"
+    },
+    {
+      "id": "cl_tr_translate_1",
+      "text": "please translate hello into french 1",
+      "label": "translate"
+    },
+    {
+      "id": "cl_tr_translate_2",
+      "text": "please translate hello into french 2",
+      "label": "translate"
+    },
+    {
+      "id": "cl_tr_translate_3",
+      "text": "please translate hello into french 3",
+      "label": "translate"
+    },
+    {
+      "id": "cl_tr_translate_4",
+      "text": "please translate hello into french 4",
+      "label": "translate"
+    },
+    {
+      "id": "cl_tr_translate_5",
+      "text": "please translate hello into french 5",
+      "label": "translate"
+    },
+    {
+      "id": "cl_tr_weather_0",
+      "text": "what is the weather in paris 0",
+      "label": "weather"
+    },
+    {
+      "id": "cl_tr_weather_1",
+      "text": "what is the weather in paris 1",
+      "label": "weather"
+    },
+    {
+      "id": "cl_tr_weather_2",
+      "text": "what is the weather in paris 2",
+      "label": "weather"
+    },
+    {
+      "id": "cl_tr_weather_3",
+      "text": "what is the weather in paris 3",
+      "label": "weather"
+    },
+    {
+      "id": "cl_tr_weather_4",
+      "text": "what is the weather in paris 4",
+      "label": "weather"
+    },
+    {
+      "id": "cl_tr_weather_5",
+      "text": "what is the weather in paris 5",
+      "label": "weather"
+    },
+    {
+      "id": "cl_tr_out_of_scope_0",
+      "text": "how do I train a dragon 0",
+      "label": "out_of_scope"
+    },
+    {
+      "id": "cl_tr_out_of_scope_1",
+      "text": "how do I train a dragon 1",
+      "label": "out_of_scope"
+    },
+    {
+      "id": "cl_tr_out_of_scope_2",
+      "text": "how do I train a dragon 2",
+      "label": "out_of_scope"
+    },
+    {
+      "id": "cl_tr_out_of_scope_3",
+      "text": "how do I train a dragon 3",
+      "label": "out_of_scope"
+    },
+    {
+      "id": "cl_tr_out_of_scope_4",
+      "text": "how do I train a dragon 4",
+      "label": "out_of_scope"
+    },
+    {
+      "id": "cl_tr_out_of_scope_5",
+      "text": "how do I train a dragon 5",
+      "label": "out_of_scope"
+    }
+  ],
+  "validation": [
+    {
+      "id": "cl_va_translate",
+      "text": "please translate hello into french val",
+      "label": "translate"
+    },
+    {
+      "id": "cl_va2_translate",
+      "text": "please translate hello into french val2",
+      "label": "translate"
+    },
+    {
+      "id": "cl_va_weather",
+      "text": "what is the weather in paris val",
+      "label": "weather"
+    },
+    {
+      "id": "cl_va2_weather",
+      "text": "what is the weather in paris val2",
+      "label": "weather"
+    },
+    {
+      "id": "cl_va_out_of_scope",
+      "text": "how do I train a dragon val",
+      "label": "out_of_scope"
+    },
+    {
+      "id": "cl_va2_out_of_scope",
+      "text": "how do I train a dragon val2",
+      "label": "out_of_scope"
+    }
+  ],
+  "test": [
+    {
+      "id": "cl_te_translate",
+      "text": "please translate hello into french test",
+      "label": "translate"
+    },
+    {
+      "id": "cl_te_weather",
+      "text": "what is the weather in paris test",
+      "label": "weather"
+    },
+    {
+      "id": "cl_te_out_of_scope",
+      "text": "how do I train a dragon test",
+      "label": "out_of_scope"
+    }
+  ]
+}

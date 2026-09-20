@@ -1,0 +1,1 @@
+{"accuracy":0.6666666666666666,"backend":"fake","brier":0.4489107830198534,"coverage_at_1pct":0.3333333333333333,"ece":0.13879087967545511,"mean_entropy_confidence":0.006758076282070924,"model_id":"fake-overlap-v0","n":3,"nll":0.6415956471528054,"shuffled_accuracy":0.6666666666666666,"temperature":1.0}

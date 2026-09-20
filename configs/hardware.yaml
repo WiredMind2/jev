@@ -1,0 +1,18 @@
+gpu:
+  name: NVIDIA GeForce GTX 1650
+  vram_mib: 4096
+  compute_capability: "7.5"
+  architecture: Turing
+  driver: "570.211.01"
+  cuda_driver: "12.8"
+  bf16: false
+  fp16: true
+models:
+  zero_shot: Qwen/Qwen2.5-0.5B
+  frozen_head: Qwen/Qwen2.5-0.5B
+  dtype: float16
+reduction_reason: >
+  Target was Qwen2.5 3B zero-shot and Qwen2.5 0.5B frozen head. The local
+  GPU is a 4 GiB GTX 1650 (sm_75, no BF16). 3B FP16 weights alone exceed
+  VRAM, so both roles use Qwen2.5-0.5B. Do not silently swap in a larger
+  checkpoint without a VRAM re-measure.

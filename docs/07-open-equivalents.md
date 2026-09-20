@@ -37,6 +37,18 @@ are not required for a text System One clone.
 
 Natural project to fork for Stage 3 in [Implementation](06-implementation.md).
 
+## Evaluation harnesses (use their tasks, not only their code)
+
+- [4esv/jev-eval](https://github.com/4esv/jev-eval) — BANKING77 Choice,
+  SST-5 Score, IMDB Noul; 300 stratified items; Jev vs OpenRouter.
+- [AbdelStark/jev-benchmarks](https://github.com/AbdelStark/jev-benchmarks)
+  — calibration, selective coverage, BTZSC slices (AG News, BANKING77,
+  DAIR Emotion).
+- [baibizhe/jev-decision-benchmarks](https://github.com/baibizhe/jev-decision-benchmarks)
+  — MetaTool, When2Call, BFCL V4 action/abstention.
+
+Dataset mapping for those tasks: [Datasets](10-datasets.md).
+
 ## Catalog
 
 - https://github.com/cobanov/awesome-jev — source-reviewed ecosystem list

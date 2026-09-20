@@ -1,0 +1,9 @@
+{
+  "criteria_version": "boolq-v0",
+  "dataset": "boolq",
+  "instructions": "Given `passage`, is the answer to `question` yes?",
+  "criteria": {
+    "true": "The passage supports a yes answer.",
+    "false": "The passage supports a no answer, or does not decide it."
+  }
+}

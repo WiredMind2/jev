@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/WiredMind2/jev/blob/main/schemas/dataset-manifest.schema.json",
+  "title": "DatasetManifest",
+  "description": "Frozen conversion record: source, criteria hash, split files, and license. Raw corpora are not stored in git.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dataset",
+    "primitive",
+    "format_version",
+    "criteria_version",
+    "criteria_sha256",
+    "converter",
+    "license",
+    "source",
+    "split_rule",
+    "splits"
+  ],
+  "properties": {
+    "dataset": { "type": "string" },
+    "primitive": { "enum": ["choice", "score", "noul"] },
+    "format_version": { "type": "string" },
+    "criteria_version": { "type": "string" },
+    "criteria_path": { "type": "string" },
+    "criteria_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "converter": { "type": "string" },
+    "converter_version": { "type": "string" },
+    "license": { "type": "string" },
+    "source": { "type": "string" },
+    "split_rule": { "type": "string" },
+    "created_utc": { "type": "string" },
+    "notes": { "type": "string" },
+    "splits": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/splitFile" }
+    }
+  },
+  "$defs": {
+    "splitFile": {
+      "type": "object",
+      "required": ["path", "n", "sha256"],
+      "properties": {
+        "path": { "type": "string" },
+        "n": { "type": "integer", "minimum": 0 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "n_groups": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

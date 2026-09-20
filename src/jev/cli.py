@@ -1,0 +1,215 @@
+"""Typer CLI for the research package."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import typer
+import uvicorn
+
+from jev import __version__
+from jev.calibration import collect_logit_gold, fit_temperature
+from jev.canonical import canonical_dumps
+from jev.data.convert import freeze_and_write
+from jev.data.manifest import criteria_path
+from jev.data.synthetic import make_synthetic_choice, split_synthetic
+from jev.evaluation import evaluate_scorer, report_as_dict
+from jev.hardware import load_hardware_pin
+from jev.pipeline import respond
+from jev.schema import parse_request
+from jev.scoring.factory import build_scorer
+from jev.scoring.option_head import (
+    OptionHeadScorer,
+    TrainConfig,
+    accuracy_on_examples,
+    load_checkpoint,
+    load_jsonl_examples,
+    save_checkpoint,
+    train_option_head,
+)
+
+app = typer.Typer(no_args_is_help=True, add_completion=False)
+
+
+@app.callback()
+def _root() -> None:
+    """Open Jev-like research CLI. Not TypeSafe Jev."""
+
+
+@app.command()
+def version() -> None:
+    typer.echo(__version__)
+
+
+@app.command()
+def hardware() -> None:
+    """Print the pinned GPU and Qwen2.5-0.5B reduction."""
+    typer.echo(canonical_dumps(load_hardware_pin().as_dict()))
+
+
+@app.command()
+def validate(
+    path: Path = typer.Argument(..., help="JSON request or training example"),
+) -> None:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if "questions" in payload:
+        req = parse_request(payload)
+        typer.echo(f"request ok: {len(req.questions)} questions")
+        return
+    from jev.schema import parse_training_example
+
+    ex = parse_training_example(payload)
+    typer.echo(f"example ok: {ex.id} type={ex.type}")
+
+
+@app.command("data-convert")
+def data_convert(
+    dataset: str = typer.Argument(..., help="synthetic|banking77|sst5|boolq|clinc150|wikispeedia"),
+    out: Path = typer.Option(Path("data"), help="Output parent directory"),
+    n: int = typer.Option(256, help="Synthetic row count"),
+    fixture: Path | None = typer.Option(None, help="Optional local JSON/JSONL fixture"),
+) -> None:
+    dest = out / dataset
+    dest.mkdir(parents=True, exist_ok=True)
+    if dataset == "synthetic":
+        rows = make_synthetic_choice(n=n)
+        splits = split_synthetic(rows)
+        manifest = freeze_and_write(
+            dataset="synthetic",
+            primitive="choice",
+            criteria_file=criteria_path("synthetic"),
+            converter="jev.data.synthetic",
+            license_name="generated-in-repo",
+            source="jev.data.synthetic.make_synthetic_choice",
+            split_rule="group_id hashed; ~10% groups held out as test",
+            examples_by_split=splits,
+            out_dir=dest,
+        )
+        typer.echo(str(manifest))
+        return
+    from jev.data.registry import convert_named
+
+    path = convert_named(dataset, dest, fixture=fixture)
+    typer.echo(str(path))
+
+
+@app.command("score")
+def score_cmd(
+    request_path: Path = typer.Argument(..., exists=True),
+    backend: str = typer.Option("fake", help="fake|tiny-logprob|hf-logprob|option-head"),
+    checkpoint: Path | None = typer.Option(None, help="Required for option-head"),
+    temperature: float = typer.Option(1.0),
+) -> None:
+    request = parse_request(json.loads(request_path.read_text(encoding="utf-8")))
+    scorer = build_scorer(backend, checkpoint=checkpoint)
+    response = respond(scorer, request, temperature=temperature)
+    typer.echo(canonical_dumps(response.model_dump(mode="json")))
+
+
+@app.command("train-head")
+def train_head_cmd(
+    train_jsonl: Path = typer.Argument(..., exists=True),
+    out: Path = typer.Option(Path("runs/synthetic-head.pt")),
+    val_jsonl: Path | None = typer.Option(None, help="Validation JSONL for early stopping only"),
+    epochs: int = typer.Option(12),
+    encoder: str = typer.Option("hashing", help="hashing|hf"),
+    model_id: str = typer.Option("Qwen/Qwen2.5-0.5B"),
+    device: str | None = typer.Option(None),
+    batch_size: int = typer.Option(16),
+    max_steps: int | None = typer.Option(None),
+) -> None:
+    import torch
+
+    examples = load_jsonl_examples(train_jsonl)
+    val = load_jsonl_examples(val_jsonl) if val_jsonl else None
+    if device is None:
+        torch_device = torch.device("cuda" if encoder == "hf" and torch.cuda.is_available() else "cpu")
+    else:
+        torch_device = torch.device(device)
+    cfg = TrainConfig(
+        epochs=epochs,
+        encoder_kind=encoder,
+        hf_model_id=model_id,
+        batch_size=batch_size,
+        max_steps=max_steps,
+    )
+    trained_encoder, head, history = train_option_head(
+        examples, cfg, device=torch_device, val_examples=val
+    )
+    extra = {
+        "encoder_kind": encoder,
+        "model_id": model_id if encoder == "hf" else "option-attention-hashing",
+        "hf_model_id": model_id,
+        **history,
+    }
+    save_checkpoint(out, trained_encoder, head, extra=extra)
+    acc = accuracy_on_examples(trained_encoder, head, examples, device=torch_device)
+    shuf = accuracy_on_examples(
+        trained_encoder, head, examples, device=torch_device, shuffle_state=True, seed=1
+    )
+    typer.echo(
+        canonical_dumps(
+            {"checkpoint": str(out), "train_acc": acc, "shuffled_acc": shuf, **history, **extra}
+        )
+    )
+
+
+@app.command("calibrate")
+def calibrate_cmd(
+    jsonl: Path = typer.Argument(..., exists=True, help="Calibration split only"),
+    checkpoint: Path = typer.Option(..., exists=True),
+    out: Path | None = typer.Option(None, help="Write temperature JSON"),
+) -> None:
+    examples = load_jsonl_examples(jsonl)
+    encoder, head, meta = load_checkpoint(checkpoint)
+    scorer = OptionHeadScorer(encoder, head, model_id=str(meta.get("model_id") or "option-attention"))
+    pairs = collect_logit_gold(scorer, examples)
+    cal = fit_temperature(pairs)
+    payload = {"temperature": cal.temperature, "n": len(pairs), "split": "calibration"}
+    text = canonical_dumps(payload)
+    if out:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text + "\n", encoding="utf-8")
+    typer.echo(text)
+
+
+@app.command("evaluate")
+def evaluate_cmd(
+    jsonl: Path = typer.Argument(..., exists=True),
+    backend: str = typer.Option("option-head", help="fake|tiny-logprob|hf-logprob|option-head"),
+    checkpoint: Path | None = typer.Option(None),
+    temperature: float = typer.Option(1.0),
+    out: Path | None = typer.Option(None, help="Write metrics JSON"),
+) -> None:
+    examples = load_jsonl_examples(jsonl)
+    scorer = build_scorer(backend, checkpoint=checkpoint)
+    report = evaluate_scorer(scorer, examples, temperature=temperature)
+    payload = {
+        "backend": backend,
+        "temperature": temperature,
+        "model_id": scorer.model_id,
+        **report_as_dict(report),
+    }
+    text = canonical_dumps(payload)
+    if out:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text + "\n", encoding="utf-8")
+    typer.echo(text)
+
+
+@app.command("serve")
+def serve_cmd(
+    host: str = "127.0.0.1",
+    port: int = 8000,
+    backend: str = "fake",
+    checkpoint: Path | None = typer.Option(None),
+) -> None:
+    from jev.api import create_app
+
+    scorer = build_scorer(backend, checkpoint=checkpoint)
+    uvicorn.run(create_app(scorer), host=host, port=port)
+
+
+if __name__ == "__main__":
+    app()

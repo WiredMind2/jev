@@ -1,0 +1,92 @@
+{
+  "train": [
+    {
+      "id": "bq_tr_0",
+      "title": "Greece",
+      "passage": "Greece is a member of the European Union.",
+      "question": "Is Greece in the EU?",
+      "answer": true
+    },
+    {
+      "id": "bq_tr_1",
+      "title": "Greece",
+      "passage": "Greece uses the euro.",
+      "question": "Does Greece use the euro?",
+      "answer": true
+    },
+    {
+      "id": "bq_tr_2",
+      "title": "Mars",
+      "passage": "Mars is a planet, not a star.",
+      "question": "Is Mars a star?",
+      "answer": false
+    },
+    {
+      "id": "bq_tr_3",
+      "title": "Nile",
+      "passage": "The Nile is a river in Africa.",
+      "question": "Is the Nile in Africa?",
+      "answer": true
+    },
+    {
+      "id": "bq_tr_4",
+      "title": "Nile",
+      "passage": "The Nile flows north.",
+      "question": "Does the Nile flow south?",
+      "answer": false
+    },
+    {
+      "id": "bq_tr_5",
+      "title": "Venus",
+      "passage": "Venus is the second planet from the Sun.",
+      "question": "Is Venus a planet?",
+      "answer": true
+    },
+    {
+      "id": "bq_tr_6",
+      "title": "Saturn",
+      "passage": "Saturn has rings.",
+      "question": "Does Saturn have rings?",
+      "answer": true
+    },
+    {
+      "id": "bq_tr_7",
+      "title": "Saturn",
+      "passage": "Saturn is a gas giant.",
+      "question": "Is Saturn a terrestrial planet?",
+      "answer": false
+    }
+  ],
+  "validation": [
+    {
+      "id": "bq_va_0",
+      "title": "Pluto",
+      "passage": "Pluto is a dwarf planet.",
+      "question": "Is Pluto a dwarf planet?",
+      "answer": true
+    },
+    {
+      "id": "bq_va_1",
+      "title": "Pluto",
+      "passage": "Pluto is not a star.",
+      "question": "Is Pluto a star?",
+      "answer": false
+    },
+    {
+      "id": "bq_va_2",
+      "title": "Andes",
+      "passage": "The Andes are a mountain range in South America.",
+      "question": "Are the Andes in Europe?",
+      "answer": false
+    }
+  ],
+  "test": [
+    {
+      "id": "bq_te_unlabeled",
+      "title": "HiddenPage",
+      "passage": "Labels are withheld on the public test.",
+      "question": "Is this labeled?",
+      "answer": null
+    }
+  ]
+}

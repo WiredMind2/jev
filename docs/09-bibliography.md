@@ -51,6 +51,24 @@ Retrieved 19 September 2026 unless noted. Inclusion is not endorsement.
 - cobanov/awesome-jev — ecosystem catalog, review 19 September 2026.
   https://github.com/cobanov/awesome-jev
 
+## Datasets and community evals
+
+Full mapping to Choice / Score / Noul is in [Datasets](10-datasets.md).
+
+- BANKING77 — https://huggingface.co/datasets/PolyAI/banking77
+- CLINC150 — https://github.com/clinc/oos-eval
+- Wikispeedia — https://snap.stanford.edu/data/wikispeedia.html
+- BoolQ — https://github.com/google-research-datasets/boolean-questions
+- SST-5 / Stanford Sentiment Treebank
+- Amazon ESCI — https://github.com/amazon-science/esci-data
+- When2Call — https://huggingface.co/datasets/nvidia/When2Call
+- MetaTool — https://github.com/howiehwong/metatool
+- FEVER, MultiNLI
+- BTZSC suite — https://huggingface.co/datasets/btzsc/btzsc
+- jev-eval — https://github.com/4esv/jev-eval
+- jev-benchmarks — https://github.com/AbdelStark/jev-benchmarks
+- jev-decision-benchmarks — https://github.com/baibizhe/jev-decision-benchmarks
+
 ## Related prior art (not TypeSafe)
 
 These are listed because they occupy the same *problem*, not because
