@@ -1,0 +1,36 @@
+{
+  "model": "open-jev-untrained",
+  "state": {
+    "ticket_message": "Hi, I've been trying to connect my Stripe account for 3 days and it keeps failing. I'm losing sales. Please help ASAP.",
+    "account_plan": "growth"
+  },
+  "questions": {
+    "department": {
+      "type": "choice",
+      "instructions": "Which team should handle `ticket_message`?",
+      "criteria": {
+        "billing": "Payment or subscription issues",
+        "technical": "Bugs or integration problems",
+        "sales": "Pricing or account questions",
+        "insufficient_information": "Not enough information to route reliably"
+      }
+    },
+    "frustration": {
+      "type": "score",
+      "instructions": "How frustrated the customer appears in `ticket_message`",
+      "criteria": [
+        "Calm, just stating facts",
+        "Frustrated but civil",
+        "Very angry, strong language"
+      ]
+    },
+    "is_urgent": {
+      "type": "noul",
+      "instructions": "The message conveys urgency or time-sensitivity",
+      "criteria": {
+        "true": "Explicit deadline, ongoing loss, or ask for immediate help",
+        "false": "No time pressure expressed"
+      }
+    }
+  }
+}

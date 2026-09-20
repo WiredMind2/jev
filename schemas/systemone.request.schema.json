@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/WiredMind2/jev/blob/main/schemas/systemone.request.schema.json",
+  "title": "SystemOneRequest",
+  "description": "Open reconstruction of TypeSafe POST /v1/systemone request body. Not an official schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["state", "questions"],
+  "properties": {
+    "model": { "type": "string" },
+    "state": { "$ref": "#/$defs/jsonValue" },
+    "questions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/question" }
+    }
+  },
+  "$defs": {
+    "jsonValue": {
+      "description": "JSON value. Hosted Jev is text-oriented; keep leaves as strings, numbers, booleans, or null.",
+      "type": ["string", "number", "boolean", "null", "array", "object"]
+    },
+    "question": {
+      "oneOf": [
+        { "$ref": "#/$defs/choiceQuestion" },
+        { "$ref": "#/$defs/scoreQuestion" },
+        { "$ref": "#/$defs/noulQuestion" }
+      ]
+    },
+    "choiceQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "instructions", "criteria"],
+      "properties": {
+        "type": { "const": "choice" },
+        "instructions": { "$ref": "#/$defs/jsonValue" },
+        "criteria": {
+          "type": "object",
+          "minProperties": 2,
+          "maxProperties": 255,
+          "additionalProperties": true
+        }
+      }
+    },
+    "scoreQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "instructions", "criteria"],
+      "properties": {
+        "type": { "const": "score" },
+        "instructions": { "$ref": "#/$defs/jsonValue" },
+        "criteria": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "items": { "$ref": "#/$defs/jsonValue" }
+        }
+      }
+    },
+    "noulQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "instructions"],
+      "properties": {
+        "type": { "const": "noul" },
+        "instructions": { "$ref": "#/$defs/jsonValue" },
+        "criteria": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "true": { "$ref": "#/$defs/jsonValue" },
+            "false": { "$ref": "#/$defs/jsonValue" }
+          }
+        }
+      }
+    }
+  }
+}

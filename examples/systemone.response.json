@@ -1,0 +1,39 @@
+{
+  "model": "open-jev-untrained",
+  "answers": {
+    "department": {
+      "type": "choice",
+      "choice": "technical",
+      "probabilities": {
+        "billing": 0.12,
+        "technical": 0.81,
+        "sales": 0.04,
+        "insufficient_information": 0.03
+      },
+      "confidence": 0.64
+    },
+    "frustration": {
+      "type": "score",
+      "score": 1.04,
+      "legend": {
+        "0": "Calm, just stating facts",
+        "1": "Frustrated but civil",
+        "2": "Very angry, strong language"
+      },
+      "probabilities": {
+        "0": 0.08,
+        "1": 0.80,
+        "2": 0.12
+      },
+      "confidence": 0.61
+    },
+    "is_urgent": {
+      "type": "noul",
+      "noul": 0.97
+    }
+  },
+  "usage": {
+    "input_tokens": 312,
+    "output_tokens": 48
+  }
+}

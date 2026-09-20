@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/WiredMind2/jev/blob/main/schemas/systemone.response.schema.json",
+  "title": "SystemOneResponse",
+  "description": "Open reconstruction of TypeSafe POST /v1/systemone response body. Not an official schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["model", "answers"],
+  "properties": {
+    "model": { "type": "string" },
+    "answers": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/answer" }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_tokens": { "type": "integer", "minimum": 0 },
+        "output_tokens": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "$defs": {
+    "unitInterval": { "type": "number", "minimum": 0, "maximum": 1 },
+    "answer": {
+      "oneOf": [
+        { "$ref": "#/$defs/choiceAnswer" },
+        { "$ref": "#/$defs/scoreAnswer" },
+        { "$ref": "#/$defs/noulAnswer" }
+      ]
+    },
+    "choiceAnswer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "choice", "probabilities", "confidence"],
+      "properties": {
+        "type": { "const": "choice" },
+        "choice": { "type": "string" },
+        "probabilities": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": { "$ref": "#/$defs/unitInterval" }
+        },
+        "confidence": { "$ref": "#/$defs/unitInterval" }
+      }
+    },
+    "scoreAnswer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "score", "legend", "probabilities", "confidence"],
+      "properties": {
+        "type": { "const": "score" },
+        "score": { "type": "number", "minimum": 0 },
+        "legend": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": true
+        },
+        "probabilities": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": { "$ref": "#/$defs/unitInterval" }
+        },
+        "confidence": { "$ref": "#/$defs/unitInterval" }
+      }
+    },
+    "noulAnswer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "noul"],
+      "properties": {
+        "type": { "const": "noul" },
+        "noul": { "$ref": "#/$defs/unitInterval" }
+      }
+    }
+  }
+}

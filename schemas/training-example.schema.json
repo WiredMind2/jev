@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/WiredMind2/jev/blob/main/schemas/training-example.schema.json",
+  "title": "DecisionTrainingExample",
+  "description": "Labeled row for training an open Jev-like finite-option scorer.",
+  "type": "object",
+  "required": ["state", "question", "gold"],
+  "properties": {
+    "id": { "type": "string" },
+    "state": true,
+    "question": {
+      "type": "object",
+      "required": ["instructions", "criteria"],
+      "properties": {
+        "type": { "enum": ["choice", "score", "noul"] },
+        "instructions": true,
+        "criteria": true
+      }
+    },
+    "gold": {
+      "description": "Choice key, score level index (int or numeric string), or boolean / 'true'/'false' for Noul.",
+      "type": ["string", "integer", "boolean"]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "domain": { "type": "string" },
+        "group_id": { "type": "string" },
+        "risk_tier": { "type": "string" }
+      }
+    }
+  }
+}
