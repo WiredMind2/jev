@@ -22,7 +22,7 @@ state + {typed question_i}  -->  {typed decision_i, distribution_i, confidence_i
 | Choose public train/eval datasets | Catalog in `docs/10-datasets.md`; converters in `src/jev/data/` |
 | Reconstruct a serving baseline (cached option scoring) | Implemented: FastAPI `POST /v1/systemone`, Qwen2.5-0.5B cached logprob |
 | Train a variable-menu decision head | Implemented: frozen encoder + option-attention head; hashing trainer proof + Qwen frozen head |
-| v0 report on frozen synthetic test | [reports/v0](reports/v0/metrics.md) (zero-shot 0.75 vs underfit frozen head 0.33; hashing 1.00 is not the LM comparison) |
+| v0 report on frozen synthetic test | [reports/v0](reports/v0/metrics.md) (CLI `train-head --encoder hf`: zero-shot 0.75 vs underfit frozen head 0.083; hashing 1.00 is not the LM comparison) |
 | Reproduce TypeSafe's private architecture | **Not possible from public information** |
 | Reproduce RLCD as TypeSafe trains it | **Not possible from public information** |
 

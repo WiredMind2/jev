@@ -7,7 +7,7 @@ This is research v0. It is not TypeSafe Jev and does not reproduce RLCD.
 - No factual-correctness guarantee from typed outputs.
 - No authorization: model output never sets access boundaries.
 - No match to hosted Jev 0.78 BANKING77 (jev-eval, n=300). That is a later bar.
-- Frozen Qwen option head underfit on 64 synthetic rows. Zero-shot beat it on the same frozen test. Do not read the hashing 100% as an LM result.
+- Frozen Qwen option head underfit on the CLI `train-head --encoder hf` run (full synthetic train, batch 1, GTX 1650): test acc 0.083. Zero-shot beat it on the same frozen test (0.75). Do not read the hashing 100% as an LM result.
 - JSON-LM and TF-IDF baselines **were** run on the frozen synthetic test (`eval-json-llm-synthetic-test.json`, `eval-tfidf-synthetic-test.json`). They were not run on BANKING77/Wikispeedia with Qwen — that is a Colab T4 job.
 - Multi-question amortization (stage 5) is specified, not profiled.
 - Isotonic / Dirichlet calibration was not fit; temperature scaling only.

@@ -2,13 +2,6 @@
   "health": {
     "status": "ok"
   },
-  "healthz": {
-    "status": "ok"
-  },
-  "readyz": {
-    "status": "ready",
-    "model": "fake-overlap-v0"
-  },
   "models": {
     "models": [
       {

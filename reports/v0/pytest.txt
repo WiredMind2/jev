@@ -1,14 +1,12 @@
 CPU: pytest -m "not cuda and not hf"
-..............................................                           [100%]
-46 passed, 4 deselected, 2 warnings in 3.57s
+46 passed, 4 deselected, 2 warnings in 3.41s
 
 CUDA: pytest -m "cuda and not hf"
-...                                                                      [100%]
-3 passed, 47 deselected, 2 warnings in 1.74s
+3 passed, 47 deselected, 2 warnings in 1.72s
 
 HF CUDA: pytest -m "cuda and hf"  (Qwen2.5-0.5B naive vs cached on GTX 1650)
-.                                                                        [100%]
-1 passed, 49 deselected, 2 warnings in 7.16s
+1 passed, 49 deselected, 2 warnings in 6.93s
 
-No OOM. Hardware pin: NVIDIA GeForce GTX 1650, 4096 MiB, Qwen/Qwen2.5-0.5B fp16.
+CLI train-head --encoder hf on synthetic train completed with no OOM.
+Hardware pin: NVIDIA GeForce GTX 1650, 4096 MiB, Qwen/Qwen2.5-0.5B fp16.
 Python 3.12.3 .venv, torch 2.6.0+cu124.

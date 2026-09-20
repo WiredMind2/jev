@@ -1,27 +1,29 @@
-=== synthetic ===
-data-convert synthetic --n 256 → data/synthetic/manifest.json
-=== fixture converters (tests/fixtures/data/*.json) ===
-banking77 / sst5 / boolq / clinc150 / wikispeedia → /tmp/jev-convert-proof
-group_id: banking77 never intent; BoolQ by title; Wikispeedia by target.
-BoolQ official validation frozen as test. Wikispeedia replay '<' via stack; cap 255 keeping gold.
-Wikispeedia fixture has 3 targets, so hashed test holdout leaves val/calib empty (n_groups < 3 after test). SNAP conversion fills all four splits.
-=== BoolQ original JSONL ===
-https://storage.googleapis.com/boolq/train.jsonl → HTTPError 403 Forbidden
-Fallback: google/boolq (no title column; passage-hash group_id).
-=== BANKING77 HF ===
-PolyAI/banking77 unauthenticated fail; mteb/banking77 OK.
-source recorded as mteb/banking77. Manifest reports/v0/manifests/banking77-hf.json
-=== SST-5 / CLINC150 / BoolQ HF / Wikispeedia SNAP ===
-Already converted under data/hf-attempt/ (gitignored JSONL). Manifests copied to reports/v0/manifests/.
-=== Colab CPU smoke ===
-SYNTHETIC_N=128 ./scripts/colab_cpu_smoke.sh
-hashing train_acc 1.00 shuffled_acc 0.25; eval n=4 acc 1.00 shuffled 0.75 T=1.0
-Copied to reports/v0/metrics/eval-colab-cli-cpu-smoke.json. Not a T4 run.
+=== synthetic CLI ===
+jev data-convert synthetic --out data --n 256
+jev train-head --encoder hashing  (CPU extra proof; train_acc 1.00 shuffled 0.24)
+jev train-head --encoder hf --model-id Qwen/Qwen2.5-0.5B --batch-size 1 --epochs 12
+  exit 0, no OOM, GTX 1650 4096 MiB. train_acc 0.273 shuffled_acc 0.273 stopped_epoch 7 best_val_acc 0.417
+jev calibrate calibration.jsonl (n=48, T=5.0) -- not used for early stopping
+jev evaluate test.jsonl --backend option-head --out reports/v0/metrics/eval-hf-head-synthetic-test.json
+  acc 0.083 n=12 shuffled 0.083
+jev evaluate test.jsonl --backend hf-logprob --out reports/v0/metrics/eval-hf-logprob-synthetic-test.json
+  acc 0.75 n=12 shuffled 0.167
+
+=== FastAPI TestClient ===
+POST /v1/systemone Choice+Score+Noul 200; one-option 422. reports/v0/api-smoke.json
+
+=== fixture converts ===
+banking77 group_id != intent; BoolQ validation as test grouped by title; Wikispeedia target + cap 255 keeping gold; SST-5 score; CLINC150 151 + OOS.
+
+=== HF / SNAP converts (data/hf-attempt, gitignored JSONL) ===
+banking77 mteb/banking77 8067/965/961/3076
+sst5 SetFit/sst5 7687/1101/852/2210
+boolq google/boolq (original storage.googleapis.com/boolq HTTP 403) 6410/790/789/3270
+clinc150 clinc/clinc_oos 15250/1550/1550/5500
+wikispeedia SNAP 159134/26900/48951/39786 skipped_rows=128
+
 === pytest ===
-CPU: pytest -m "not cuda and not hf" → 46 passed
-CUDA: pytest -m "cuda and not hf" → 3 passed
-HF CUDA: pytest -m "cuda and hf" → 1 passed (Qwen2.5-0.5B naive vs cached; no OOM)
-=== FastAPI ===
-TestClient POST /v1/systemone Choice+Score+Noul; reject 1-option 422. reports/v0/api-smoke.json
+CPU 46 passed; CUDA 3 passed; HF CUDA 1 passed; no OOM.
+
 === hardware ===
 python -m jev hardware → NVIDIA GeForce GTX 1650, Qwen/Qwen2.5-0.5B, vram_mib 4096

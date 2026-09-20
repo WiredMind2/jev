@@ -1,0 +1,78 @@
+==== 2026-09-20T06:43:35+02:00 verification ====
+python: 3.12.3
+==== TestClient Choice/Score/Noul ====
+GET /health 200 {'status': 'ok'}
+GET /v1/models gpu NVIDIA GeForce GTX 1650 zero_shot Qwen/Qwen2.5-0.5B
+POST /v1/systemone 200
+choice choice sales sum_p 1.0
+score score score= 1.0 True
+noul noul p= 0.7682778253822738 False
+reject_one_option 422
+WROTE reports/v0/api-smoke.json
+==== fixture dataset converts ====
+data/converted-fixtures/banking77/manifest.json
+data/converted-fixtures/sst5/manifest.json
+data/converted-fixtures/boolq/manifest.json
+data/converted-fixtures/clinc150/manifest.json
+data/converted-fixtures/wikispeedia/manifest.json
+banking77: n_test 8 group_id_sample b77_activate_my_card_t0 not intent
+boolq: test titles ['andes', 'pluto'] validation-as-test n 3
+wikispeedia: n 6 max_menu 255 targets ['Albert_Einstein', 'Photon', 'Water']
+sst5: n_test 5 levels 5
+clinc150: n_test 3 options 151 has_oos True
+FIXTURE_CONVERTS_OK
+
+==== hashing extra CPU proof (not the Qwen substitute) ====
+data/synthetic/manifest.json
+{"best_val_acc":1.0,"checkpoint":"runs/synthetic-hashing-head.pt","encoder_kind":"hashing","final_loss":3.362378993188031e-05,"hf_model_id":"Qwen/Qwen2.5-0.5B","model_id":"option-attention-hashing","shuffled_acc":0.23837209302325582,"stopped_epoch":8.0,"train_acc":1.0}
+{"n":48,"split":"calibration","temperature":0.25}
+{"accuracy":1.0,"backend":"option-head","brier":6.496919523861287e-11,"coverage_at_1pct":1.0,"ece":1.7104206423423918e-06,"limit":null,"mean_entropy_confidence":0.9999852458973543,"model_id":"option-attention-hashing","n":12,"nll":1.7104368847950022e-06,"shuffled_accuracy":0.4166666666666667,"temperature":0.25}
+hashing T=0.25
+{"accuracy":1.0,"backend":"option-head","brier":6.496919523861287e-11,"coverage_at_1pct":1.0,"ece":1.7104206423423918e-06,"limit":null,"mean_entropy_confidence":0.9999852458973543,"model_id":"option-attention-hashing","n":12,"nll":1.7104368847950022e-06,"shuffled_accuracy":0.4166666666666667,"temperature":0.25}
+
+==== HF convert probes ====
+-- banking77 --
+data/hf-attempt/banking77/manifest.json
+HF_OK banking77
+-- sst5 --
+data/hf-attempt/sst5/manifest.json
+HF_OK sst5
+-- boolq --
+data/hf-attempt/boolq/manifest.json
+HF_OK boolq
+-- clinc150 --
+data/hf-attempt/clinc150/manifest.json
+HF_OK clinc150
+-- wikispeedia --
+data/hf-attempt/wikispeedia/manifest.json
+HF_OK wikispeedia
+
+==== nvidia-smi BEFORE hf train-head ====
+name, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+NVIDIA GeForce GTX 1650, 4096 MiB, 1 MiB, 3715 MiB
+==== synthetic CLI train-head --encoder hf (Qwen2.5-0.5B, batch 1) ====
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:   0%|          | 1/290 [00:00<00:40,  7.13it/s]Loading weights:  34%|███▍      | 100/290 [00:00<00:00, 498.72it/s]Loading weights:  54%|█████▍    | 158/290 [00:00<00:00, 522.60it/s]Loading weights:  74%|███████▍  | 215/290 [00:00<00:00, 534.97it/s]Loading weights:  94%|█████████▍| 273/290 [00:00<00:00, 550.21it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 510.67it/s]
+{"best_val_acc":0.4166666666666667,"checkpoint":"runs/synthetic-hf-head.pt","encoder_kind":"hf","final_loss":1.4622745513916016,"hf_model_id":"Qwen/Qwen2.5-0.5B","model_id":"Qwen/Qwen2.5-0.5B","shuffled_acc":0.27325581395348836,"stopped_epoch":7.0,"train_acc":0.27325581395348836}
+train-head_exit=0
+name, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+NVIDIA GeForce GTX 1650, 4096 MiB, 1 MiB, 3715 MiB
+==== calibrate (calibration split only) ====
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 3845.61it/s]
+{"n":48,"split":"calibration","temperature":5.0}
+==== evaluate --out ====
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 3725.47it/s]
+{"accuracy":0.08333333333333333,"backend":"option-head","brier":0.7765019646053046,"coverage_at_1pct":0.0,"ece":0.21429927726015546,"limit":null,"mean_entropy_confidence":0.007783655677051425,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":1.4360112736167243,"shuffled_accuracy":0.08333333333333333,"temperature":5.0}
+hf T=5.0
+{"accuracy":0.08333333333333333,"backend":"option-head","brier":0.7765019646053046,"coverage_at_1pct":0.0,"ece":0.21429927726015546,"limit":null,"mean_entropy_confidence":0.007783655677051425,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":1.4360112736167243,"shuffled_accuracy":0.08333333333333333,"temperature":5.0}
+
+==== release CUDA then zero-shot evaluate ====
+released
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 3873.35it/s]
+{"accuracy":0.75,"backend":"hf-logprob","brier":0.3530824066781739,"coverage_at_1pct":0.25,"ece":0.25923330062680977,"limit":null,"mean_entropy_confidence":0.4457347516468711,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":0.6055112217128271,"shuffled_accuracy":0.16666666666666666,"temperature":1.0}
+{"accuracy":0.75,"backend":"hf-logprob","brier":0.3530824066781739,"coverage_at_1pct":0.25,"ece":0.25923330062680977,"limit":null,"mean_entropy_confidence":0.4457347516468711,"model_id":"Qwen/Qwen2.5-0.5B","n":12,"nll":0.6055112217128271,"shuffled_accuracy":0.16666666666666666,"temperature":1.0}
+name, memory.total [MiB], memory.used [MiB], memory.free [MiB]
+NVIDIA GeForce GTX 1650, 4096 MiB, 1 MiB, 3715 MiB
