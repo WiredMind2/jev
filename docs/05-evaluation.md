@@ -94,6 +94,23 @@ Compare against all of these on the **same** frozen test split:
 - Class imbalance
 - Multi-label ambiguities with `defer`
 
+## Public tasks to report on first
+
+Use the conversions in [Datasets](10-datasets.md). A v0 eval is not
+complete until these four are filled:
+
+| Task | Primitive | What a good result looks like |
+|---|---|---|
+| BANKING77 official test | Choice (77) | Beats majority and shuffled-context; later: approach hosted Jev ~0.78 (jev-eval, n=300) |
+| SST-5 | Score (5) | Ordinal MAE + ECE; hosted Jev was only 0.57 acc there |
+| BoolQ | Noul | AUROC / Brier; page-grouped split |
+| Wikispeedia target-disjoint | Variable Choice | Must beat ~8% shuffled/random controls (`jevlike`) |
+
+Optionally compare zero-shot logprob vs trained head vs a JSON LLM on
+the **same** 300-row stratified slice that `jev-eval` uses, so numbers
+are commensurable. Do not treat TypeSafe workflow evals as a train or
+test set: their labels are other models.
+
 ## Report table
 
 Fill this in. Empty cells are better than invented numbers.

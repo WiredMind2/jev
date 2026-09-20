@@ -10,6 +10,8 @@ Useful contributions:
 - Measurements with grouped splits, ECE / Brier, shuffled-context
   controls, and a pinned model/schema version.
 - Schema fixes that match the public HTTP contract more closely.
+- Dataset conversions that follow `docs/10-datasets.md` (license, grouped
+  split, frozen criteria text, no raw corpus in git).
 - Implementation PRs that follow `docs/06-implementation.md` without
   claiming to be Jev.
 

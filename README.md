@@ -19,6 +19,7 @@ state + {typed question_i}  -->  {typed decision_i, distribution_i, confidence_i
 | Claim | Status |
 |---|---|
 | Document the public API contract | In progress in this repo |
+| Choose public train/eval datasets | Catalog in `docs/10-datasets.md` |
 | Reconstruct a serving baseline (cached option scoring) | Specified; not yet implemented here |
 | Train a variable-menu decision head | Specified; not yet implemented here |
 | Reproduce TypeSafe's private architecture | **Not possible from public information** |
@@ -51,6 +52,7 @@ Start here:
 7. [Open equivalents](docs/07-open-equivalents.md) — projects to study and fork
 8. [Limitations](docs/08-limitations.md) — jaggedness that any replica must handle
 9. [Bibliography](docs/09-bibliography.md) — sources with retrieval dates
+10. [Datasets](docs/10-datasets.md) — public corpora mapped to Choice / Score / Noul
 
 JSON Schemas for the public request/response and a training-row format live in
 [`schemas/`](schemas/).
@@ -71,9 +73,11 @@ The strongest first implementation is:
 
 1. Cached, batched zero-shot option likelihoods (the `open-jev` approach).
 2. A learned variable-option decision head (the `jevlike` approach).
-3. Calibration, abstention, leakage controls, and a policy layer as the actual
+3. Train on the v0 mix in [Datasets](docs/10-datasets.md): synthetic menus,
+   BANKING77, SST-5, BoolQ, then Wikispeedia next-click.
+4. Calibration, abstention, leakage controls, and a policy layer as the actual
    research contribution.
-4. Measurement against a JSON-generating LLM *and* a task-specific encoder
+5. Measurement against a JSON-generating LLM *and* a task-specific encoder
    classifier.
 
 The opportunity is not guessing Jev's parameter count. It is building a

@@ -13,5 +13,6 @@ venv/
 *.npz
 models/
 runs/
-data/raw/
+data/*
+!data/README.md
 .git-commit-msg.txt
