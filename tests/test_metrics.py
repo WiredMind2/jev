@@ -1,5 +1,11 @@
 from jev.calibration import fit_temperature, nll_from_logits
-from jev.evaluation import coverage_at_error, evaluate_scorer, expected_calibration_error
+from jev.evaluation import (
+    binary_auroc,
+    coverage_at_error,
+    evaluate_scorer,
+    expected_calibration_error,
+    risk_coverage_curve,
+)
 from jev.scoring.fake import FakeScorer
 
 
@@ -23,6 +29,21 @@ def test_coverage_at_error_keeps_confident_correct() -> None:
     assert cov == 0.5
 
 
+def test_risk_coverage_curve_monotone_coverage() -> None:
+    conf = [0.9, 0.8, 0.2, 0.1]
+    correct = [1, 1, 0, 0]
+    curve = risk_coverage_curve(conf, correct, fractions=(0.5, 1.0))
+    assert curve[0]["n_kept"] == 2.0
+    assert curve[0]["risk"] == 0.0
+    assert curve[-1]["coverage"] == 1.0
+    assert curve[-1]["risk"] == 0.5
+
+
+def test_binary_auroc_separates() -> None:
+    assert binary_auroc([0.1, 0.2, 0.8, 0.9], [0, 0, 1, 1]) == 1.0
+    assert binary_auroc([0.5, 0.5], [1, 1]) is None
+
+
 def test_evaluate_scorer_metrics_keys() -> None:
     from jev.data.synthetic import make_synthetic_choice
 
@@ -35,3 +56,8 @@ def test_evaluate_scorer_metrics_keys() -> None:
     assert report.ece >= 0.0
     assert report.shuffled_accuracy is not None
     assert report.coverage_at_1pct is not None
+    curve = report.extras["risk_coverage"]
+    assert isinstance(curve, list) and curve
+    assert curve[-1]["coverage"] == 1.0
+    dumped = __import__("jev.evaluation", fromlist=["report_as_dict"]).report_as_dict(report)
+    assert "risk_coverage" in dumped

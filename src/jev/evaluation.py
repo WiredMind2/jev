@@ -5,9 +5,10 @@ from __future__ import annotations
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass, field
+from typing import Any
 
 from jev.invariants import entropy_confidence, score_expectation, softmax
-from jev.schema import ScoreTrainingExample, SystemOneRequest
+from jev.schema import NoulTrainingExample, ScoreTrainingExample, SystemOneRequest
 from jev.scoring.option_head import example_gold_index
 from jev.scoring.protocol import Scorer
 
@@ -21,7 +22,7 @@ class MetricReport:
     ece: float
     shuffled_accuracy: float | None = None
     coverage_at_1pct: float | None = None
-    extras: dict[str, float] = field(default_factory=dict)
+    extras: dict[str, Any] = field(default_factory=dict)
 
 
 def _nll(probs: Sequence[float], gold: int) -> float:
@@ -79,6 +80,59 @@ def coverage_at_error(
     return best
 
 
+def risk_coverage_curve(
+    confidences: Sequence[float],
+    correct: Sequence[int],
+    *,
+    fractions: Sequence[float] = (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0),
+) -> list[dict[str, float]]:
+    """Error rate (risk) after keeping the highest-confidence `coverage` fraction."""
+    if not confidences:
+        return []
+    order = sorted(range(len(confidences)), key=lambda i: confidences[i], reverse=True)
+    n = len(order)
+    hits = 0
+    prefix_risk = [0.0] * n
+    for k, i in enumerate(order, start=1):
+        hits += int(correct[i])
+        prefix_risk[k - 1] = 1.0 - (hits / k)
+    points: list[dict[str, float]] = []
+    for frac in fractions:
+        k = max(1, min(n, int(math.ceil(frac * n))))
+        points.append(
+            {
+                "coverage": k / n,
+                "risk": prefix_risk[k - 1],
+                "n_kept": float(k),
+                "threshold": float(confidences[order[k - 1]]),
+            }
+        )
+    return points
+
+
+def binary_auroc(scores: Sequence[float], labels: Sequence[int]) -> float | None:
+    """Mann–Whitney AUROC. None when a class is missing (not a fake 0.5)."""
+    pairs = list(zip(scores, labels, strict=True))
+    n_pos = sum(1 for _, y in pairs if y)
+    n_neg = len(pairs) - n_pos
+    if n_pos == 0 or n_neg == 0:
+        return None
+    ranked = sorted(range(len(pairs)), key=lambda i: (pairs[i][0], i))
+    ranks = [0.0] * len(pairs)
+    i = 0
+    while i < len(ranked):
+        j = i
+        while j + 1 < len(ranked) and pairs[ranked[j + 1]][0] == pairs[ranked[i]][0]:
+            j += 1
+        avg = (i + j) / 2.0 + 1.0
+        for k in range(i, j + 1):
+            ranks[ranked[k]] = avg
+        i = j + 1
+    rank_sum_pos = sum(ranks[i] for i, (_, y) in enumerate(pairs) if y)
+    auc = (rank_sum_pos - n_pos * (n_pos + 1) / 2.0) / (n_pos * n_neg)
+    return float(auc)
+
+
 def gold_key(example: object) -> str:
     from jev.schema import ChoiceTrainingExample, NoulTrainingExample, ScoreTrainingExample
 
@@ -127,6 +181,7 @@ def evaluate_scorer(
     temperature: float = 1.0,
     shuffled: bool = True,
     shuffle_seed: int = 0,
+    progress: Any | None = None,
 ) -> MetricReport:
     import random
 
@@ -136,7 +191,12 @@ def evaluate_scorer(
     confs: list[float] = []
     maes: list[float] = []
     peaked: list[float] = []
-    for ex in examples:
+    pos_scores: list[float] = []
+    pos_labels: list[int] = []
+    n_ex = len(examples)
+    for i, ex in enumerate(examples):
+        if progress is not None:
+            progress(i, n_ex, "score")
         request = SystemOneRequest(state=ex.state, questions={"q": ex.question})
         scored = scorer.score_request(request)[0]
         gold = example_gold_index(ex)
@@ -150,6 +210,9 @@ def evaluate_scorer(
         peaked.append(entropy_confidence(probs) if len(probs) >= 2 else max(probs))
         if isinstance(ex, ScoreTrainingExample):
             maes.append(abs(score_expectation(probs) - float(gold)))
+        if isinstance(ex, NoulTrainingExample) and len(probs) == 2:
+            pos_scores.append(probs[1])
+            pos_labels.append(int(ex.gold))
     shuffled_acc = None
     if shuffled and examples:
         rng = random.Random(shuffle_seed)
@@ -157,7 +220,9 @@ def evaluate_scorer(
         perm = states[:]
         rng.shuffle(perm)
         sh_hits = 0
-        for ex, state in zip(examples, perm, strict=True):
+        for j, (ex, state) in enumerate(zip(examples, perm, strict=True)):
+            if progress is not None:
+                progress(j, n_ex, "shuffle")
             request = SystemOneRequest(state=state, questions={"q": ex.question})
             scored = scorer.score_request(request)[0]
             gold = example_gold_index(ex)
@@ -165,9 +230,15 @@ def evaluate_scorer(
             sh_hits += int(pred == gold)
         shuffled_acc = sh_hits / len(examples)
     n = max(1, len(examples))
-    extras: dict[str, float] = {"mean_entropy_confidence": sum(peaked) / n if peaked else 0.0}
+    extras: dict[str, Any] = {
+        "mean_entropy_confidence": sum(peaked) / n if peaked else 0.0,
+        "risk_coverage": risk_coverage_curve(confs, hits),
+    }
     if maes:
         extras["mae"] = sum(maes) / len(maes)
+    auroc = binary_auroc(pos_scores, pos_labels) if pos_scores else None
+    if auroc is not None:
+        extras["auroc"] = auroc
     return MetricReport(
         n=len(examples),
         accuracy=sum(hits) / n,
@@ -180,7 +251,7 @@ def evaluate_scorer(
     )
 
 
-def report_as_dict(report: MetricReport) -> dict[str, float | int | None]:
+def report_as_dict(report: MetricReport) -> dict[str, Any]:
     return {
         "n": report.n,
         "accuracy": report.accuracy,
