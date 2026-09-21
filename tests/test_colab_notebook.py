@@ -76,3 +76,5 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
     assert 'get("RUN_BOOLQ", "0")' not in text
     assert 'get("RUN_WIKISPEEDIA", "0")' not in text
     assert 'get("RUN_3B_PROBE", "0")' not in text
+    assert "MAX_STEPS" in text
+    assert '"wikispeedia": "400"' in text or '"wikispeedia":"400"' in text.replace(" ", "")
