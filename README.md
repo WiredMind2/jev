@@ -67,7 +67,7 @@ Start here:
 4. [Training](docs/04-training.md) — supervised path and open RLCD analogues
 5. [Evaluation](docs/05-evaluation.md) — metrics, ablations, report table
 6. [Implementation plan](docs/06-implementation.md) — four stages to a working engine
-7. [Open equivalents](docs/07-open-equivalents.md) — projects to study and fork
+7. [Open equivalents](docs/07-open-equivalents.md) — Laya, open-jev, jevlike, and forks to study
 8. [Limitations](docs/08-limitations.md) — jaggedness that any replica must handle
 9. [Bibliography](docs/09-bibliography.md) — sources with retrieval dates
 10. [Datasets](docs/10-datasets.md) — public corpora mapped to Choice / Score / Noul
