@@ -66,6 +66,9 @@ class TfidfLinearScorer:
 
         texts = [render_state(ex.state) for ex in examples]
         labels = [gold_key(ex) for ex in examples]
+        n_classes = len({lab for lab in labels})
+        if n_classes < 2:
+            raise ValueError(f"tfidf-linear needs at least 2 gold classes, got {n_classes}")
         vectorizer = TfidfVectorizer(max_features=20000, ngram_range=(1, 2), min_df=1)
         x = vectorizer.fit_transform(texts)
         clf = LogisticRegression(max_iter=200, C=2.0)

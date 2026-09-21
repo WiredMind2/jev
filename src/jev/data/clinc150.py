@@ -19,6 +19,17 @@ def clinc_criteria() -> dict[str, str]:
     return frozen_clinc_criteria()
 
 
+def _intent_name(row: dict[str, Any], names: list[str] | None) -> str:
+    """Map HF ClassLabel ints and the dataset's `oos` token onto frozen criteria keys."""
+    raw = row.get("intent", row.get("label"))
+    if names is not None and not isinstance(raw, str):
+        raw = names[int(raw)]
+    text = str(raw)
+    if text.lower() in {"oos", "out_of_scope", "none"}:
+        return "out_of_scope"
+    return text
+
+
 def convert_clinc150(out_dir: Path, fixture: Path | None = None) -> Path:
     criteria = clinc_criteria()
     spec_path = criteria_path("clinc150")
@@ -49,14 +60,14 @@ def convert_clinc150(out_dir: Path, fixture: Path | None = None) -> Path:
         )
         if ds is None:
             raise FileNotFoundError("CLINC150 not available: pass --fixture")
+        feat = ds["train"].features.get("intent") or ds["train"].features.get("label")
+        names = list(getattr(feat, "names", None) or [])
         raw = {}
         for split in ds:
             rows = []
             for i, row in enumerate(ds[split]):
-                intent = row.get("intent") or row.get("label")
-                if intent in (None, "oos", "OOS"):
-                    intent = "out_of_scope"
-                rows.append({"id": f"clinc_{split}_{i}", "text": row["text"], "label": str(intent)})
+                intent = _intent_name(row, names or None)
+                rows.append({"id": f"clinc_{split}_{i}", "text": row["text"], "label": intent})
             raw[split] = rows
 
     def to_ex(row: dict[str, Any], split: str) -> ChoiceTrainingExample:

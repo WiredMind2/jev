@@ -99,6 +99,16 @@ def test_clinc150_includes_oos_and_151_options(tmp_path: Path) -> None:
     assert len(spec["criteria"]) == 151
 
 
+def test_clinc_integer_intent_maps_to_named_gold() -> None:
+    from jev.data.clinc150 import _intent_name
+
+    names = ["translate", "weather", "oos"]
+    assert _intent_name({"intent": 0}, names) == "translate"
+    assert _intent_name({"intent": 2}, names) == "out_of_scope"
+    assert _intent_name({"intent": "oos"}, None) == "out_of_scope"
+    assert _intent_name({"intent": "weather"}, None) == "weather"
+
+
 def test_wikispeedia_replay_stack_and_cap(tmp_path: Path) -> None:
     pairs = replay_path(["Water", "Quantum_mechanics", "Photon", "<", "Albert_Einstein"])
     assert pairs == [
