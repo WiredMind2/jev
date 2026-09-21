@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import json
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass
+from pathlib import Path
 
 from jev.invariants import softmax
 from jev.schema import ChoiceTrainingExample, NoulTrainingExample, ScoreTrainingExample
@@ -59,3 +61,12 @@ def collect_logit_gold(
         scored = scorer.score_request(request)[0]
         pairs.append((list(scored.logits), example_gold_index(ex)))
     return pairs
+
+
+def load_temperature_json(path: Path) -> float:
+    """Read `{temperature, split}` written by `jev calibrate`."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    value = float(payload["temperature"])
+    if value <= 0:
+        raise ValueError("temperature JSON must contain temperature > 0")
+    return value

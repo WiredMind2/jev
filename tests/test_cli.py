@@ -42,12 +42,46 @@ def test_cli_convert_train_calibrate_evaluate_synthetic(tmp_path: Path) -> None:
     result = runner.invoke(app, ["calibrate", str(calib), "--checkpoint", str(ckpt)])
     assert result.exit_code == 0, result.stdout
     assert "temperature" in result.stdout
+    temp_json = tmp_path / "t.json"
+    result = runner.invoke(
+        app,
+        [
+            "calibrate",
+            str(calib),
+            "--backend",
+            "tiny-logprob",
+            "--out",
+            str(temp_json),
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    assert temp_json.exists()
+    assert "calibration" in temp_json.read_text(encoding="utf-8")
     result = runner.invoke(
         app,
         ["evaluate", str(test), "--backend", "option-head", "--checkpoint", str(ckpt)],
     )
     assert result.exit_code == 0, result.stdout
     assert "accuracy" in result.stdout
+    assert "risk_coverage" in result.stdout
+    result = runner.invoke(
+        app,
+        [
+            "evaluate",
+            str(test),
+            "--backend",
+            "tiny-logprob",
+            "--temperature-json",
+            str(temp_json),
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    payload = result.stdout.strip().splitlines()[-1]
+    import json
+
+    parsed = json.loads(payload)
+    written = json.loads(temp_json.read_text(encoding="utf-8"))
+    assert parsed["temperature"] == written["temperature"]
     result = runner.invoke(
         app,
         ["evaluate", str(test), "--backend", "fake"],

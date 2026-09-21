@@ -1,5 +1,5 @@
 from jev.calibration import fit_temperature, nll_from_logits
-from jev.evaluation import coverage_at_error, evaluate_scorer, expected_calibration_error
+from jev.evaluation import coverage_at_error, evaluate_scorer, expected_calibration_error, risk_coverage_curve
 from jev.scoring.fake import FakeScorer
 
 
@@ -35,3 +35,16 @@ def test_evaluate_scorer_metrics_keys() -> None:
     assert report.ece >= 0.0
     assert report.shuffled_accuracy is not None
     assert report.coverage_at_1pct is not None
+    assert report.risk_coverage
+    assert report.risk_coverage[0]["threshold"] == 0.0
+    assert "coverage" in report.risk_coverage[0]
+    assert "risk" in report.risk_coverage[0]
+
+
+def test_risk_coverage_zero_when_all_correct_and_confident() -> None:
+    conf = [1.0, 1.0, 1.0]
+    correct = [1, 1, 1]
+    curve = risk_coverage_curve(conf, correct)
+    full = next(row for row in curve if row["threshold"] == 0.0)
+    assert full["coverage"] == 1.0
+    assert full["risk"] == 0.0

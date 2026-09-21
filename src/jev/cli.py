@@ -9,7 +9,7 @@ import typer
 import uvicorn
 
 from jev import __version__
-from jev.calibration import collect_logit_gold, fit_temperature
+from jev.calibration import collect_logit_gold, fit_temperature, load_temperature_json
 from jev.canonical import canonical_dumps
 from jev.data.convert import freeze_and_write
 from jev.data.manifest import criteria_path
@@ -25,7 +25,6 @@ from jev.scoring.option_head import (
     accuracy_on_examples,
     load_checkpoint,
     load_jsonl_examples,
-    save_checkpoint,
     train_option_head,
 )
 
@@ -118,6 +117,8 @@ def train_head_cmd(
     device: str | None = typer.Option(None),
     batch_size: int = typer.Option(16),
     max_steps: int | None = typer.Option(None),
+    resume: Path | None = typer.Option(None, help="Checkpoint to continue; encoder stays frozen"),
+    save_every: int = typer.Option(50, help="Write --out every N steps; 0 disables mid-run saves"),
 ) -> None:
     import torch
 
@@ -133,24 +134,27 @@ def train_head_cmd(
         hf_model_id=model_id,
         batch_size=batch_size,
         max_steps=max_steps,
+        save_every=save_every or None,
+        checkpoint_path=out,
+        resume_path=resume,
     )
     trained_encoder, head, history = train_option_head(
         examples, cfg, device=torch_device, val_examples=val
     )
-    extra = {
-        "encoder_kind": encoder,
-        "model_id": model_id if encoder == "hf" else "option-attention-hashing",
-        "hf_model_id": model_id,
-        **history,
-    }
-    save_checkpoint(out, trained_encoder, head, extra=extra)
     acc = accuracy_on_examples(trained_encoder, head, examples, device=torch_device)
     shuf = accuracy_on_examples(
         trained_encoder, head, examples, device=torch_device, shuffle_state=True, seed=1
     )
     typer.echo(
         canonical_dumps(
-            {"checkpoint": str(out), "train_acc": acc, "shuffled_acc": shuf, **history, **extra}
+            {
+                "checkpoint": str(out),
+                "train_acc": acc,
+                "shuffled_acc": shuf,
+                "encoder_kind": encoder,
+                "model_id": model_id if encoder == "hf" else "option-attention-hashing",
+                **history,
+            }
         )
     )
 
@@ -158,15 +162,32 @@ def train_head_cmd(
 @app.command("calibrate")
 def calibrate_cmd(
     jsonl: Path = typer.Argument(..., exists=True, help="Calibration split only"),
-    checkpoint: Path = typer.Option(..., exists=True),
+    checkpoint: Path | None = typer.Option(None, help="Required for option-head"),
+    backend: str = typer.Option("option-head", help="option-head|hf-logprob|tiny-logprob|fake"),
     out: Path | None = typer.Option(None, help="Write temperature JSON"),
+    limit: int = typer.Option(0, help="Stratified sample of the calibration split; 0 keeps all"),
+    seed: int = typer.Option(0),
 ) -> None:
     examples = load_jsonl_examples(jsonl)
-    encoder, head, meta = load_checkpoint(checkpoint)
-    scorer = OptionHeadScorer(encoder, head, model_id=str(meta.get("model_id") or "option-attention"))
+    if limit:
+        examples = stratified_sample(examples, limit, seed=seed)
+    name = backend.strip().lower()
+    if name in {"option-head", "head", "hashing-head"}:
+        if checkpoint is None:
+            raise typer.BadParameter("option-head calibrate requires --checkpoint")
+        encoder, head, meta = load_checkpoint(checkpoint)
+        scorer = OptionHeadScorer(encoder, head, model_id=str(meta.get("model_id") or "option-attention"))
+    else:
+        scorer = build_scorer(backend, checkpoint=checkpoint)
     pairs = collect_logit_gold(scorer, examples)
     cal = fit_temperature(pairs)
-    payload = {"temperature": cal.temperature, "n": len(pairs), "split": "calibration"}
+    payload = {
+        "temperature": cal.temperature,
+        "n": len(pairs),
+        "split": "calibration",
+        "backend": name,
+        "model_id": scorer.model_id,
+    }
     text = canonical_dumps(payload)
     if out:
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -183,6 +204,9 @@ def evaluate_cmd(
     checkpoint: Path | None = typer.Option(None),
     train_jsonl: Path | None = typer.Option(None, help="Train JSONL for majority/tfidf-linear"),
     temperature: float = typer.Option(1.0),
+    temperature_json: Path | None = typer.Option(
+        None, help="Calibrate JSON with {temperature, split}; overrides --temperature"
+    ),
     limit: int = typer.Option(0, help="Stratified sample size; 0 keeps all rows"),
     seed: int = typer.Option(0),
     shuffle: bool = typer.Option(True, help="Also score shuffled-context control"),
@@ -191,6 +215,8 @@ def evaluate_cmd(
     examples = load_jsonl_examples(jsonl)
     if limit:
         examples = stratified_sample(examples, limit, seed=seed)
+    if temperature_json is not None:
+        temperature = load_temperature_json(temperature_json)
     scorer = build_scorer(backend, checkpoint=checkpoint, train_jsonl=train_jsonl)
     report = evaluate_scorer(scorer, examples, temperature=temperature, shuffled=shuffle)
     payload = {

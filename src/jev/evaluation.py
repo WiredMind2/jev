@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass, field
+from typing import Any
 
 from jev.invariants import entropy_confidence, score_expectation, softmax
 from jev.schema import ScoreTrainingExample, SystemOneRequest
@@ -21,6 +22,7 @@ class MetricReport:
     ece: float
     shuffled_accuracy: float | None = None
     coverage_at_1pct: float | None = None
+    risk_coverage: list[dict[str, float]] = field(default_factory=list)
     extras: dict[str, float] = field(default_factory=dict)
 
 
@@ -77,6 +79,30 @@ def coverage_at_error(
         if err <= max_error:
             best = k / len(order)
     return best
+
+
+def risk_coverage_curve(
+    confidences: Sequence[float],
+    correct: Sequence[int],
+    *,
+    thresholds: Sequence[float] | None = None,
+) -> list[dict[str, float]]:
+    """Selective risk versus coverage at p_max thresholds. Keep coverage_at_1pct separately."""
+    if not confidences:
+        return []
+    default_cuts = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99]
+    cuts = list(thresholds) if thresholds is not None else default_cuts
+    n = len(confidences)
+    rows: list[dict[str, float]] = []
+    for threshold in cuts:
+        kept = [(c, y) for c, y in zip(confidences, correct, strict=True) if c >= threshold]
+        if not kept:
+            rows.append({"threshold": float(threshold), "coverage": 0.0, "risk": 1.0})
+            continue
+        coverage = len(kept) / n
+        risk = 1.0 - (sum(y for _, y in kept) / len(kept))
+        rows.append({"threshold": float(threshold), "coverage": float(coverage), "risk": float(risk)})
+    return rows
 
 
 def gold_key(example: object) -> str:
@@ -176,11 +202,12 @@ def evaluate_scorer(
         ece=expected_calibration_error(confs, hits),
         shuffled_accuracy=shuffled_acc,
         coverage_at_1pct=coverage_at_error(confs, hits, max_error=0.01),
+        risk_coverage=risk_coverage_curve(confs, hits),
         extras=extras,
     )
 
 
-def report_as_dict(report: MetricReport) -> dict[str, float | int | None]:
+def report_as_dict(report: MetricReport) -> dict[str, Any]:
     return {
         "n": report.n,
         "accuracy": report.accuracy,
@@ -189,5 +216,6 @@ def report_as_dict(report: MetricReport) -> dict[str, float | int | None]:
         "ece": report.ece,
         "shuffled_accuracy": report.shuffled_accuracy,
         "coverage_at_1pct": report.coverage_at_1pct,
+        "risk_coverage": report.risk_coverage,
         **report.extras,
     }

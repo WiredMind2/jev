@@ -208,6 +208,9 @@ class TrainConfig:
     hf_model_id: str = "Qwen/Qwen2.5-0.5B"
     patience: int = 5
     max_state_tokens: int = 256
+    save_every: int | None = 50
+    checkpoint_path: Path | None = None
+    resume_path: Path | None = None
 
 
 def load_jsonl_examples(path: Path) -> list[Any]:
@@ -251,6 +254,45 @@ def listwise_ce(logits: torch.Tensor, n_opts: Sequence[int], gold: torch.Tensor)
     return loss / max(1, len(n_opts))
 
 
+def _checkpoint_extra(
+    cfg: TrainConfig,
+    history: dict[str, float],
+    *,
+    step: int,
+    epoch: int,
+    optimizer: torch.optim.Optimizer,
+    best_val: float,
+    wait: int,
+    best_state: dict[str, torch.Tensor] | None,
+) -> dict[str, Any]:
+    model_id = cfg.hf_model_id if cfg.encoder_kind == "hf" else "option-attention-hashing"
+    return {
+        "encoder_kind": cfg.encoder_kind,
+        "model_id": model_id,
+        "hf_model_id": cfg.hf_model_id,
+        **history,
+        "train_state": {
+            "step": int(step),
+            "epoch": int(epoch),
+            "best_val": float(best_val),
+            "wait": int(wait),
+            "optimizer": optimizer.state_dict(),
+            "best_state": best_state,
+        },
+    }
+
+
+def _save_train_checkpoint(
+    cfg: TrainConfig,
+    encoder: nn.Module,
+    head: OptionAttentionHead,
+    extra: dict[str, Any],
+) -> None:
+    if cfg.checkpoint_path is None:
+        return
+    save_checkpoint(cfg.checkpoint_path, encoder, head, extra=extra)
+
+
 def train_option_head(
     examples: Sequence[Any],
     config: TrainConfig | None = None,
@@ -262,7 +304,13 @@ def train_option_head(
     cfg = config or TrainConfig()
     device = device or torch.device("cpu")
     torch.manual_seed(cfg.seed)
-    if encoder is None:
+    resume_meta: dict[str, Any] = {}
+    if cfg.resume_path is not None and encoder is None:
+        encoder, head, resume_meta = load_checkpoint(cfg.resume_path, device=device)
+        encoder.eval()
+        for p in encoder.parameters():
+            p.requires_grad_(False)
+    elif encoder is None:
         if cfg.encoder_kind == "hf":
             from jev.scoring.hf_encoder import FrozenHFEncoder
 
@@ -273,23 +321,50 @@ def train_option_head(
             )
         else:
             encoder = HashingEncoder(d_model=cfg.d_model, seed=cfg.seed).to(device)
-    encoder.eval()
-    for p in encoder.parameters():
-        p.requires_grad_(False)
-    d_model = int(getattr(encoder, "d_model", cfg.d_model))
-    head = OptionAttentionHead(d_model, rank=cfg.rank).to(device)
+        encoder.eval()
+        for p in encoder.parameters():
+            p.requires_grad_(False)
+        d_model = int(getattr(encoder, "d_model", cfg.d_model))
+        head = OptionAttentionHead(d_model, rank=cfg.rank).to(device)
+    else:
+        encoder.eval()
+        for p in encoder.parameters():
+            p.requires_grad_(False)
+        d_model = int(getattr(encoder, "d_model", cfg.d_model))
+        head = OptionAttentionHead(d_model, rank=cfg.rank).to(device)
     opt = torch.optim.Adam(head.parameters(), lr=cfg.lr)
     history: dict[str, float] = {
         "final_loss": 0.0,
         "best_val_acc": 0.0,
         "stopped_epoch": float(cfg.epochs),
+        "resumed_step": 0.0,
     }
     steps = 0
+    start_epoch = 0
     best_state = None
     best_val = -1.0
     wait = 0
+    train_state = dict((resume_meta.get("extra") or {}).get("train_state") or {})
+    if train_state:
+        steps = int(train_state.get("step", 0))
+        start_epoch = int(train_state.get("epoch", 0))
+        best_val = float(train_state.get("best_val", -1.0))
+        wait = int(train_state.get("wait", 0))
+        raw_best = train_state.get("best_state")
+        if isinstance(raw_best, dict) and raw_best:
+            best_state = {k: v.detach().cpu().clone() for k, v in raw_best.items()}
+        opt_state = train_state.get("optimizer")
+        if opt_state:
+            opt.load_state_dict(opt_state)
+        history["resumed_step"] = float(steps)
     order = list(range(len(examples)))
-    for epoch in range(cfg.epochs):
+    if start_epoch >= cfg.epochs and (cfg.max_steps is None or steps >= cfg.max_steps):
+        history["stopped_epoch"] = float(start_epoch)
+        history["best_val_acc"] = float(max(best_val, 0.0))
+        history["step"] = float(steps)
+        head.eval()
+        return encoder, head, history
+    for epoch in range(start_epoch, cfg.epochs):
         head.train()
         g = torch.Generator().manual_seed(cfg.seed + epoch)
         perm = torch.randperm(len(order), generator=g).tolist()
@@ -305,9 +380,47 @@ def train_option_head(
             opt.step()
             history["final_loss"] = float(loss.detach().cpu())
             steps += 1
+            history["step"] = float(steps)
+            if (
+                cfg.checkpoint_path is not None
+                and cfg.save_every
+                and cfg.save_every > 0
+                and steps % cfg.save_every == 0
+            ):
+                _save_train_checkpoint(
+                    cfg,
+                    encoder,
+                    head,
+                    _checkpoint_extra(
+                        cfg,
+                        history,
+                        step=steps,
+                        epoch=epoch,
+                        optimizer=opt,
+                        best_val=best_val,
+                        wait=wait,
+                        best_state=best_state,
+                    ),
+                )
             if cfg.max_steps is not None and steps >= cfg.max_steps:
-                head.eval()
                 history["stopped_epoch"] = float(epoch)
+                history["best_val_acc"] = float(max(best_val, 0.0))
+                _save_train_checkpoint(
+                    cfg,
+                    encoder,
+                    head,
+                    _checkpoint_extra(
+                        cfg,
+                        history,
+                        step=steps,
+                        epoch=epoch,
+                        optimizer=opt,
+                        best_val=best_val,
+                        wait=wait,
+                        best_state=best_state,
+                    ),
+                )
+                head.eval()
                 return encoder, head, history
         if val_examples:
             acc = accuracy_on_examples(encoder, head, val_examples, device=device)
@@ -320,10 +433,42 @@ def train_option_head(
                 if wait >= cfg.patience:
                     history["stopped_epoch"] = float(epoch)
                     break
+        _save_train_checkpoint(
+            cfg,
+            encoder,
+            head,
+            _checkpoint_extra(
+                cfg,
+                history,
+                step=steps,
+                epoch=epoch + 1,
+                optimizer=opt,
+                best_val=best_val,
+                wait=wait,
+                best_state=best_state,
+            ),
+        )
     if best_state is not None:
         head.load_state_dict(best_state)
     history["best_val_acc"] = float(max(best_val, 0.0))
+    history["stopped_epoch"] = float(history.get("stopped_epoch", cfg.epochs))
+    history["step"] = float(steps)
     head.eval()
+    _save_train_checkpoint(
+        cfg,
+        encoder,
+        head,
+        _checkpoint_extra(
+            cfg,
+            history,
+            step=steps,
+            epoch=int(history["stopped_epoch"]),
+            optimizer=opt,
+            best_val=best_val,
+            wait=wait,
+            best_state=best_state,
+        ),
+    )
     return encoder, head, history
 
 

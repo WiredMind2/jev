@@ -49,6 +49,18 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
         "nvidia-smi",
         "hardware",
         "--encoder",
+        "--resume",
+        "--temperature-json",
+        "--limit",
+        "hardware.md",
+        "banking77",
+        "sst5",
+        "boolq",
+        "wikispeedia",
+        "clinc150",
+        "hf-logprob",
+        "majority",
+        "tfidf-linear",
     ):
         assert needle in text, needle
     assert "def train_option_head" not in text

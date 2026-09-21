@@ -62,8 +62,10 @@ All of the following must be true before research v0 can stop:
    and this report.
 2. [`notebooks/jev_colab_hosted_gpu.ipynb`](../../notebooks/jev_colab_hosted_gpu.ipynb)
    installs the package, converts / trains / calibrates / evaluates at
-   least the synthetic path via `python -m jev`, and can run the
-   BANKING77 hosted-GPU job from the same cells.
+   least the synthetic path via `python -m jev`, and can run BANKING77,
+   SST-5, BoolQ, Wikispeedia, and CLINC150 hosted-GPU jobs from the same
+   CLI helper (`run_frozen_split_job`), including `--resume` and
+   `--temperature-json`.
 3. Synthetic hashing CPU smoke passes (`scripts/colab_cpu_smoke.sh` or
    the notebook's smoke cells). Report JSON uses the same metric keys as
    [`metrics.md`](metrics.md) (`accuracy`, `nll`, `brier`, `ece`,
@@ -86,8 +88,10 @@ Host: local Python 3.12 `.venv`, **no Colab runtime**. Command:
 | Item | Status |
 |---|---|
 | Docs + notebook + CPU smoke script authored | Yes |
+| `train-head --resume`, `calibrate --backend`, `evaluate --temperature-json`, risk-coverage curve | **Yes** (CPU tests, 2026-09-21) |
+| Notebook cells for SST-5 / BoolQ / Wikispeedia / CLINC150 / zero-shot `--limit` | **Yes** |
 | Local CPU synthetic hashing CLI sequence | **Executed.** Convert → `train-head --encoder hashing` → calibrate → evaluate. Eval JSON: [`metrics/eval-colab-cli-cpu-smoke.json`](metrics/eval-colab-cli-cpu-smoke.json) (n=4 test, acc 1.00, shuffled 0.75). This is the trainer proof, not the Qwen comparison. |
-| Live Colab T4 GPU session from this agent | **Not executed** (no Colab runtime on this host) |
+| Live Colab T4 GPU session from this agent | **Not executed** (no Colab runtime on this host). File results under [`reports/colab-t4/`](../colab-t4/). |
 | `pytest -m "cuda and not hf"` on Colab | **Not executed** here |
 | BANKING77 frozen-head on T4 | **Not executed** |
 | Wikispeedia next-click on T4 | **Not executed** |

@@ -22,7 +22,7 @@ without a **new** hardware note: Colab is a different pin from the
 |---|---|
 | Hashing-head synthetic smoke | CPU (local or Colab). Proves the CLI. |
 | v0 0.5B synthetic numbers already in `reports/v0/` | Leave on the 1650. Do not replace. |
-| Frozen-head BANKING77 / SST-5 / BoolQ / Wikispeedia | Colab T4 (or any ≥12 GiB NVIDIA). |
+| Frozen-head BANKING77 / SST-5 / BoolQ / Wikispeedia / CLINC150 | Colab T4 (or any ≥12 GiB NVIDIA). `--resume` if the VM dies. |
 | Frozen Qwen2.5-3B encoder | Colab T4. Does not fit 4 GiB. |
 | 7B/8B fp16 | Not on free T4. |
 

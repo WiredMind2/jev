@@ -25,3 +25,39 @@ def test_early_stopping_uses_validation_not_calibration() -> None:
     assert "best_val_acc" in hist
     acc = accuracy_on_examples(encoder, head, train)
     assert acc >= 0.5
+
+
+def test_resume_continues_from_saved_step(tmp_path) -> None:
+    rows = make_synthetic_choice(n=48, seed=2)
+    train, val = rows[:36], rows[36:]
+    ckpt = tmp_path / "mid.pt"
+    _, _, first = train_option_head(
+        train,
+        TrainConfig(
+            epochs=4,
+            batch_size=8,
+            seed=2,
+            max_steps=3,
+            save_every=1,
+            checkpoint_path=ckpt,
+        ),
+        val_examples=val,
+    )
+    assert ckpt.exists()
+    assert first["step"] == 3.0
+    _, _, second = train_option_head(
+        train,
+        TrainConfig(
+            epochs=4,
+            batch_size=8,
+            seed=2,
+            max_steps=6,
+            save_every=1,
+            checkpoint_path=ckpt,
+            resume_path=ckpt,
+        ),
+        val_examples=val,
+    )
+    assert second["resumed_step"] == 3.0
+    assert second["step"] == 6.0
+    assert second["resumed_step"] < second["step"]

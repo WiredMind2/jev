@@ -188,7 +188,9 @@ os.environ["HF_HOME"] = str(ROOT / "hf-cache")
   --model-id Qwen/Qwen2.5-0.5B \
   --out /content/drive/MyDrive/jev-runs/runs/banking77-hf-head.pt \
   --epochs 12 \
-  --batch-size 4
+  --batch-size 4 \
+  --save-every 50 \
+  --resume /content/drive/MyDrive/jev-runs/runs/banking77-hf-head.pt
 
 !python -m jev calibrate \
   /content/drive/MyDrive/jev-runs/data/banking77/jsonl/calibration.jsonl \
@@ -199,7 +201,15 @@ os.environ["HF_HOME"] = str(ROOT / "hf-cache")
   /content/drive/MyDrive/jev-runs/data/banking77/jsonl/test.jsonl \
   --backend option-head \
   --checkpoint /content/drive/MyDrive/jev-runs/runs/banking77-hf-head.pt \
+  --temperature-json /content/drive/MyDrive/jev-runs/runs/banking77-temperature.json \
+  --limit 300 \
+  --seed 0 \
   --out /content/drive/MyDrive/jev-runs/reports/eval-banking77-hf-head.json
+
+# If the VM died, continue the same --out with --resume.
+# The notebook then runs SST-5, BoolQ, Wikispeedia, CLINC150 the same way
+# (run_frozen_split_job), plus hf-logprob / majority / tfidf-linear on the
+# same --limit 300 seed=0 slice. Do not paste those rows into reports/v0/.
 ```
 
 Never pass the calibration split to `--val-jsonl`. Validation is early

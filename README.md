@@ -39,7 +39,7 @@ jev --help
 
 CLI: `validate`, `data-convert`, `score`, `train-head`, `calibrate`, `evaluate`, `serve`, `hardware`.
 
-CPU tests: `pytest -m "not cuda and not hf"`. CUDA gates: `pytest -m cuda`. Do not use system Python 3.9; use `.venv`. Hosted GPU training (Colab T4, not serving): [docs/11-colab.md](docs/11-colab.md), [notebook](notebooks/jev_colab_hosted_gpu.ipynb), v0 gate in [reports/v0/colab.md](reports/v0/colab.md). Local CPU proof of that CLI sequence: `scripts/colab_cpu_smoke.sh`.
+CPU tests: `pytest -m "not cuda and not hf"`. CUDA gates: `pytest -m cuda`. Do not use system Python 3.9; use `.venv`. Hosted-GPU training (Colab T4, not serving): [docs/11-colab.md](docs/11-colab.md), [notebook](notebooks/jev_colab_hosted_gpu.ipynb), v0 gate in [reports/v0/colab.md](reports/v0/colab.md), T4 report tree [reports/colab-t4](reports/colab-t4/README.md). Local CPU proof of that CLI sequence: `scripts/colab_cpu_smoke.sh`.
 
 This is independent research. It is **not** TypeSafe Jev and **not** RLCD.
 
