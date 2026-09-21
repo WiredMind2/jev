@@ -368,7 +368,9 @@ def train_option_head(
     if progress is not None:
         progress(steps, total)
     order = list(range(len(examples)))
-    if start_epoch >= cfg.epochs and (cfg.max_steps is None or steps >= cfg.max_steps):
+    done_max = cfg.max_steps is not None and steps >= cfg.max_steps
+    done_epochs = start_epoch >= cfg.epochs
+    if done_max or done_epochs:
         history["stopped_epoch"] = float(start_epoch)
         history["best_val_acc"] = float(max(best_val, 0.0))
         history["step"] = float(steps)
@@ -516,6 +518,13 @@ def accuracy_on_examples(
         if progress is not None:
             progress(i, n_ex)
     return correct / len(examples)
+
+
+def checkpoint_train_step(path: Path) -> int:
+    """Read saved optimizer step without constructing the encoder."""
+    payload = torch.load(path, map_location="cpu", weights_only=False)
+    extra = dict(payload.get("extra") or {})
+    return int((extra.get("train_state") or {}).get("step", 0))
 
 
 def save_checkpoint(

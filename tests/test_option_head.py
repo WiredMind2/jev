@@ -61,3 +61,38 @@ def test_resume_continues_from_saved_step(tmp_path) -> None:
     assert second["resumed_step"] == 3.0
     assert second["step"] == 6.0
     assert second["resumed_step"] < second["step"]
+
+
+def test_resume_at_max_steps_does_not_train_further(tmp_path) -> None:
+    from jev.scoring.option_head import checkpoint_train_step
+
+    rows = make_synthetic_choice(n=48, seed=2)
+    train = rows[:36]
+    ckpt = tmp_path / "done.pt"
+    _, _, first = train_option_head(
+        train,
+        TrainConfig(
+            epochs=4,
+            batch_size=8,
+            seed=2,
+            max_steps=3,
+            save_every=1,
+            checkpoint_path=ckpt,
+        ),
+    )
+    assert first["step"] == 3.0
+    assert checkpoint_train_step(ckpt) == 3
+    _, _, second = train_option_head(
+        train,
+        TrainConfig(
+            epochs=4,
+            batch_size=8,
+            seed=2,
+            max_steps=3,
+            save_every=1,
+            checkpoint_path=ckpt,
+            resume_path=ckpt,
+        ),
+    )
+    assert second["resumed_step"] == 3.0
+    assert second["step"] == 3.0

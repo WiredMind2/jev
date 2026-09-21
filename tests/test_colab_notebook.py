@@ -83,3 +83,9 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
     assert 'REPORTS / "metrics"' in text
     assert "_qwen_evals_exist" in text
     assert "evals already on Drive" in text
+    assert "_skip_existing" in text
+    assert "checkpoint_train_step" in text
+    assert "skip train-head; checkpoint already at" in text
+    assert "calibrate option-head" in text
+    assert "{name} tasks" in text
+    assert "TaskProgress" in text

@@ -60,7 +60,11 @@ Practical consequences for this repo:
   (`JEV_PROGRESS=0` disables it). After a disconnect, Restart runtime
   and Run all: the notebook skips a dataset when both
   `eval-{name}-hf-head.json` and `eval-{name}-hf-logprob.json` already
-  exist on Drive (`JEV_FORCE_JOB=1` reruns).
+  exist on Drive (`JEV_FORCE_JOB=1` reruns). Individual stages
+  (convert, train-head, calibrate, evaluate) also skip when their
+  output file is already on Drive, so a restart does not reload Qwen
+  just to finish zero-shot eval. Each dataset prints a task bar with
+  ETA (`banking77 tasks  3/8 ...`).
 - Colab already ships a CUDA PyTorch. A naive
   `pip install -e ".[dev]"` from PyPI can replace it with a CPU wheel.
   Install the package, then confirm `torch.cuda.is_available()` before
