@@ -53,7 +53,9 @@ Practical consequences for this repo:
   Hugging Face) **before** the job finishes. The trainer currently
   writes the checkpoint at the end of `jev train-head`, so keep the
   tab active and copy `runs/` as soon as the command returns. Use
-  `--max-steps` for smoke tests if you expect a disconnect.
+  `--max-steps` for smoke tests if you expect a disconnect. After the
+  session, file Drive `jev-runs` with `python -m jev ingest-colab`
+  into `reports/colab-t4/` — never into `reports/v0/`.
 - Colab already ships a CUDA PyTorch. A naive
   `pip install -e ".[dev]"` from PyPI can replace it with a CPU wheel.
   Install the package, then confirm `torch.cuda.is_available()` before

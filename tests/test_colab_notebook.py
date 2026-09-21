@@ -78,3 +78,6 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
     assert 'get("RUN_3B_PROBE", "0")' not in text
     assert "MAX_STEPS" in text
     assert '"wikispeedia": "400"' in text or '"wikispeedia":"400"' in text.replace(" ", "")
+    assert '"banking77": "400"' in text or '"banking77":"400"' in text.replace(" ", "")
+    assert "skip tfidf-linear for wikispeedia" in text
+    assert 'REPORTS / "metrics"' in text

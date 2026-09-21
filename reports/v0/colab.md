@@ -44,9 +44,10 @@ not. Do not mix a 1650 row and a T4 row in `metrics.md`.
    and invokes `python -m jev`. `jev hardware` still prints the 1650 pin;
    that is expected.
 5. Copy `jev-runs/reports/` and `jev-runs/runs/` off the VM before the
-   session dies. File a **new** hardware note beside this 1650 pin.
-   Do not edit [`hardware.md`](hardware.md) or `configs/hardware.yaml`
-   to match the Colab box.
+   session dies. File them with `python -m jev ingest-colab <dump>
+   --dest reports/colab-t4`. That writes a **new** hardware note under
+   [`reports/colab-t4/`](../colab-t4/). Do not edit [`hardware.md`](hardware.md)
+   or `configs/hardware.yaml` to match the Colab box.
 
 Install rule (from the recipe): Colab already ships CUDA PyTorch. Use
 `pip install -e ".[dev]" --no-deps`, then install the other deps

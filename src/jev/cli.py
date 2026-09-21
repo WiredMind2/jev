@@ -11,6 +11,7 @@ import uvicorn
 from jev import __version__
 from jev.calibration import collect_logit_gold, fit_temperature, load_temperature_json
 from jev.canonical import canonical_dumps
+from jev.colab_t4 import ingest_colab_t4
 from jev.data.convert import freeze_and_write
 from jev.data.manifest import criteria_path
 from jev.data.synthetic import make_synthetic_choice, split_synthetic
@@ -241,6 +242,16 @@ def evaluate_cmd(
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(text + "\n", encoding="utf-8")
     typer.echo(text)
+
+
+@app.command("ingest-colab")
+def ingest_colab_cmd(
+    src: Path = typer.Argument(..., help="Drive jev-runs dump (reports/ and metrics/)"),
+    dest: Path = typer.Option(Path("reports/colab-t4"), help="Git T4 report dir; never reports/v0"),
+    v0_metrics: Path = typer.Option(Path("reports/v0/metrics.md"), help="Guard file that must not change"),
+) -> None:
+    """Copy Colab eval JSON into reports/colab-t4. Does not mix into the 1650 table."""
+    typer.echo(canonical_dumps(ingest_colab_t4(src, dest, v0_metrics=v0_metrics)))
 
 
 @app.command("serve")
