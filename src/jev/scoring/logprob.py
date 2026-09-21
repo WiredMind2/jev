@@ -211,9 +211,14 @@ def _expand_past(past: object, batch: int) -> object:
         return past
     repeater = getattr(past, "batch_repeat_interleave", None)
     if callable(repeater):
-        # Hugging Face Cache API: in-place; this past is not reused after expansion.
+        # Hugging Face Cache API (transformers 5+): in-place; this past is not reused.
         repeater(batch)
         return past
+    to_legacy = getattr(past, "to_legacy_cache", None)
+    from_legacy = getattr(type(past), "from_legacy_cache", None)
+    if callable(to_legacy) and callable(from_legacy):
+        expanded = tuple(_expand_kv_pair(k, v, batch) for k, v in to_legacy())
+        return from_legacy(expanded)
     out: list[tuple[torch.Tensor, torch.Tensor]] = []
     for layer in past:  # type: ignore[union-attr]
         k, v = layer[0], layer[1]
@@ -301,9 +306,12 @@ class LogprobScorer:
         red: Reduction = "mean" if self.reduction == "mean" else "sum"
         device = self._device()
         if self.use_cache:
-            scores = _cached_continuation_logprobs(
-                self._forward_cache, prefix_ids, cont_ids, red, device
-            )
+            try:
+                scores = _cached_continuation_logprobs(
+                    self._forward_cache, prefix_ids, cont_ids, red, device
+                )
+            except (AttributeError, TypeError, ValueError):
+                scores = self._score_hf_prefix_once(prefix_ids, cont_ids, red, device)
         else:
             scores = [
                 score_ids_naive(self._forward_full, prefix_ids, c, red, device=device)

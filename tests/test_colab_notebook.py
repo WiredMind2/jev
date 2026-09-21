@@ -61,6 +61,7 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
         "hf-logprob",
         "majority",
         "tfidf-linear",
+        "laptop GPU",
     ):
         assert needle in text, needle
     assert "def train_option_head" not in text
