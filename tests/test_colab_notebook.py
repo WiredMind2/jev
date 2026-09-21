@@ -71,3 +71,8 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
     assert "hf_token =" not in text.lower()
     # Serving is documented as forbidden, not offered as a cell to run.
     assert "jev serve" not in text or "not" in text.lower()
+    # Run All on Colab+CUDA must not skip later public tasks via env defaults of "0".
+    assert 'get("RUN_SST5", "0")' not in text
+    assert 'get("RUN_BOOLQ", "0")' not in text
+    assert 'get("RUN_WIKISPEEDIA", "0")' not in text
+    assert 'get("RUN_3B_PROBE", "0")' not in text
