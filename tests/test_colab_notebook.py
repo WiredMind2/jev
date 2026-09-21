@@ -81,3 +81,5 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
     assert '"banking77": "400"' in text or '"banking77":"400"' in text.replace(" ", "")
     assert "skip tfidf-linear for wikispeedia" in text
     assert 'REPORTS / "metrics"' in text
+    assert "_qwen_evals_exist" in text
+    assert "evals already on Drive" in text

@@ -57,7 +57,10 @@ Practical consequences for this repo:
   session, file Drive `jev-runs` with `python -m jev ingest-colab`
   into `reports/colab-t4/` — never into `reports/v0/`. `train-head`,
   `calibrate`, and `evaluate` print a stderr progress bar with ETA
-  (`JEV_PROGRESS=0` disables it).
+  (`JEV_PROGRESS=0` disables it). After a disconnect, Restart runtime
+  and Run all: the notebook skips a dataset when both
+  `eval-{name}-hf-head.json` and `eval-{name}-hf-logprob.json` already
+  exist on Drive (`JEV_FORCE_JOB=1` reruns).
 - Colab already ships a CUDA PyTorch. A naive
   `pip install -e ".[dev]"` from PyPI can replace it with a CPU wheel.
   Install the package, then confirm `torch.cuda.is_available()` before
