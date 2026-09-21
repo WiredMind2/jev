@@ -78,6 +78,49 @@ Manifests under `reports/v0/manifests/`: BANKING77 `mteb/banking77` train 8067 /
 
 Logged GPU run: `reports/v0/metrics/gpu-run.json`. CLI HF train/eval: `eval-hf-head-synthetic-test.json`, `verification-commands.txt`.
 
+## Official frozen-split slices (Qwen 0.5B on the 1650)
+
+Same converted JSONL as `reports/v0/manifests/*-hf.json` / `wikispeedia-snap.json`. **Not** the fixture tables above. Stratified `jev evaluate --limit` / `stratified_sample` slices (BANKING77 300, SST-5 300, BoolQ 150, CLINC150 300, Wikispeedia 80). Slice ids: `reports/v0/slices/`. Full official tests remain the Colab T4 job. Empty Qwen cells are still running or not yet written. Do not mix T4 rows here.
+
+Hashing T was fit on a calibration subsample, never on validation or test.
+
+| Dataset | n | Model | Acc | NLL | Brier | ECE | Cov@1% | Shuffled |
+|---|---:|---|---:|---:|---:|---:|---:|---:|
+| BANKING77 | 300 | Majority prior | 0.010 | 6.482 | 1.089 | 0.211 | 0.000 | 0.010 |
+| BANKING77 | 300 | Fake overlap | 0.293 | 3.735 | 0.963 | 0.260 | 0.033 | 0.010 |
+| BANKING77 | 300 | TF-IDF + logistic | 0.813 | 1.429 | 0.522 | 0.466 | 0.117 | 0.027 |
+| BANKING77 | 300 | Hashing head (T=1.25) | 0.443 | 1.927 | 0.690 | 0.068 | 0.060 | 0.017 |
+| BANKING77 | 300 | Zero-shot Qwen logprob |  |  |  |  |  |  |
+| BANKING77 | 300 | Frozen Qwen head |  |  |  |  |  |  |
+| SST-5 | 300 | Majority prior | 0.200 | 1.609 | 0.800 | 0.000 | 0.000 | 0.200 |
+| SST-5 | 300 | Fake overlap | 0.217 | 1.601 | 0.797 | 0.003 | 0.000 | 0.177 |
+| SST-5 | 300 | TF-IDF + logistic | 0.410 | 1.424 | 0.718 | 0.057 | 0.000 | 0.197 |
+| SST-5 | 300 | Hashing head (T=0.50) | 0.197 | 1.613 | 0.802 | 0.032 | 0.000 | 0.197 |
+| SST-5 | 300 | Zero-shot Qwen logprob (T=1.0) | 0.243 | 1.572 | 0.789 | 0.135 | 0.027 | 0.197 |
+| SST-5 | 300 | Frozen Qwen head |  |  |  |  |  |  |
+| BoolQ | 150 | Majority prior | 0.500 | 0.693 | 0.500 | 0.000 | 0.000 | 0.500 |
+| BoolQ | 150 | Fake overlap | 0.480 | 0.715 | 0.521 | 0.095 | 0.000 | 0.480 |
+| BoolQ | 150 | TF-IDF + logistic | 0.540 | 0.708 | 0.511 | 0.070 | 0.000 | 0.527 |
+| BoolQ | 150 | Hashing head (T=0.25) | 0.493 | 0.716 | 0.521 | 0.048 | 0.000 | 0.507 |
+| BoolQ | 150 | Zero-shot Qwen logprob (T=1.0, AUROC 0.541) | 0.553 | 0.696 | 0.503 | 0.032 | 0.007 | 0.473 |
+| BoolQ | 150 | Frozen Qwen head |  |  |  |  |  |  |
+| CLINC150 | 300 | Majority prior | 0.007 | 20.178 | 1.006 | 0.010 | 0.000 | 0.007 |
+| CLINC150 | 300 | Fake overlap | 0.273 | 4.552 | 0.983 | 0.258 | 0.013 | 0.007 |
+| CLINC150 | 300 | TF-IDF + logistic | 0.270 | 10.591 | 0.838 | 0.065 | 0.010 | 0.007 |
+| CLINC150 | 300 | Hashing head (T=1.25) | 0.223 | 6.028 | 0.964 | 0.230 | 0.007 | 0.003 |
+| CLINC150 | 300 | Zero-shot Qwen logprob |  |  |  |  |  |  |
+| CLINC150 | 300 | Frozen Qwen head |  |  |  |  |  |  |
+| Wikispeedia | 80 | Majority prior | 0.000 | 17.646 | 1.801 | 0.860 | 0.000 | 0.000 |
+| Wikispeedia | 80 | Fake overlap | 0.075 | 3.637 | 0.951 | 0.031 | 0.000 | 0.000 |
+| Wikispeedia | 80 | TF-IDF + logistic | 0.013 | 11.208 | 1.130 | 0.290 | 0.000 | 0.000 |
+| Wikispeedia | 80 | Hashing head (T=1.50) | 0.025 | 3.793 | 0.970 | 0.076 | 0.013 | 0.050 |
+| Wikispeedia | 80 | Zero-shot Qwen logprob |  |  |  |  |  |  |
+| Wikispeedia | 80 | Frozen Qwen head |  |  |  |  |  |  |
+
+SST-5 zero-shot MAE 1.093. BoolQ zero-shot AUROC 0.541. BANKING77 TF-IDF 0.813 vs shuffled 0.027 is the strong non-LM floor on the same 300-row slice; Qwen has to beat chance (~0.013) and should be compared to that floor, not to hosted Jev 0.78 until the full 3076-row test is scored.
+
+Eval JSON includes `risk_coverage` (coverage/risk curve) plus `coverage_at_1pct`. Sources: `eval-*-{dataset}-official-slice.json`, `calibrate-hashing-*-official.json`.
+
 ## Reproduce on Colab (different pin)
 
 This table is the 1650 / Qwen2.5-0.5B measurement. Do not paste T4 rows
