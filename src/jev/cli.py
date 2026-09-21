@@ -150,26 +150,35 @@ def train_head_cmd(
         examples, cfg, device=torch_device, val_examples=val, progress=_train_progress
     )
     train_bar.close()
-    acc_bar = TaskProgress("train-acc", len(examples), stream=sys.stderr, unit="ex")
-    acc = accuracy_on_examples(
-        trained_encoder,
-        head,
-        examples,
-        device=torch_device,
-        progress=lambda i, n: acc_bar.set(i, total=n),
-    )
-    acc_bar.close()
-    shuf_bar = TaskProgress("train-shuffled", len(examples), stream=sys.stderr, unit="ex")
-    shuf = accuracy_on_examples(
-        trained_encoder,
-        head,
-        examples,
-        device=torch_device,
-        shuffle_state=True,
-        seed=1,
-        progress=lambda i, n: shuf_bar.set(i, total=n),
-    )
-    shuf_bar.close()
+    if encoder == "hf":
+        typer.echo(
+            f"skip train-acc/train-shuffled n={len(examples)}; "
+            "frozen test evaluate --limit is the comparison",
+            err=True,
+        )
+        acc = None
+        shuf = None
+    else:
+        acc_bar = TaskProgress("train-acc", len(examples), stream=sys.stderr, unit="ex")
+        acc = accuracy_on_examples(
+            trained_encoder,
+            head,
+            examples,
+            device=torch_device,
+            progress=lambda i, n: acc_bar.set(i, total=n),
+        )
+        acc_bar.close()
+        shuf_bar = TaskProgress("train-shuffled", len(examples), stream=sys.stderr, unit="ex")
+        shuf = accuracy_on_examples(
+            trained_encoder,
+            head,
+            examples,
+            device=torch_device,
+            shuffle_state=True,
+            seed=1,
+            progress=lambda i, n: shuf_bar.set(i, total=n),
+        )
+        shuf_bar.close()
     typer.echo(
         canonical_dumps(
             {

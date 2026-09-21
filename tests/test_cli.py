@@ -117,6 +117,7 @@ def test_cli_train_head_prints_progress(tmp_path: Path) -> None:
     progress_text = (result.stderr or "") + result.output
     assert "train-head" in progress_text
     assert "ETA" in progress_text
+    assert "skip train-acc" not in progress_text
 
 
 def test_cli_validate_and_score_example() -> None:
