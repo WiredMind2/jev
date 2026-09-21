@@ -5,7 +5,7 @@
 
 ## Epics
 
-- **EPIC-01 Colab T4 v0 close** — Compare cached zero-shot and frozen option-head on frozen public splits using a Colab T4, without rewriting the GTX 1650 `reports/v0` pin. Stories: US-001, US-002, US-003, US-004, US-005, US-006.
+- **EPIC-01 Colab T4 v0 close** — Compare cached zero-shot and frozen option-head on frozen public splits using a Colab T4, without rewriting the GTX 1650 `reports/v0` pin. Stories: US-001, US-002, US-003, US-004, US-005, US-006, US-007.
 - **EPIC-02 Later calibration and serving** — Icebox stages from `docs/06-implementation.md` weeks 4–6. Stories: US-010, US-011, US-012.
 
 ## Backlog stories

@@ -3,7 +3,7 @@
 **Sprint:** Sprint 1  
 **Dates:** 2026-09-21 — 2026-10-05  
 **Sprint goal:** A researcher can train, resume, calibrate, and evaluate frozen-head versus zero-shot on frozen public splits from the Colab notebook, then file a T4 report without touching the 1650 v0 table.  
-**Committed:** US-001, US-002, US-003, US-004, US-005, US-006 (23 points)
+**Committed:** US-001, US-002, US-003, US-004, US-005, US-006, US-007 (25 points)
 
 ## Board
 
@@ -22,6 +22,7 @@
 - US-003
 - US-004
 - US-005
+- US-007
 
 ## Committed stories
 
@@ -78,3 +79,12 @@
 **Acceptance criteria:**
 - [ ] Given a live T4 run, when artifacts are ingested, then `reports/colab-t4/metrics.md` labels the GPU as Colab T4 and `reports/v0/metrics.md` is unchanged in its 1650 rows
 - [ ] Given BANKING77, SST-5, BoolQ, Wikispeedia, and CLINC150, when the report is filed, then each has eval JSON with accuracy, NLL, Brier, ECE, shuffled-context, and risk-coverage for head and zero-shot on the same frozen comparison slice
+
+### US-007: Progress bar and ETA on Colab CLI tasks
+**Epic:** EPIC-01 Colab T4 v0 close  
+**As a** researcher, **I want** `train-head`, `calibrate`, and `evaluate` to print a progress bar with ETA on stderr **so that** I can tell a T4 job is still moving after a reconnect.  
+**Points:** 2  
+**Status:** Done  
+**Acceptance criteria:**
+- [x] Given `jev evaluate` on a frozen split, when the command runs, then stderr shows a bar with percent and `ETA`
+- [x] Given `jev train-head --max-steps`, when training runs, then stderr reports `train-head` step `i/N` with `ETA`

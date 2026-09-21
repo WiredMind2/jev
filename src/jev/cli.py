@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import typer
@@ -18,6 +19,7 @@ from jev.data.synthetic import make_synthetic_choice, split_synthetic
 from jev.evaluation import evaluate_scorer, report_as_dict, stratified_sample
 from jev.hardware import load_hardware_pin
 from jev.pipeline import respond
+from jev.progress import StageBars, TaskProgress
 from jev.schema import parse_request
 from jev.scoring.factory import build_scorer
 from jev.scoring.option_head import (
@@ -139,13 +141,35 @@ def train_head_cmd(
         checkpoint_path=out,
         resume_path=resume,
     )
+    train_bar = TaskProgress("train-head", 1, stream=sys.stderr, unit="step")
+
+    def _train_progress(step: int, total: int) -> None:
+        train_bar.set(step, total=total)
+
     trained_encoder, head, history = train_option_head(
-        examples, cfg, device=torch_device, val_examples=val
+        examples, cfg, device=torch_device, val_examples=val, progress=_train_progress
     )
-    acc = accuracy_on_examples(trained_encoder, head, examples, device=torch_device)
+    train_bar.close()
+    acc_bar = TaskProgress("train-acc", len(examples), stream=sys.stderr, unit="ex")
+    acc = accuracy_on_examples(
+        trained_encoder,
+        head,
+        examples,
+        device=torch_device,
+        progress=lambda i, n: acc_bar.set(i, total=n),
+    )
+    acc_bar.close()
+    shuf_bar = TaskProgress("train-shuffled", len(examples), stream=sys.stderr, unit="ex")
     shuf = accuracy_on_examples(
-        trained_encoder, head, examples, device=torch_device, shuffle_state=True, seed=1
+        trained_encoder,
+        head,
+        examples,
+        device=torch_device,
+        shuffle_state=True,
+        seed=1,
+        progress=lambda i, n: shuf_bar.set(i, total=n),
     )
+    shuf_bar.close()
     typer.echo(
         canonical_dumps(
             {
@@ -180,7 +204,11 @@ def calibrate_cmd(
         scorer = OptionHeadScorer(encoder, head, model_id=str(meta.get("model_id") or "option-attention"))
     else:
         scorer = build_scorer(backend, checkpoint=checkpoint)
-    pairs = collect_logit_gold(scorer, examples)
+    bars = StageBars(stream=sys.stderr, unit="ex")
+    try:
+        pairs = collect_logit_gold(scorer, examples, progress=bars)
+    finally:
+        bars.close()
     cal = fit_temperature(pairs)
     payload = {
         "temperature": cal.temperature,
@@ -219,17 +247,17 @@ def evaluate_cmd(
     if temperature_json is not None:
         temperature = load_temperature_json(temperature_json)
     scorer = build_scorer(backend, checkpoint=checkpoint, train_jsonl=train_jsonl)
-
-    def _progress(stage: str, i: int, n: int) -> None:
-        typer.echo(f"{stage} {i}/{n}", err=True)
-
-    report = evaluate_scorer(
-        scorer,
-        examples,
-        temperature=temperature,
-        shuffled=shuffle,
-        progress=_progress if len(examples) >= 25 else None,
-    )
+    bars = StageBars(stream=sys.stderr, unit="ex")
+    try:
+        report = evaluate_scorer(
+            scorer,
+            examples,
+            temperature=temperature,
+            shuffled=shuffle,
+            progress=bars,
+        )
+    finally:
+        bars.close()
     payload = {
         "backend": backend,
         "temperature": temperature,

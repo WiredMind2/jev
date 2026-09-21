@@ -52,6 +52,7 @@ def test_evaluate_scorer_progress_ticks() -> None:
         progress=lambda stage, i, n: seen.append((stage, i, n)),
     )
     assert ("eval", 12, 12) in seen
+    assert ("eval", 1, 12) in seen
     assert ("shuffled", 12, 12) in seen
 
 

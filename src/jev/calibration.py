@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -52,14 +52,18 @@ def fit_temperature(
 def collect_logit_gold(
     scorer: Scorer,
     examples: Sequence[ChoiceTrainingExample | ScoreTrainingExample | NoulTrainingExample],
+    progress: Callable[[str, int, int], None] | None = None,
 ) -> list[tuple[list[float], int]]:
     from jev.schema import SystemOneRequest
 
     pairs: list[tuple[list[float], int]] = []
-    for ex in examples:
+    n_ex = len(examples)
+    for i, ex in enumerate(examples, start=1):
         request = SystemOneRequest(state=ex.state, questions={"q": ex.question})
         scored = scorer.score_request(request)[0]
         pairs.append((list(scored.logits), example_gold_index(ex)))
+        if progress is not None:
+            progress("calibrate", i, n_ex)
     return pairs
 
 

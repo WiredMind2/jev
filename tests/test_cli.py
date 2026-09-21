@@ -87,6 +87,36 @@ def test_cli_convert_train_calibrate_evaluate_synthetic(tmp_path: Path) -> None:
         ["evaluate", str(test), "--backend", "fake"],
     )
     assert result.exit_code == 0, result.stdout
+    progress_text = (result.stderr or "") + result.output
+    assert "ETA" in progress_text
+    assert "eval" in progress_text
+
+
+def test_cli_train_head_prints_progress(tmp_path: Path) -> None:
+    out = tmp_path / "data"
+    result = runner.invoke(app, ["data-convert", "synthetic", "--out", str(out), "--n", "64"])
+    assert result.exit_code == 0, result.stdout
+    train = out / "synthetic" / "jsonl" / "train.jsonl"
+    ckpt = tmp_path / "head.pt"
+    result = runner.invoke(
+        app,
+        [
+            "train-head",
+            str(train),
+            "--out",
+            str(ckpt),
+            "--encoder",
+            "hashing",
+            "--epochs",
+            "1",
+            "--max-steps",
+            "2",
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    progress_text = (result.stderr or "") + result.output
+    assert "train-head" in progress_text
+    assert "ETA" in progress_text
 
 
 def test_cli_validate_and_score_example() -> None:

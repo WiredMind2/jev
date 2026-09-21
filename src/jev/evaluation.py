@@ -178,7 +178,7 @@ def evaluate_scorer(
         peaked.append(entropy_confidence(probs) if len(probs) >= 2 else max(probs))
         if isinstance(ex, ScoreTrainingExample):
             maes.append(abs(score_expectation(probs) - float(gold)))
-        if progress is not None and (i == n_ex or i % 25 == 0):
+        if progress is not None:
             progress("eval", i, n_ex)
     shuffled_acc = None
     if shuffled and examples:
@@ -193,7 +193,7 @@ def evaluate_scorer(
             gold = example_gold_index(ex)
             pred = max(range(len(scored.logits)), key=lambda i: scored.logits[i])
             sh_hits += int(pred == gold)
-            if progress is not None and (i == n_ex or i % 25 == 0):
+            if progress is not None:
                 progress("shuffled", i, n_ex)
         shuffled_acc = sh_hits / len(examples)
     n = max(1, len(examples))

@@ -10,7 +10,7 @@ import hashlib
 import json
 import math
 import re
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -19,6 +19,7 @@ import torch
 from torch import nn
 from torch.nn.utils.rnn import pad_sequence
 
+from jev.progress import step_total
 from jev.render import option_keys, option_texts, render_state
 from jev.schema import (
     ChoiceTrainingExample,
@@ -299,6 +300,7 @@ def train_option_head(
     device: torch.device | None = None,
     encoder: nn.Module | None = None,
     val_examples: Sequence[Any] | None = None,
+    progress: Callable[[int, int], None] | None = None,
 ) -> tuple[nn.Module, OptionAttentionHead, dict[str, float]]:
     """Train only the option head. `val_examples` is for early stopping; never pass calibration."""
     cfg = config or TrainConfig()
@@ -357,6 +359,14 @@ def train_option_head(
         if opt_state:
             opt.load_state_dict(opt_state)
         history["resumed_step"] = float(steps)
+    total = step_total(
+        n_examples=len(examples),
+        batch_size=cfg.batch_size,
+        epochs=cfg.epochs,
+        max_steps=cfg.max_steps,
+    )
+    if progress is not None:
+        progress(steps, total)
     order = list(range(len(examples)))
     if start_epoch >= cfg.epochs and (cfg.max_steps is None or steps >= cfg.max_steps):
         history["stopped_epoch"] = float(start_epoch)
@@ -381,6 +391,8 @@ def train_option_head(
             history["final_loss"] = float(loss.detach().cpu())
             steps += 1
             history["step"] = float(steps)
+            if progress is not None:
+                progress(steps, total)
             if (
                 cfg.checkpoint_path is not None
                 and cfg.save_every
@@ -480,6 +492,7 @@ def accuracy_on_examples(
     device: torch.device | None = None,
     shuffle_state: bool = False,
     seed: int = 0,
+    progress: Callable[[int, int], None] | None = None,
 ) -> float:
     device = device or torch.device("cpu")
     if not examples:
@@ -490,7 +503,8 @@ def accuracy_on_examples(
         perm = torch.randperm(len(states), generator=g).tolist()
         states = [states[i] for i in perm]
     correct = 0
-    for ex, state in zip(examples, states, strict=True):
+    n_ex = len(examples)
+    for i, (ex, state) in enumerate(zip(examples, states, strict=True), start=1):
         opts = example_option_texts(ex)
         gold = example_gold_index(ex)
         state_h, state_m = encoder.forward_texts([state], device)
@@ -499,6 +513,8 @@ def accuracy_on_examples(
         logits = head(state_h.float(), state_m, opt_h.float(), opt_m, idx)
         pred = int(logits.argmax().item())
         correct += int(pred == gold)
+        if progress is not None:
+            progress(i, n_ex)
     return correct / len(examples)
 
 
