@@ -147,6 +147,32 @@ def batched_continuation_logprobs(
     return [_reduce_row(row, reduction, max(1, len(c))) for row, c in zip(rows, conts, strict=True)]
 
 
+_CONT_CHUNK = 32
+
+
+def _cached_continuation_logprobs(
+    forward_cache: Callable,
+    prefix_ids: Sequence[int],
+    cont_ids: Sequence[Sequence[int]],
+    reduction: Reduction,
+    device: torch.device,
+) -> list[float]:
+    """Batched prefix-cache scoring; chunk wide option sets to bound KV VRAM."""
+    if len(cont_ids) <= _CONT_CHUNK:
+        return batched_continuation_logprobs(
+            forward_cache, prefix_ids, cont_ids, reduction, device=device
+        )
+    scores: list[float] = []
+    for start in range(0, len(cont_ids), _CONT_CHUNK):
+        chunk = list(cont_ids[start : start + _CONT_CHUNK])
+        scores.extend(
+            batched_continuation_logprobs(
+                forward_cache, prefix_ids, chunk, reduction, device=device
+            )
+        )
+    return scores
+
+
 def _gather_token_logprobs_2d(logits: torch.Tensor, token_ids: torch.Tensor) -> torch.Tensor:
     logp = F.log_softmax(logits.float(), dim=-1)
     return logp.gather(-1, token_ids.unsqueeze(-1)).squeeze(-1)
@@ -173,11 +199,26 @@ def _clone_past(past: object) -> object:
     return copy.deepcopy(past)
 
 
-def _expand_past(past: list[tuple[torch.Tensor, torch.Tensor]], batch: int) -> list[tuple[torch.Tensor, torch.Tensor]]:
+def _expand_kv_pair(k: torch.Tensor, v: torch.Tensor, batch: int) -> tuple[torch.Tensor, torch.Tensor]:
+    k_b = k.expand(batch, *k.shape[1:]).contiguous()
+    v_b = v.expand(batch, *v.shape[1:]).contiguous()
+    return k_b, v_b
+
+
+def _expand_past(past: object, batch: int) -> object:
+    """Repeat a prefix KV cache along the batch dimension for parallel option scoring."""
+    if past is None or batch <= 1:
+        return past
+    repeater = getattr(past, "batch_repeat_interleave", None)
+    if callable(repeater):
+        # Hugging Face Cache API: in-place; this past is not reused after expansion.
+        repeater(batch)
+        return past
     out: list[tuple[torch.Tensor, torch.Tensor]] = []
-    for k, v in past:
-        out.append((k.expand(batch, -1, -1, -1).contiguous(), v.expand(batch, -1, -1, -1).contiguous()))
-    return out
+    for layer in past:  # type: ignore[union-attr]
+        k, v = layer[0], layer[1]
+        out.append(_expand_kv_pair(k, v, batch))
+    return tuple(out) if isinstance(past, tuple) else out
 
 
 def _reduce_row(tok_lp: torch.Tensor, reduction: Reduction, length: int) -> float:
@@ -260,12 +301,9 @@ class LogprobScorer:
         red: Reduction = "mean" if self.reduction == "mean" else "sum"
         device = self._device()
         if self.use_cache:
-            if isinstance(self.model, TinyCausalLM):
-                scores = batched_continuation_logprobs(
-                    self._forward_cache, prefix_ids, cont_ids, red, device=device
-                )
-            else:
-                scores = self._score_hf_prefix_once(prefix_ids, cont_ids, red, device)
+            scores = _cached_continuation_logprobs(
+                self._forward_cache, prefix_ids, cont_ids, red, device
+            )
         else:
             scores = [
                 score_ids_naive(self._forward_full, prefix_ids, c, red, device=device)
@@ -273,15 +311,9 @@ class LogprobScorer:
             ]
         if self.reduction == "pmi":
             uncond_prefix_ids = self._encode(self.uncond_prefix) or [0]
-            if isinstance(self.model, TinyCausalLM):
-                uncond = batched_continuation_logprobs(
-                    self._forward_cache, uncond_prefix_ids, cont_ids, "sum", device=device
-                )
-            else:
-                uncond = [
-                    score_ids_cached(self._forward_cache, uncond_prefix_ids, c, "sum", device=device)
-                    for c in cont_ids
-                ]
+            uncond = _cached_continuation_logprobs(
+                self._forward_cache, uncond_prefix_ids, cont_ids, "sum", device
+            )
             scores = [pmi_adjust(c, u) for c, u in zip(scores, uncond, strict=True)]
         return scores
 

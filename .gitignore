@@ -24,6 +24,7 @@ models/
 runs/
 checkpoints/
 hf-cache/
+.hf-cache/
 data/*
 !data/README.md
 !data/licenses/

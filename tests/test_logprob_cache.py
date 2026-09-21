@@ -28,6 +28,17 @@ def test_option_order_does_not_change_individual_scores() -> None:
         assert abs(a - b) < 1e-4
 
 
+def test_chunked_wide_menu_cached_matches_naive() -> None:
+    model = seeded_tiny_lm(3)
+    tok = ByteTokenizer()
+    prefix = "Answer:"
+    conts = [f" opt{i:02d}" + ("x" * (i % 5)) for i in range(40)]
+    naive, cached = naive_vs_cached_scores(model, tok, prefix, conts)
+    assert len(cached) == 40
+    for a, b in zip(naive, cached, strict=True):
+        assert abs(a - b) < 1e-4
+
+
 def test_reductions_are_finite() -> None:
     from jev.scoring.logprob import LogprobScorer
 

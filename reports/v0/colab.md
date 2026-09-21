@@ -91,7 +91,8 @@ Host: local Python 3.12 `.venv`, **no Colab runtime**. Command:
 | `train-head --resume`, `calibrate --backend`, `evaluate --temperature-json`, risk-coverage curve | **Yes** (CPU tests, 2026-09-21) |
 | Notebook cells for SST-5 / BoolQ / Wikispeedia / CLINC150 / zero-shot `--limit` | **Yes** |
 | Local CPU synthetic hashing CLI sequence | **Executed.** Convert → `train-head --encoder hashing` → calibrate → evaluate. Eval JSON: [`metrics/eval-colab-cli-cpu-smoke.json`](metrics/eval-colab-cli-cpu-smoke.json) (n=4 test, acc 1.00, shuffled 0.75). This is the trainer proof, not the Qwen comparison. |
-| Live Colab T4 GPU session from this agent | **Not executed** (no Colab runtime on this host). File results under [`reports/colab-t4/`](../colab-t4/). |
+| Live Colab T4 GPU session from this agent | **Not executed** (Colab needs a signed-in T4 runtime). File results under [`reports/colab-t4/`](../colab-t4/). |
+| Local laptop GPU for remaining Qwen jobs | **Out of scope.** Use Colab T4. |
 | `pytest -m "cuda and not hf"` on Colab | **Not executed** here |
 | BANKING77 frozen-head on T4 | **Not executed** |
 | Wikispeedia next-click on T4 | **Not executed** |

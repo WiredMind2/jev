@@ -16,7 +16,7 @@ def test_hf_zero_shot_naive_matches_cached() -> None:
     scorer, meta = loaded
     try:
         prefix = "State: the matching bucket is azure.\nAnswer:"
-        conts = [" azure", " crimson"]
+        conts = [" azure blue", " crimson red"]
         cached = LogprobScorer(
             scorer.model, scorer.tokenizer, use_cache=True, reduction="sum", model_id=scorer.model_id
         )
