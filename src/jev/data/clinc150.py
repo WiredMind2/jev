@@ -6,10 +6,27 @@ import json
 from pathlib import Path
 from typing import Any
 
-from jev.data.clinc_intents import clinc_criteria as frozen_clinc_criteria
+from jev.data.clinc_intents import OOS_KEY, clinc_criteria as frozen_clinc_criteria
 from jev.data.convert import freeze_and_write, try_load_hf_first
 from jev.data.manifest import criteria_path, load_criteria
 from jev.schema import FORMAT_VERSION, ChoiceQuestion, ChoiceTrainingExample, ExampleMetadata
+
+OOS_ALIASES = {"oos", "ood", "OOS", "OOD", OOS_KEY}
+
+
+def decode_clinc_intent(raw: Any, names: list[str] | None) -> str:
+    """Map HF ClassLabel integers and `oos` onto frozen criteria keys."""
+    value: Any = raw
+    if names is not None and not isinstance(value, str):
+        value = names[int(value)]
+    elif names is not None and isinstance(value, str) and value.isdigit():
+        idx = int(value)
+        if 0 <= idx < len(names):
+            value = names[idx]
+    label = str(value)
+    if label in OOS_ALIASES or label.lower() in {"oos", "ood"}:
+        return OOS_KEY
+    return label
 
 
 def clinc_criteria() -> dict[str, str]:
@@ -43,26 +60,32 @@ def convert_clinc150(out_dir: Path, fixture: Path | None = None) -> Path:
     else:
         ds = try_load_hf_first(
             [
-                ("clinc_oos", {"name": "plus"}),
                 ("clinc/clinc_oos", {"name": "plus"}),
+                ("clinc_oos", {"name": "plus"}),
             ]
         )
         if ds is None:
             raise FileNotFoundError("CLINC150 not available: pass --fixture")
+        intent_feat = ds["train"].features.get("intent") or ds["train"].features.get("label")
+        names = list(getattr(intent_feat, "names", None) or []) or None
         raw = {}
         for split in ds:
             rows = []
             for i, row in enumerate(ds[split]):
-                intent = row.get("intent") or row.get("label")
-                if intent in (None, "oos", "OOS"):
-                    intent = "out_of_scope"
-                rows.append({"id": f"clinc_{split}_{i}", "text": row["text"], "label": str(intent)})
+                intent = row.get("intent") if row.get("intent") is not None else row.get("label")
+                rows.append(
+                    {
+                        "id": f"clinc_{split}_{i}",
+                        "text": row["text"],
+                        "label": decode_clinc_intent(intent, names),
+                    }
+                )
             raw[split] = rows
 
     def to_ex(row: dict[str, Any], split: str) -> ChoiceTrainingExample:
-        gold = str(row["label"])
+        gold = decode_clinc_intent(row["label"], None)
         if gold not in spec["criteria"]:
-            gold = "out_of_scope"
+            raise ValueError(f"unknown clinc150 label {gold!r} (id={row.get('id')})")
         return ChoiceTrainingExample(
             id=str(row.get("id")),
             type="choice",

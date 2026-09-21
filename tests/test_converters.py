@@ -120,6 +120,16 @@ def test_clinc150_includes_oos_and_151_options(tmp_path: Path) -> None:
     assert len(spec["criteria"]) == 151
 
 
+def test_clinc_integer_classlabel_maps_to_intent_names() -> None:
+    from jev.data.clinc150 import decode_clinc_intent
+
+    names = ["translate", "oos", "balance"]
+    assert decode_clinc_intent(0, names) == "translate"
+    assert decode_clinc_intent(1, names) == "out_of_scope"
+    assert decode_clinc_intent("oos", names) == "out_of_scope"
+    assert decode_clinc_intent("balance", None) == "balance"
+
+
 def test_wikispeedia_replay_stack_and_cap(tmp_path: Path) -> None:
     pairs = replay_path(["Water", "Quantum_mechanics", "Photon", "<", "Albert_Einstein"])
     assert pairs == [

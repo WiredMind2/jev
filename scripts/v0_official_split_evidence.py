@@ -224,6 +224,13 @@ def hygiene() -> None:
         notes: list[str] = []
         test_rows = _load_capped(paths["test"], 250)
         train_rows = _load_capped(paths["train"], 80)
+        gold_counts: dict[str, int] = {}
+        with paths["test"].open(encoding="utf-8") as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                gold = str(json.loads(line).get("gold"))
+                gold_counts[gold] = gold_counts.get(gold, 0) + 1
         if name == "banking77":
             bad = [r.id for r in test_rows + train_rows if r.metadata.group_id == r.gold]
             if bad:
@@ -251,12 +258,25 @@ def hygiene() -> None:
                     break
             notes.append(f"sample_menu_max={max(len(r.question.criteria) for r in test_rows)}")
         if name == "clinc150":
-            n_oos = sum(1 for r in test_rows if r.gold == "out_of_scope")
-            notes.append(f"sample_test_oos={n_oos}")
+            n_oos = gold_counts.get("out_of_scope", 0)
+            notes.append(f"test_oos={n_oos}")
+            notes.append(f"test_unique_gold={len(gold_counts)}")
+            if len(gold_counts) < 140:
+                notes.append("too few unique golds; ClassLabel ints likely unmapped")
             if any(len(r.question.criteria) != 151 for r in test_rows[:20]):
                 notes.append("menu != 151")
         dataset_ok = not any(
-            x in n for n in notes for x in ("==intent", "overlap", "missing", "!= target", "> 255", "!= 151")
+            x in n
+            for n in notes
+            for x in (
+                "==intent",
+                "overlap",
+                "missing",
+                "!= target",
+                "> 255",
+                "!= 151",
+                "too few unique golds",
+            )
         )
         nonempty = all(int(counts.get(k) or 0) > 0 for k in ("train", "validation", "calibration", "test"))
         payload["datasets"][name] = {
