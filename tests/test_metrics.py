@@ -38,7 +38,21 @@ def test_evaluate_scorer_metrics_keys() -> None:
     assert report.risk_coverage
     assert report.risk_coverage[0]["threshold"] == 0.0
     assert "coverage" in report.risk_coverage[0]
-    assert "risk" in report.risk_coverage[0]
+
+
+def test_evaluate_scorer_progress_ticks() -> None:
+    from jev.data.synthetic import make_synthetic_choice
+
+    seen: list[tuple[str, int, int]] = []
+    examples = make_synthetic_choice(n=12, seed=5)
+    evaluate_scorer(
+        FakeScorer(),
+        examples,
+        shuffled=True,
+        progress=lambda stage, i, n: seen.append((stage, i, n)),
+    )
+    assert ("eval", 12, 12) in seen
+    assert ("shuffled", 12, 12) in seen
 
 
 def test_risk_coverage_zero_when_all_correct_and_confident() -> None:

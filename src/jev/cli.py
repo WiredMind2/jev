@@ -218,7 +218,17 @@ def evaluate_cmd(
     if temperature_json is not None:
         temperature = load_temperature_json(temperature_json)
     scorer = build_scorer(backend, checkpoint=checkpoint, train_jsonl=train_jsonl)
-    report = evaluate_scorer(scorer, examples, temperature=temperature, shuffled=shuffle)
+
+    def _progress(stage: str, i: int, n: int) -> None:
+        typer.echo(f"{stage} {i}/{n}", err=True)
+
+    report = evaluate_scorer(
+        scorer,
+        examples,
+        temperature=temperature,
+        shuffled=shuffle,
+        progress=_progress if len(examples) >= 25 else None,
+    )
     payload = {
         "backend": backend,
         "temperature": temperature,
