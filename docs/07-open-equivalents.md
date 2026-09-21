@@ -52,15 +52,20 @@ state honestly: base checkpoints near chance on typed-decisions zero-shot
 `head_max_len` (raise budget or hierarchical choice); ordinal `score`
 weakest (SST-5 ~0.37).
 
+**Full architecture + Colab train recipe:**
+[Laya architecture](12-laya-architecture.md) (sequence packing,
+`DecisionModel`, proper-scoring RL loop, checkpoint layout, phased plan).
+
 Practical next steps here:
 
 1. Add Laya as an external baseline row in the v0 eval table (BANKING77,
    SST-5, BoolQ, AG News / DAIR if fixtures exist).
-2. Read their fine-tune notebook before inventing a Stage 5 reward —
-   `notebooks/laya_finetune_typed_decisions_2xT4_kaggle.ipynb`.
+2. Follow Phase A/B in [Laya architecture](12-laya-architecture.md) on
+   **Google Colab** (or Kaggle 2×T4) — do not invent a parallel Stage 5
+   reward until their notebook loop is reproduced.
 3. Do **not** swap this repo’s Qwen 0.5B pin for ModernBERT without a new
-   hardware note; Laya’s 322–421M encoders need more VRAM than the GTX
-   1650 v0 pin.
+   hardware note; Laya’s 322–421M encoders need a T4-class GPU
+   ([Hosted GPUs](11-colab.md)).
 
 ## `open-jev` — zero-shot log-probability scorer
 

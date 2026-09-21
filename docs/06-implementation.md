@@ -77,6 +77,12 @@ Loss: listwise cross-entropy on the gold option index.
 Fork/adapt `jevlike`. Compare the head to zero-shot causal scoring on the
 exact same held-out test set.
 
+**Open project alternative.** Laya’s option-marker head (ModernBERT +
+`[MASK]` scorer, fully fine-tuned encoder) is a second Stage 3/5 design.
+Architecture, loss, and Colab phases:
+[Laya architecture](12-laya-architecture.md). Prefer Colab T4 for that
+path; keep the 1650 Qwen pin for v0.
+
 This is the step that benefits from a free Colab T4: the v0 1650 can
 run a 0.5B smoke train, but BANKING77 / Wikispeedia (and a 3B encoder)
 need the extra VRAM. Keep the CLI; persist `runs/` to Drive. Do not host
@@ -153,7 +159,8 @@ src/jev/
   schema.py          # pydantic models matching schemas/
   render.py          # state + question → prefix / option texts
   scorer_logprob.py  # Stage 1
-  scorer_head.py     # Stage 3
+  scorer_head.py     # Stage 3 (option-attention / jevlike-style)
+  scorer_marker.py   # optional Laya-style [MASK] marker head — see docs/12
   calibrate.py
   serve.py           # FastAPI /v1/systemone
   data/
@@ -166,4 +173,5 @@ src/jev/
 
 This repository currently contains documentation, schemas, a Python package
 (`src/jev`), CPU/CUDA tests, and a v0 report under `reports/v0/`. Hosted-GPU
-training (Colab T4) is specified in [11-colab.md](11-colab.md).
+training (Colab T4) is specified in [11-colab.md](11-colab.md). Laya
+reimplementation notes: [12-laya-architecture.md](12-laya-architecture.md).

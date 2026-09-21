@@ -34,10 +34,13 @@ Map onto [Training](04-training.md) and the
 | Temperature / isotonic fit | After GPU logits | Can finish on CPU if you write logits first. |
 | `jev serve` / public HTTP | **No** | Ephemeral VM, idle disconnect, Colab is for interactive notebooks. |
 | Mixing Colab rows into `reports/v0/metrics.md` | **No** | Different pin. New run → new hardware note + model card. |
+| Laya / ModernBERT marker-head train (Stage 5 path) | **Yes** | Full encoder fine-tune needs T4 (+). Follow [Laya architecture](12-laya-architecture.md) Phases A–B; write metrics under `reports/laya-repro/`, not v0. |
 
-Call the existing CLI. Do not reimplement `train_option_head` as ad-hoc
-notebook cells; cells should only provision the runtime and invoke
-`jev`.
+Call the existing CLI for the Qwen frozen-head path. Do not reimplement
+`train_option_head` as ad-hoc notebook cells; cells should only
+provision the runtime and invoke `jev`. The Laya marker-head path is a
+separate trainer (Phase B in the architecture note) until it lands as
+`jev train-marker`.
 
 ## Constraints to plan around
 

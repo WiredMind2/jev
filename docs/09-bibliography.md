@@ -47,14 +47,19 @@ Retrieved 19 September 2026 unless noted. Inclusion is not endorsement.
 - ConvAI Innovations / Nandakishor Mukkunnoth, **Laya** — open-weight
   multilingual System One (ModernBERT / mmBERT + option-marker head),
   Apache 2.0, PyPI `laya`, published open RLCD (proper scoring rules +
-  REINFORCE/GRPO-style). Hub, code, site retrieved 21 September 2026.
+  GRPO-style logit noise). Hub, code, site retrieved 21 September 2026.
+  Architecture notes for this repo:
+  [Laya architecture](12-laya-architecture.md).
   https://huggingface.co/convaiinnovations/laya
   https://github.com/NandhaKishorM/laya
   https://laya.convaiinnovations.com/
   https://pypi.org/project/laya/
-  Related prior papers they cite: arXiv:2503.23303 (sales conversion
-  trajectories, March 2025); arXiv:2510.01237 (schema-based RL decisions,
-  September 2025).
+  Fine-tune notebook:
+  https://github.com/NandhaKishorM/laya/blob/research/notebooks/laya_finetune_typed_decisions_2xT4_kaggle.ipynb
+  Dataset: https://huggingface.co/datasets/LocalLLaMA/typed-decisions
+  Related prior papers they cite (not the Laya DecisionModel itself):
+  arXiv:2503.23303 (SalesRLAgent); arXiv:2510.01237 (confidence-aware
+  LLM routing).
 - daseinlabs/open-jev — cached batched option scoring + System One API.
   https://github.com/daseinlabs/open-jev
 - vinnylarouge/jevlike — option-query cross-attention trainer.

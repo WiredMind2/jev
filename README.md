@@ -72,6 +72,7 @@ Start here:
 9. [Bibliography](docs/09-bibliography.md) — sources with retrieval dates
 10. [Datasets](docs/10-datasets.md) — public corpora mapped to Choice / Score / Noul
 11. [Hosted GPUs](docs/11-colab.md) — Colab for training/eval that does not fit the 1650; not serving. Notebook: [notebooks/jev_colab_hosted_gpu.ipynb](notebooks/jev_colab_hosted_gpu.ipynb)
+12. [Laya architecture](docs/12-laya-architecture.md) — detailed open System One architecture + Colab train plan
 
 JSON Schemas for the public request/response and a training-row format live in
 [`schemas/`](schemas/).

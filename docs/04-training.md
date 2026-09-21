@@ -241,11 +241,13 @@ confident automation errors.
 publishes a concrete recipe under the same *name* RLCD: policy emits a
 distribution; exploration adds zero-mean Gaussian noise to logits; reward
 is a strictly proper scoring rule (log + spherical, plus ranked
-probability score for ordinal `score`); updates are REINFORCE with a
-group-mean baseline (GRPO-style); multi-turn uses TD(λ=1.0) over prefix
-slices. Reproduce from their Kaggle fine-tune notebook before inventing a
-parallel Stage 5. Still independent research — not evidence of TypeSafe’s
-optimizer.
+probability score for ordinal `score`); updates are a GRPO-style group
+baseline over those noise samples, plus soft CE to teacher
+distributions; multi-turn helpers use TD(λ=1.0) over prefix slices.
+Full equations, hyperparameters, and a Colab-oriented reimplementation
+plan: [Laya architecture](12-laya-architecture.md). Reproduce that loop
+before inventing a parallel Stage 5. Still independent research — not
+evidence of TypeSafe’s optimizer.
 
 Work already in the literature on rewarding doubt / calibrated confidence
 is also relevant as prior art.
