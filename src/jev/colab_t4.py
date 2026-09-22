@@ -200,3 +200,56 @@ def ingest_colab_t4(src: Path, dest: Path, *, v0_metrics: Path | None = None) ->
         raise RuntimeError("ingest mutated reports/v0/metrics.md")
 
     return {"gpu": gpu, "filled": filled, "dest": str(dest)}
+
+
+def comparison_status(root: Path) -> dict[str, Any]:
+    """Inventory required T4 comparison files under a Drive reports dump."""
+    root = root.resolve()
+    rows: list[dict[str, Any]] = []
+    missing: list[str] = []
+    for _title, key, _coverage, _mae in DATASETS:
+        for kind in ("hf-head", "hf-logprob"):
+            found = discover_eval_json(root, key, kind)
+            ok = found is not None
+            rows.append(
+                {
+                    "dataset": key,
+                    "kind": kind,
+                    "ok": ok,
+                    "path": str(found) if found else None,
+                }
+            )
+            if not ok:
+                missing.append(f"{key}/{kind}")
+    hardware = None
+    for candidate in (root / "hardware.md", root / "reports" / "hardware.md"):
+        if candidate.is_file():
+            hardware = str(candidate)
+            break
+    live = None
+    for candidate in (
+        root / "colab-live-hardware.json",
+        root / "reports" / "colab-live-hardware.json",
+    ):
+        if candidate.is_file():
+            live = str(candidate)
+            break
+    probe = None
+    for candidate in (
+        root / "model-cards" / "qwen25-3b-probe.md",
+        root / "reports" / "model-cards" / "qwen25-3b-probe.md",
+    ):
+        if candidate.is_file():
+            probe = str(candidate)
+            break
+    if hardware is None:
+        missing.append("hardware.md")
+    return {
+        "complete": not missing,
+        "missing": missing,
+        "rows": rows,
+        "hardware": hardware,
+        "live_gpu": live,
+        "probe3b": probe,
+        "root": str(root),
+    }

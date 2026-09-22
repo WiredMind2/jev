@@ -63,8 +63,12 @@ Practical consequences for this repo:
   exist on Drive (`JEV_FORCE_JOB=1` reruns). Individual stages
   (convert, train-head, calibrate, evaluate) also skip when their
   output file is already on Drive, so a restart does not reload Qwen
-  just to finish zero-shot eval. Each dataset prints a task bar with
-  ETA (`banking77 tasks  3/8 ...`).
+  just to finish zero-shot eval. `calibrate`/`evaluate --out` also append
+  a `.partial.jsonl` logit cache on Drive, so a mid-eval disconnect
+  resumes instead of rescoring from example 1. Each dataset prints a task bar with
+  ETA (`banking77 tasks  3/8 ...`). The last notebook cell runs
+  `jev colab-status` and writes `colab-status.json` (`complete` is true
+  only when all five public-task head and zero-shot eval JSON files exist).
 - Colab already ships a CUDA PyTorch. A naive
   `pip install -e ".[dev]"` from PyPI can replace it with a CPU wheel.
   Install the package, then confirm `torch.cuda.is_available()` before

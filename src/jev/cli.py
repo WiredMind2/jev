@@ -214,8 +214,13 @@ def calibrate_cmd(
     else:
         scorer = build_scorer(backend, checkpoint=checkpoint)
     bars = StageBars(stream=sys.stderr, unit="ex")
+    cache_path = None
+    if out:
+        from jev.logit_cache import cache_path_for
+
+        cache_path = cache_path_for(out)
     try:
-        pairs = collect_logit_gold(scorer, examples, progress=bars)
+        pairs = collect_logit_gold(scorer, examples, progress=bars, cache_path=cache_path)
     finally:
         bars.close()
     cal = fit_temperature(pairs)
@@ -257,6 +262,11 @@ def evaluate_cmd(
         temperature = load_temperature_json(temperature_json)
     scorer = build_scorer(backend, checkpoint=checkpoint, train_jsonl=train_jsonl)
     bars = StageBars(stream=sys.stderr, unit="ex")
+    cache_path = None
+    if out:
+        from jev.logit_cache import cache_path_for
+
+        cache_path = cache_path_for(out)
     try:
         report = evaluate_scorer(
             scorer,
@@ -264,6 +274,7 @@ def evaluate_cmd(
             temperature=temperature,
             shuffled=shuffle,
             progress=bars,
+            cache_path=cache_path,
         )
     finally:
         bars.close()
@@ -289,6 +300,19 @@ def ingest_colab_cmd(
 ) -> None:
     """Copy Colab eval JSON into reports/colab-t4. Does not mix into the 1650 table."""
     typer.echo(canonical_dumps(ingest_colab_t4(src, dest, v0_metrics=v0_metrics)))
+
+
+@app.command("colab-status")
+def colab_status_cmd(
+    src: Path = typer.Argument(
+        Path("reports/colab-t4"),
+        help="Drive jev-runs/reports dump or git reports/colab-t4",
+    ),
+) -> None:
+    """Print which public-task head/zero-shot eval JSON files are present."""
+    from jev.colab_t4 import comparison_status
+
+    typer.echo(canonical_dumps(comparison_status(src)))
 
 
 @app.command("serve")

@@ -110,3 +110,28 @@ def test_render_does_not_claim_t4_for_empty_gpu() -> None:
     text = render_metrics_md(template, rows={}, gpu="unknown GPU")
     assert "Qwen rows below are from a live Colab T4 session" not in text
     assert "| Frozen Qwen2.5-0.5B option head |  |" in text or "| Frozen Qwen2.5-0.5B option head |" in text
+
+
+def test_comparison_status_lists_missing_qwen_evals(tmp_path: Path) -> None:
+    from jev.colab_t4 import comparison_status
+
+    src = tmp_path / "reports"
+    (src / "metrics").mkdir(parents=True)
+    (src / "metrics" / "eval-banking77-hf-head.json").write_text("{}\n", encoding="utf-8")
+    (src / "hardware.md").write_text("# gpu\n", encoding="utf-8")
+    status = comparison_status(src)
+    assert status["complete"] is False
+    assert "banking77/hf-logprob" in status["missing"]
+    assert "sst5/hf-head" in status["missing"]
+    assert "hardware.md" not in status["missing"]
+
+
+def test_colab_status_cli(tmp_path: Path) -> None:
+    from typer.testing import CliRunner
+
+    from jev.cli import app
+
+    result = CliRunner().invoke(app, ["colab-status", str(tmp_path)])
+    assert result.exit_code == 0, result.stdout
+    assert "missing" in result.stdout
+    assert "banking77/hf-head" in result.stdout

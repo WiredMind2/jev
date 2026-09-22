@@ -56,6 +56,43 @@ def test_evaluate_scorer_progress_ticks() -> None:
     assert ("shuffled", 12, 12) in seen
 
 
+class _BudgetScorer:
+    def __init__(self, inner: FakeScorer, limit: int) -> None:
+        self.inner = inner
+        self.limit = limit
+        self.calls = 0
+
+    @property
+    def model_id(self) -> str:
+        return self.inner.model_id
+
+    def score_request(self, request):
+        self.calls += 1
+        if self.calls > self.limit:
+            raise RuntimeError("interrupt")
+        return self.inner.score_request(request)
+
+
+def test_evaluate_scorer_resumes_from_logit_cache(tmp_path) -> None:
+    from jev.data.synthetic import make_synthetic_choice
+
+    examples = make_synthetic_choice(n=12, seed=6)
+    cache = tmp_path / "eval.partial.jsonl"
+    first = _BudgetScorer(FakeScorer(), limit=4)
+    try:
+        evaluate_scorer(first, examples, shuffled=False, cache_path=cache)
+    except RuntimeError:
+        pass
+    assert cache.is_file()
+    assert first.calls == 5
+    second = _BudgetScorer(FakeScorer(), limit=20)
+    report = evaluate_scorer(second, examples, shuffled=False, cache_path=cache)
+    assert second.calls == 8
+    full = evaluate_scorer(FakeScorer(), examples, shuffled=False)
+    assert report.accuracy == full.accuracy
+    assert report.nll == full.nll
+
+
 def test_risk_coverage_zero_when_all_correct_and_confident() -> None:
     conf = [1.0, 1.0, 1.0]
     correct = [1, 1, 1]

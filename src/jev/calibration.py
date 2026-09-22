@@ -10,7 +10,6 @@ from pathlib import Path
 
 from jev.invariants import softmax
 from jev.schema import ChoiceTrainingExample, NoulTrainingExample, ScoreTrainingExample
-from jev.scoring.option_head import example_gold_index
 from jev.scoring.protocol import Scorer
 
 
@@ -53,15 +52,19 @@ def collect_logit_gold(
     scorer: Scorer,
     examples: Sequence[ChoiceTrainingExample | ScoreTrainingExample | NoulTrainingExample],
     progress: Callable[[str, int, int], None] | None = None,
+    cache_path: Path | None = None,
 ) -> list[tuple[list[float], int]]:
-    from jev.schema import SystemOneRequest
+    from jev.evaluation import _cached_or_score
+    from jev.logit_cache import load_rows
 
+    cache = load_rows(cache_path)
     pairs: list[tuple[list[float], int]] = []
     n_ex = len(examples)
     for i, ex in enumerate(examples, start=1):
-        request = SystemOneRequest(state=ex.state, questions={"q": ex.question})
-        scored = scorer.score_request(request)[0]
-        pairs.append((list(scored.logits), example_gold_index(ex)))
+        logits, gold = _cached_or_score(
+            scorer, ex, stage="calibrate", cache=cache, cache_path=cache_path
+        )
+        pairs.append((logits, gold))
         if progress is not None:
             progress("calibrate", i, n_ex)
     return pairs

@@ -89,3 +89,6 @@ def test_notebook_invokes_cli_not_a_second_trainer() -> None:
     assert "calibrate option-head" in text
     assert "{name} tasks" in text
     assert "TaskProgress" in text
+    assert "colab-status" in text
+    assert "comparison_status" in text
+    assert "NOT DONE" in text

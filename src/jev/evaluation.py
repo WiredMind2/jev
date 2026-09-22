@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 from jev.invariants import entropy_confidence, score_expectation, softmax
@@ -146,6 +147,44 @@ def stratified_sample(examples: Sequence, n: int, *, seed: int = 0) -> list:
     return picked[:n]
 
 
+def example_cache_id(example: object) -> str:
+    ident = getattr(example, "id", None)
+    if ident:
+        return str(ident)
+    return gold_key(example)
+
+
+def _request_logits(scorer: Scorer, example: object, state: object | None = None) -> list[float]:
+    request = SystemOneRequest(
+        state=example.state if state is None else state,
+        questions={"q": example.question},
+    )
+    return [float(x) for x in scorer.score_request(request)[0].logits]
+
+
+def _cached_or_score(
+    scorer: Scorer,
+    example: object,
+    *,
+    stage: str,
+    cache: dict[tuple[str, str], tuple[list[float], int]],
+    cache_path: Path | None,
+    state: object | None = None,
+) -> tuple[list[float], int]:
+    from jev.logit_cache import append_row
+
+    example_id = example_cache_id(example)
+    gold = example_gold_index(example)
+    hit = cache.get((stage, example_id))
+    if hit is not None and hit[1] == gold:
+        return hit
+    logits = _request_logits(scorer, example, state)
+    cache[(stage, example_id)] = (logits, gold)
+    if cache_path is not None:
+        append_row(cache_path, stage=stage, example_id=example_id, logits=logits, gold=gold)
+    return logits, gold
+
+
 def evaluate_scorer(
     scorer: Scorer,
     examples: Sequence,
@@ -154,9 +193,13 @@ def evaluate_scorer(
     shuffled: bool = True,
     shuffle_seed: int = 0,
     progress: Callable[[str, int, int], None] | None = None,
+    cache_path: Path | None = None,
 ) -> MetricReport:
     import random
 
+    from jev.logit_cache import load_rows
+
+    cache = load_rows(cache_path)
     nlls: list[float] = []
     briers: list[float] = []
     hits: list[int] = []
@@ -165,11 +208,11 @@ def evaluate_scorer(
     peaked: list[float] = []
     n_ex = len(examples)
     for i, ex in enumerate(examples, start=1):
-        request = SystemOneRequest(state=ex.state, questions={"q": ex.question})
-        scored = scorer.score_request(request)[0]
-        gold = example_gold_index(ex)
-        probs = softmax(scored.logits, temperature=temperature)
-        pred = max(range(len(probs)), key=lambda i: probs[i])
+        logits, gold = _cached_or_score(
+            scorer, ex, stage="eval", cache=cache, cache_path=cache_path
+        )
+        probs = softmax(logits, temperature=temperature)
+        pred = max(range(len(probs)), key=lambda j: probs[j])
         hits.append(int(pred == gold))
         nlls.append(_nll(probs, gold))
         briers.append(_brier(probs, gold))
@@ -188,10 +231,15 @@ def evaluate_scorer(
         rng.shuffle(perm)
         sh_hits = 0
         for i, (ex, state) in enumerate(zip(examples, perm, strict=True), start=1):
-            request = SystemOneRequest(state=state, questions={"q": ex.question})
-            scored = scorer.score_request(request)[0]
-            gold = example_gold_index(ex)
-            pred = max(range(len(scored.logits)), key=lambda i: scored.logits[i])
+            logits, gold = _cached_or_score(
+                scorer,
+                ex,
+                stage="shuffled",
+                cache=cache,
+                cache_path=cache_path,
+                state=state,
+            )
+            pred = max(range(len(logits)), key=lambda j: logits[j])
             sh_hits += int(pred == gold)
             if progress is not None:
                 progress("shuffled", i, n_ex)
