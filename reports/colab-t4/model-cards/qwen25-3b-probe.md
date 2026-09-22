@@ -1,6 +1,6 @@
-# Model card — Qwen2.5-3B frozen-head VRAM probe (Colab T4)
+# Model card — Qwen2.5-3B VRAM probe
 
-**Status:** not executed. Set `RUN_3B_PROBE=1` after 0.5B BANKING77 succeeds.
+**Outcome:** fit (2 steps completed)
 
-Short `--max-steps` probe, batch size 1, encoder frozen. Record fit / OOM /
-skipped. Do not jump to 7B/8B fp16 on free T4. Do not overwrite the 1650 pin.
+Command: `jev train-head --encoder hf --model-id Qwen/Qwen2.5-3B --batch-size 1 --max-steps 2`.
+Encoder stays frozen. File under reports/colab-t4/; do not mix into reports/v0.

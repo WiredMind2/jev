@@ -106,10 +106,16 @@ def test_ingest_refuses_v0_dest(tmp_path: Path) -> None:
 
 
 def test_render_does_not_claim_t4_for_empty_gpu() -> None:
-    template = (ROOT / "reports" / "colab-t4" / "metrics.md").read_text(encoding="utf-8")
+    template = (
+        "Qwen rows are filled only after a live CUDA run; empty cells are unused,\n"
+        "not invented.\n\n"
+        "## BANKING77 (Choice, 77)\n\n"
+        "| Model | Accuracy |\n"
+        "| Frozen Qwen2.5-0.5B option head |  |\n"
+    )
     text = render_metrics_md(template, rows={}, gpu="unknown GPU")
     assert "Qwen rows below are from a live Colab T4 session" not in text
-    assert "| Frozen Qwen2.5-0.5B option head |  |" in text or "| Frozen Qwen2.5-0.5B option head |" in text
+    assert "| Frozen Qwen2.5-0.5B option head |  |" in text
 
 
 def test_comparison_status_lists_missing_qwen_evals(tmp_path: Path) -> None:
@@ -135,3 +141,38 @@ def test_colab_status_cli(tmp_path: Path) -> None:
     assert result.exit_code == 0, result.stdout
     assert "missing" in result.stdout
     assert "banking77/hf-head" in result.stdout
+
+
+def test_filed_colab_t4_report_has_all_qwen_comparisons() -> None:
+    keys = (
+        "accuracy",
+        "nll",
+        "brier",
+        "ece",
+        "shuffled_accuracy",
+        "risk_coverage",
+        "n",
+        "limit",
+        "temperature",
+    )
+    metrics = ROOT / "reports" / "colab-t4" / "metrics"
+    md = (ROOT / "reports" / "colab-t4" / "metrics.md").read_text(encoding="utf-8")
+    hardware = (ROOT / "reports" / "colab-t4" / "hardware.md").read_text(encoding="utf-8")
+    live = json.loads(
+        (ROOT / "reports" / "colab-t4" / "colab-live-hardware.json").read_text(encoding="utf-8")
+    )
+    assert "Tesla T4" in hardware
+    assert live["live_gpu"]["name"] == "Tesla T4"
+    assert "Colab T4" in md
+    v0 = (ROOT / "reports" / "v0" / "metrics.md").read_text(encoding="utf-8")
+    assert "This table is the 1650 / Qwen2.5-0.5B measurement" in v0
+    assert "Tesla T4" not in v0
+    for name in ("banking77", "sst5", "boolq", "wikispeedia", "clinc150"):
+        for kind in ("hf-head", "hf-logprob"):
+            path = metrics / f"eval-{name}-{kind}.json"
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            missing = [k for k in keys if k not in payload]
+            assert not missing, (path.name, missing)
+            assert payload["n"] == 300
+            assert payload["limit"] == 300
+            assert payload["model_id"] == "Qwen/Qwen2.5-0.5B"

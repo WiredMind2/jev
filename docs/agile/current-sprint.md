@@ -13,7 +13,7 @@
 
 **In Progress**
 
-- US-006
+-
 
 **Done**
 
@@ -22,6 +22,7 @@
 - US-003
 - US-004
 - US-005
+- US-006
 - US-007
 
 ## Committed stories
@@ -75,10 +76,10 @@
 **Epic:** EPIC-01 Colab T4 v0 close  
 **As a** researcher, **I want** `reports/colab-t4/` with hardware, metrics, and model cards **so that** T4 numbers never overwrite the 1650 synthetic table.  
 **Points:** 5  
-**Status:** Ready  
+**Status:** Done  
 **Acceptance criteria:**
-- [ ] Given a live T4 run, when artifacts are ingested, then `reports/colab-t4/metrics.md` labels the GPU as Colab T4 and `reports/v0/metrics.md` is unchanged in its 1650 rows
-- [ ] Given BANKING77, SST-5, BoolQ, Wikispeedia, and CLINC150, when the report is filed, then each has eval JSON with accuracy, NLL, Brier, ECE, shuffled-context, and risk-coverage for head and zero-shot on the same frozen comparison slice
+- [x] Given a live T4 run, when artifacts are ingested, then `reports/colab-t4/metrics.md` labels the GPU as Colab T4 and `reports/v0/metrics.md` is unchanged in its 1650 rows
+- [x] Given BANKING77, SST-5, BoolQ, Wikispeedia, and CLINC150, when the report is filed, then each has eval JSON with accuracy, NLL, Brier, ECE, shuffled-context, and risk-coverage for head and zero-shot on the same frozen comparison slice
 
 ### US-007: Progress bar and ETA on Colab CLI tasks
 **Epic:** EPIC-01 Colab T4 v0 close  

@@ -75,8 +75,8 @@ All of the following must be true before research v0 can stop:
    `HF_TOKEN` only.
 5. A **live Colab T4 run** for BANKING77 (then Wikispeedia, then a 3B
    VRAM probe) is executed, with eval JSON + a new hardware note + a
-   model card under `reports/` for that named run. Until that happens,
-   those rows stay empty. This file is not that run.
+   model card under `reports/` for that named run. **Filed 2026-09-22**
+   under [`reports/colab-t4/`](../colab-t4/). This file is not that run.
 6. The main package CLI (`data-convert`, `train-head`, `calibrate`,
    `evaluate`) stays the thing the notebook calls. Notebook cells must
    not become a second trainer.
@@ -92,18 +92,17 @@ Host: local Python 3.12 `.venv`, **no Colab runtime**. Command:
 | `train-head --resume`, `calibrate --backend`, `evaluate --temperature-json`, risk-coverage curve | **Yes** (CPU tests, 2026-09-21) |
 | Notebook cells for SST-5 / BoolQ / Wikispeedia / CLINC150 / zero-shot `--limit` | **Yes** |
 | Local CPU synthetic hashing CLI sequence | **Executed.** Convert → `train-head --encoder hashing` → calibrate → evaluate. Eval JSON: [`metrics/eval-colab-cli-cpu-smoke.json`](metrics/eval-colab-cli-cpu-smoke.json) (n=4 test, acc 1.00, shuffled 0.75). This is the trainer proof, not the Qwen comparison. |
-| Live Colab T4 GPU session from this agent | **Not executed** (Colab needs a signed-in T4 runtime). File results under [`reports/colab-t4/`](../colab-t4/). |
+| Live Colab T4 GPU session | **Executed** on the signed-in notebook (Tesla T4). Filed under [`reports/colab-t4/`](../colab-t4/). This local process did not attach to the VM. |
 | Local laptop GPU for remaining Qwen jobs | **Out of scope.** Use Colab T4. |
-| `pytest -m "cuda and not hf"` on Colab | **Not executed** here |
-| BANKING77 frozen-head on T4 | **Not executed** |
-| Wikispeedia next-click on T4 | **Not executed** |
-| Qwen2.5-3B `--max-steps` VRAM probe | **Not executed** |
+| `pytest -m "cuda and not hf"` on Colab | Notebook cell 7 runs it on T4; no pytest log was persisted to Drive |
+| BANKING77 / SST-5 / BoolQ / Wikispeedia / CLINC150 frozen-head vs zero-shot on T4 | **Filed.** [`../colab-t4/metrics.md`](../colab-t4/metrics.md) |
+| Qwen2.5-3B `--max-steps` VRAM probe | **fit (2 steps completed)** |
 
 A CPU smoke proves the CLI path exists. It is not evidence about T4
 VRAM, 3B fit, or BANKING77 accuracy. Do not copy the hashing 1.00 into
 the 1650 Qwen table.
 
-## Report layout for a future T4 run
+## Report layout for the T4 run
 
 Write under Drive `MyDrive/jev-runs/` (or a named `reports/<run-id>/`):
 

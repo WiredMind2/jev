@@ -1,0 +1,13 @@
+{
+  "source": "notebooks/jev_colab_hosted_gpu.ipynb",
+  "in_colab": true,
+  "torch": "2.11.0+cu128",
+  "cuda_available": true,
+  "live_gpu": {
+    "name": "Tesla T4",
+    "total_mib": 14912,
+    "index": 0
+  },
+  "repo_pin_command": "python -m jev hardware",
+  "do_not_mix_with": "reports/v0/metrics.md"
+}
